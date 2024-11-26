@@ -1,0 +1,81 @@
+﻿
+@{
+    ViewBag.Title = "FormatoEmail";
+    Layout = "~/Views/Shared/_Layout _Administracion.cshtml";
+}
+
+<div class="main-body">
+    <div class="page-wrapper">
+        <!-- Page-body start -->
+        <div class="page-body">
+            <div class="row">
+                <div class="col-xl-12 col-md-12">
+                    <!-- Basic Form Inputs card start -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Formato correo electrónico expediente </h5>
+                            <span>Envió de email al concluir expediente al 100%. Completa los campos marcados *  </span>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-2 col-lg-2">
+                                    <button class="btn waves-effect waves-light btn-save col-md-12" onclick="window.location='@Url.Action("Index", "Expediente")'" data-toggle="tooltip" data-placement="top" title="" data-original-title="Volver"> <i class="fa fa-arrow-left"></i> Volver   </button>
+                                    <br /><br />
+                                </div>
+                                <div class="col-md-2 col-lg-2">
+                                    <button class="btn waves-effect waves-light btn-primary col-md-12" data-toggle="tooltip" data-placement="top" title="" data-original-title="Vista previa"> <i class="fa fa-file"></i> Vista previa  </button>
+                                    <br /><br />
+                                </div>
+                                <div class="col-md-12 col-lg-12">
+                                    <div class="row">
+                                        <div class="col-md-12 col-lg-12">
+                                            <div class="form-group">
+                                                <label for="largeInput">* Titulo </label>
+                                                <input type="text" class="form-control" id="Formato_Titulo" onchange="ValidaInput('Formato_Titulo')" onkeyup="mayus(this);">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-lg-12">
+                                            <div class="form-group">
+                                                <label for="largeInput">* Encabezado  </label>
+                                                <input type="text" class="form-control" id="Formato_Encabezado" onchange="ValidaInput('Formato_Encabezado')" onkeyup="mayus(this);">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-lg-12">
+                                            <div class="form-group">
+                                                <label for="largeInput"> Mensaje   </label>
+                                                <textarea class="form-control" id="Observaciones_Mensaje" required="" rows="6" onkeyup="mayus(this);"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 col-lg-2">
+                                    <button class="btn waves-effect waves-light btn-primary col-md-12" data-toggle="tooltip" data-placement="top" title="" data-original-title="Guardar captura"> <i class="fa fa-save"></i> Guardar </button>
+                                    <br /><br />
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="~/assets/js/bootstrap-notify/bootstrap-notify.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+<script>
+
+    function mayus(e) {
+        e.value = e.value.toUpperCase();
+    }
+
+
+    $('#IdMenuConfiguracion').addClass("active pcoded-trigger");
+    $('#IdSubMenuCorreos').addClass("active pcoded-trigger");
+    $('#IdCorreosAccesoExpediente').addClass("active");
+</script>

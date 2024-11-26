@@ -1,0 +1,4019 @@
+﻿
+@{
+    ViewBag.Title = "Prospecto";
+    Layout = "~/Views/Shared/_Layout _Administracion.cshtml";
+}
+
+<link rel="stylesheet" type="text/css" href="~/assets/icon/icofont/css/icofont.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css" />
+
+
+<style>
+    .md-tabs .nav-item.open .nav-link, .md-tabs .nav-item.open .nav-link:focus, .md-tabs .nav-item.open .nav-link:hover, .md-tabs .nav-link.active, .md-tabs .nav-link.active:focus, .md-tabs .nav-link.active:hover {
+        color: #00b3cf;
+        border: none;
+        background-color: transparent;
+        border-radius: 0;
+    }
+
+    .nav-tabs .slide {
+        background: #00b9d2;
+        width: 100%;
+        height: 4px;
+        position: absolute;
+        -webkit-transition: left 0.3s ease-out;
+        transition: left 0.3s ease-out;
+        bottom: 0;
+    }
+
+    .modal {
+        z-index: 999999;
+    }
+
+    .sweet-alert {
+        background-color: white;
+        font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        width: 478px;
+        padding: 17px;
+        border-radius: 5px;
+        text-align: center;
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        margin-left: -256px;
+        margin-top: -200px;
+        overflow: hidden;
+        display: none;
+        z-index: 9999999;
+    }
+
+
+    .btn-danger {
+        background-color: #ff5252;
+        border-color: #ff5252;
+        background: linear-gradient(to right, #b02750, #e91e63);
+        color: #fff;
+        cursor: pointer;
+        -webkit-transition: all ease-in 0.3s;
+        transition: all ease-in 0.3s;
+    }
+
+    .btn-warning {
+        background-color: #ffe100;
+        border-color: #ffe100;
+        background: linear-gradient(to right, #FFC107, #FF9800);
+        color: #fff;
+        cursor: pointer;
+        -webkit-transition: all ease-in 0.3s;
+        transition: all ease-in 0.3s;
+    }
+
+    .btn-success {
+        /* background-color: #11c15b; */
+        border-color: #ffffff;
+        color: #fff;
+        cursor: pointer;
+        -webkit-transition: all ease-in 0.3s;
+        transition: all ease-in 0.3s;
+        background: linear-gradient(to right, #11c15b, #4caf50);
+        background: linear-gradient(to right, #8BC34A, #00963c);
+        border-radius: 5px;
+    }
+
+    .avatar {
+        color: #fff;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        border-radius: 0.75rem;
+        height: 48px;
+        width: 48px;
+        transition: all .2s ease-in-out;
+    }
+
+    .me-3 {
+        margin-right: 1rem !important;
+    }
+
+    .list-group-item:last-child {
+        border-bottom-right-radius: inherit;
+        border-bottom-left-radius: inherit;
+    }
+
+    .list-group-item:first-child {
+        border-top-left-radius: inherit;
+        border-top-right-radius: inherit;
+    }
+
+    .avatar img {
+        width: 100%;
+    }
+
+    .border-radius-lg {
+        border-radius: 0.75rem;
+    }
+
+    .shadow {
+        box-shadow: 0 0.25rem 0.375rem -0.0625rem rgba(20, 20, 20, 0.12), 0 0.125rem 0.25rem -0.0625rem rgba(20, 20, 20, 0.07) !important;
+    }
+
+    .align-items-start {
+        align-items: flex-start !important;
+    }
+
+    .justify-content-center {
+        justify-content: center !important;
+    }
+
+    .flex-column {
+        flex-direction: column !important;
+    }
+
+    .d-flex {
+        display: flex !important;
+    }
+</style>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="ModalNuevaPrueba" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header btn-primary text-center">
+                <h5 class="modal-title" id="exampleModalLabel">Enviar Prueba</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label for="largeInput">* Tipo Prueba   </label>
+                            <select class="form-control" id="NuevaPrueba_Select_TipoPrueba" onchange="ValidaSelect('NuevaPrueba_Select_TipoPrueba')">
+                                <option value="0" selected="">SELECCIONAR</option>
+                                @{
+                                    if (ViewBag.TipoPrueba != null)
+                                    {
+                                        foreach (var item in ViewBag.TipoPrueba)
+                                        {
+                                            <option value="@item.Id">@item.Nombre</option>
+
+                                        }
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <label for="exampleFormControlTextarea1" class="form-label">Observaciones </label>
+                        <textarea class="form-control input-mayusculas" id="NuevaPrueba_Observaciones" placeholder="..." rows="3" onkeyup="Mayus(this);"></textarea>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="BtnCancelarNuevaPrueba" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="BtnRegistrarNuevaPrueba" onclick="RegistrarNuevaPrueba()">Enviar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="ModalRegistrarPrueba" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header btn-primary text-center">
+                <h5 class="modal-title" id="exampleModalLabel">Registrar Prueba</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label for="largeInput">* Tipo Prueba   </label>
+                            <select class="form-control" id="RegistrarPrueba_Select_TipoPrueba" onchange="ValidaSelect('RegistrarPrueba_Select_TipoPrueba')">
+                                <option value="0" selected="">SELECCIONAR</option>
+                                @{
+                                    if (ViewBag.TipoPrueba != null)
+                                    {
+                                        foreach (var item in ViewBag.TipoPrueba)
+                                        {
+                                            <option value="@item.Id">@item.Nombre</option>
+
+                                        }
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label for="largeInput">* Estatus prueba </label>
+                            <select class="form-control" id="RegistrarPrueba_Select_EstatusPrueba" onchange="ValidaSelect('RegistrarPrueba_Select_EstatusPrueba')">
+                                <option value="0" selected="">SELECCIONAR</option>
+                                @{
+                                    if (ViewBag.EstatusPrueba != null)
+                                    {
+                                        foreach (var item in ViewBag.EstatusPrueba)
+                                        {
+                                            <option value="@item.Id">@item.Nombre</option>
+
+                                        }
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <label for="exampleFormControlTextarea1" class="form-label">Observaciones </label>
+                        <textarea class="form-control" id="RegistrarPrueba_Observaciones" placeholder="..." rows="3" onkeyup="Mayus(this);"></textarea>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="BtnCancelarRegistrarPrueba" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="BtnRegistrarRegistrarPrueba" onclick="RegistrarPrueba()">Registrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="CambiarEstatusEstatusPrueba" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header btn-primary">
+                <h5 class="modal-title" id="exampleModalLabel"> Actualizar estatus prueba </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label for="largeInput">* Estatus  </label>
+                            <select class="form-control" id="Select_EstatusPrueba" onchange="ValidaSelect('Select_EstatusPrueba')">
+                                <option value="0" selected="">SELECCIONAR</option>
+                                @{
+                                    if (ViewBag.EstatusPrueba != null)
+                                    {
+                                        foreach (var item in ViewBag.EstatusPrueba)
+                                        {
+                                            <option value="@item.Id">@item.Nombre.ToUpper() </option>
+                                        }
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <label for="exampleFormControlTextarea1" class="form-label">Observación </label>
+                        <textarea class="form-control" id="EstatusPrueba_Descripcion" placeholder="..." rows="3" onkeyup="Mayus(this);"></textarea>
+                    </div>
+                    <div class="col-lg-12">
+                        <br>
+                        <p>Coloca el número de confirmación : <strong><span id="Prueba_Clave_Text"> </span></strong></p>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="mb-3">
+                            <label class="form-label" for="basic-icon-default-fullname">* Clave</label>
+                            <div class="input-group input-group-merge">
+                                <span id="basic-icon-default-fullname2" class="input-group-text">
+                                    <i class="bx bx-key"></i>
+                                </span>
+                                <input type="text" class="form-control" id="Prueba_Clave_Text_Clave" placeholder="Numero de confirmación" aria-label="" aria-describedby="Prueba_Clave_Text_Clave" onkeyup="Mayus(this);" onchange="ValidaInput('Prueba_Clave_Text_Clave')">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <div id="DivBtnActulizarEstatusPrueba">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="CambiarEstatus" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header btn-primary">
+                <h5 class="modal-title" id="exampleModalLabel"> Actualizar estatus prospecto </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label for="largeInput">* Estatus  </label>
+                            <select class="form-control" id="Select_EstatusProspecto" onchange="ValidaSelect('Select_EstatusProspecto')">
+                                <option value="0" selected="">SELECCIONAR</option>
+                                @{
+                                    if (ViewBag.EstatusProspecto != null)
+                                    {
+                                        foreach (var item in ViewBag.EstatusProspecto)
+                                        {
+                                            <option value="@item.Id">@item.Nombre.ToUpper() </option>
+                                        }
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <label for="exampleFormControlTextarea1" class="form-label">Observación </label>
+                        <textarea class="form-control" id="Prospecto_Descripcion" placeholder="..." rows="3" onkeyup="Mayus(this);"></textarea>
+                    </div>
+                    <div class="col-lg-12">
+                        <br>
+                        <p>Coloca el número de confirmación : <strong><span id="Prospecto_Clave_Text"> </span></strong></p>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="mb-3">
+                            <label class="form-label" for="basic-icon-default-fullname">* Clave</label>
+                            <div class="input-group input-group-merge">
+                                <span id="basic-icon-default-fullname2" class="input-group-text">
+                                    <i class="bx bx-key"></i>
+                                </span>
+                                <input type="text" class="form-control" id="Prospecto_Clave" placeholder="Numero de confirmación" aria-label="" aria-describedby="Prospecto_Clave" onkeyup="Mayus(this);" onchange="ValidaInput('Prospecto_Clave')">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" onclick="ActualizarEstatusProspecto()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="ModalPDF" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"> Archivo </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <iframe id="iframepdf" width="100%" height="400px;" frameborder="0"></iframe>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"> Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header btn-primary text-center">
+                <h5 class="modal-title" id="exampleModalLabel">Nueva Nota</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <label for="exampleFormControlTextarea1" class="form-label">Notas </label>
+                        <textarea class="form-control" id="Nota_Notas" placeholder="..." rows="3" onkeyup="Mayus(this);"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="BtnCancelarNota" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="BtnRegistrarNota">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="AgregarEntrevista" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header btn-primary">
+                <h5 class="modal-title" id="exampleModalLabel"> Agregar entrevista </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="mb-3">
+                            <input type="checkbox" id="checkbox_AgregarResponsableEntrevista" onchange="AgregarResponsableEntrevista()" />
+                            <label for="checkbox_AgregarResponsableEntrevista">Entrevista con responsable</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-12" id="DivAgregarResponsableEntrevista" style="display:none;">
+                        <div class="form-group">
+                            <label for="largeInput">* Responsable  </label>
+                            <select class="form-control" id="Entrevista_Select_Responsable" onchange="ValidaSelect('Entrevista_Select_Responsable')">
+                                <option value="0" selected="">SELECCIONAR</option>
+                                @{
+                                    if (ViewBag.VacanteResponsable != null)
+                                    {
+                                        foreach (var item in ViewBag.VacanteResponsable)
+                                        {
+                                            <option value="@item.Id">@item.Nombre (@item.Email ) </option>
+
+                                        }
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    @*<div class="col-lg-12">
+                            <div class="mb-3">
+                                <label class="form-label" for="basic-icon-default-fullname">* Entrevisto</label>
+                                <div class="input-group input-group-merge">
+                                    <span id="basic-icon-default-fullname2" class="input-group-text">
+                                        <i class="bx bx-key"></i>
+                                    </span>
+                                    <input type="text" class="form-control" id="Entrevista_Entrevisto" placeholder="Persona quien realizo la entrevista  " aria-label="" aria-describedby="Entrevista_Entrevisto" onkeyup="Mayus(this);" onchange="ValidaInput('Entrevista_Entrevisto')">
+                                </div>
+                            </div>
+                        </div>*@
+                    <div class="col-lg-12">
+                        <label for="exampleFormControlTextarea1" class="form-label">Observación </label>
+                        <textarea class="form-control" id="Entrevista_Observacion" placeholder="..." rows="3" onkeyup="Mayus(this);"></textarea>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="mb-3">
+                            <label class="form-label" for="basic-icon-default-fullname">* Fecha entrevista  </label>
+                            <div class="input-group input-group-merge">
+                                <span id="basic-icon-default-fullname2" class="input-group-text">
+                                    <i class="bx bx-calendar"></i>
+                                </span>
+                                <input type="datetime-local" class="form-control" id="Entrevista_FechaEntrevista" aria-label="" aria-describedby="basic-icon-default-fullname2" onchange="ValidaInput('Entrevista_FechaEntrevista')" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="mb-3">
+                            <input type="checkbox" id="checkbox_AceptacionEntrevista" value="1" />
+                            <label for="checkbox_AceptacionEntrevista">Enviar correo electrónico para aceptación de entrevista </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="BtnGuardarEntrevista">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="CambiarEstatusEntrevista" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header btn-primary">
+                <h5 class="modal-title" id="exampleModalLabel"> Actualizar estatus entrevista </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label for="largeInput">* Estatus  </label>
+                            <select class="form-control" id="EditarEntrevista_Select_EstatusEntrevista" onchange="ValidaSelect('EditarEntrevista_Select_EstatusEntrevista')">
+                                <option value="0" selected="">SELECCIONAR</option>
+                                @{
+                                    if (ViewBag.EstatusEntrevistas != null)
+                                    {
+                                        foreach (var item in ViewBag.EstatusEntrevistas)
+                                        {
+                                            <option value="@item.Id">@item.Nombre.ToUpper() </option>
+                                        }
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <label for="exampleFormControlTextarea1" class="form-label">Observación </label>
+                        <textarea class="form-control" id="EditarEntrevista_Descripcion" placeholder="..." rows="3" onkeyup="Mayus(this);"></textarea>
+                    </div>
+                    <div class="col-lg-12">
+                        <br>
+                        <p>Coloca el número de confirmación : <strong><span id="EditarEntrevista_Clave_Text"> </span></strong></p>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="mb-3">
+                            <label class="form-label" for="basic-icon-default-fullname">* Clave</label>
+                            <div class="input-group input-group-merge">
+                                <span id="basic-icon-default-fullname2" class="input-group-text">
+                                    <i class="bx bx-key"></i>
+                                </span>
+                                <input type="text" class="form-control" id="EditarEntrevista_Clave_Text_Clave" placeholder="Numero de confirmación" aria-label="" aria-describedby="Prueba_Clave_Text_Clave" onkeyup="Mayus(this);" onchange="ValidaInput('EditarEntrevista_Clave_Text_Clave')">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="mb-3">
+                            <input type="checkbox" id="checkbox_CambioEstatusEntrevistaNotificiar" value="second_checkbox" />
+                            <label for="checkbox_CambioEstatusEntrevistaNotificiar">Enviar correo electrónico al prospecto </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <div id="DivBtnActulizarEstatusEditarEntrevista">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="ModalNuevoMensaje" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header btn-primary text-center">
+                <h5 class="modal-title" id="exampleModalLabel">Nuevo Mensaje</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <label for="exampleFormControlTextarea1" class="form-label">Mensaje </label>
+                        <textarea class="form-control" id="Mensaje_Mensaje" placeholder="..." rows="3" onkeyup="Mayus(this);"></textarea>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="mb-3">
+                            <br />
+                            <input type="checkbox" id="checkbox_AceptacionMensajeWhatApp" value="second_checkbox" checked />
+                            <label for="checkbox_AceptacionMensajeWhatApp">Enviar mensaje por WhatApp </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="BtnCancelarMensaje" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="BtnRegistrarMensaje">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="ModalNuevoCorreo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header btn-primary text-center">
+                <h5 class="modal-title" id="exampleModalLabel">Nuevo Correo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <label for="exampleFormControlTextarea1" class="form-label">Mensaje Correo </label>
+                        <textarea class="form-control" id="Mensaje_Correo" placeholder="..." rows="3" onkeyup="Mayus(this);"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="BtnCancelarCorreo" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="BtnRegistrarCorreo">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="SubirCV" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header btn-primary">
+                <h5 class="modal-title" id="exampleModalLabel"> Cargar CV  </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-7">
+
+                    </div>
+                    <button class="btn waves-effect waves-light btn-dark col-md-4" id="BtnSubirCV" onclick="BtnCargaCV()">  Subir Archivo <i class="fa fa-cloud-upload"></i></button>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input id="fileInput3" type="file" multiple style="visibility:hidden">
+                    </div>
+                    <div class="col-md-12 col-lg-12">
+                        <progress id="fileProgress4" style="width:100%; display:none;"></progress>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="BtnCerrarCargaCV">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modal-notification" tabindex="-1" role="dialog" aria-labelledby="modal-notification" aria-hidden="true">
+    <div class="modal-dialog modal-danger modal-dialog-centered modal-" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="modal-title-notification">Procesando solicitud </h6>
+                <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center">
+                    <img src="~/Images/icons/loading-gif-png-4.gif" width="25%" height="100px" />
+                    <h4 class="text-gradient text-info mt-4">Espera un momento!</h4>
+                    <p>Estamos registrando tu solicitud.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="main-body">
+    <div class="page-wrapper">
+        <!-- Page-body start -->
+        <div class="page-body">
+
+            <div class="row">
+                <div class="col-xl-8 col-md-12">
+                    <div class="row">
+                        <div class="col-xl-12 col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 id="mes"></h5>
+                                    <span class="text-muted">Historial de movimientos del prospecto.</span>
+                                    <div class="card-header-right">
+                                        <ul class="list-unstyled card-option">
+                                            <li><i class="fa fa fa-wrench open-card-option"></i></li>
+                                            <li><i class="fa fa-window-maximize full-card"></i></li>
+                                            <li><i class="fa fa-minus minimize-card"></i></li>
+                                            <li><i class="fa fa-refresh reload-card"></i></li>
+                                            <li><i class="fa fa-trash close-card"></i></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="card-block">
+                                    <div class="row">
+                                        <div class="col-xl-12 col-md-12 text-right">
+                                            <div class="col-md-12 col-lg-12">
+                                                <canvas id="densityChart2" width="600" height="150"> </canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-12 col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Bitacora de actividades</h5>
+                                    <span class="text-muted">Historial de movimientos en del prospecto.</span>
+                                    <div class="card-header-right">
+                                        <ul class="list-unstyled card-option">
+                                            <li><i class="fa fa fa-wrench open-card-option"></i></li>
+                                            <li><i class="fa fa-window-maximize full-card"></i></li>
+                                            <li><i class="fa fa-minus minimize-card"></i></li>
+                                            <li><i class="fa fa-refresh reload-card"></i></li>
+                                            <li><i class="fa fa-trash close-card"></i></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="card-block">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-xl-12">
+                                            <!-- Nav tabs -->
+                                            <ul class="nav nav-tabs md-tabs" role="tablist">
+                                                <li class="nav-item">
+                                                    <a class="nav-link active" data-toggle="tab" href="#home3" role="tab" aria-expanded="true">
+                                                        <i class="icofont icofont-home"></i> Actividad
+                                                    </a>
+                                                    <div class="slide"></div>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" data-toggle="tab" href="#profile3" role="tab" aria-expanded="false">
+                                                        <i class="fa fa-pencil-square-o"></i> Notas
+                                                    </a>
+                                                    <div class="slide"></div>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" data-toggle="tab" href="#profile4" role="tab" aria-expanded="false">
+                                                        <i class="fa fa-handshake-o"></i>  Entrevistas
+                                                    </a>
+                                                    <div class="slide"></div>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" data-toggle="tab" href="#profile5" role="tab" aria-expanded="false">
+                                                        <i class="icofont icofont-ui-message"></i> Mensajes
+                                                    </a>
+                                                    <div class="slide"></div>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" data-toggle="tab" href="#profile6" role="tab" aria-expanded="false">
+                                                        <i class="icofont icofont-ui-email"></i> Correos
+                                                    </a>
+                                                    <div class="slide"></div>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" data-toggle="tab" href="#profile7" role="tab" aria-expanded="false">
+                                                        <i class="fa fa-puzzle-piece"></i> Pruebas
+                                                    </a>
+                                                    <div class="slide"></div>
+                                                </li>
+                                            </ul>
+                                            <!-- Tab panes -->
+                                            <div class="tab-content card-block">
+                                                <div class="tab-pane active" id="home3" role="tabpanel" aria-expanded="true">
+                                                    <div class="row">
+                                                        <div class="col-md-12" id="">
+                                                            <div class="demo-inline-spacing mt-3">
+                                                                <div class="list-group">
+
+                                                                    @{
+                                                                        if (ViewBag.Bitacora != null)
+                                                                        {
+                                                                            foreach (var item in ViewBag.Bitacora)
+                                                                            {
+                                                                                <a href="javascript:void(0);" class="list-group-item list-group-item-action flex-column align-items-start">
+                                                                                    <div class="d-flex justify-content-between w-100">
+                                                                                        <h6>@item.Cat_Operacion.Nombre</h6>
+                                                                                        <small class="text-muted">@Convert.ToDateTime(item.FechaRegistro).ToString("dd-MM-yyyy")</small>
+                                                                                    </div>
+
+                                                                                    <p class="mb-1">
+                                                                                        <strong>@item.Usuarios.Personas.Nombre @item.Usuarios.Personas.ApPaterno @item.Usuarios.Personas.ApMaterno</strong>  @Html.Raw(item.Nota)
+                                                                                    </p>
+                                                                                    <small class="text-muted">@Convert.ToDateTime(item.FechaRegistro)</small>
+                                                                                </a>
+                                                                            }
+                                                                        }
+                                                                    }
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane" id="profile3" role="tabpanel" aria-expanded="false">
+                                                    <div class="row">
+                                                        <div class="col-md-9">
+                                                        </div>
+                                                        <button class="btn btn-primary waves-effect waves-light col-md-3" data-toggle="modal" data-target="#exampleModal">  Nueva Nota</button>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12" id="">
+                                                            <div class="demo-inline-spacing mt-3">
+                                                                <div class="list-group">
+
+                                                                    @{
+                                                                        if (ViewBag.ProspectoNota != null)
+                                                                        {
+                                                                            foreach (var item in ViewBag.ProspectoNota)
+                                                                            {
+                                                                                <a href="javascript:void(0);" class="list-group-item list-group-item-action flex-column align-items-start">
+                                                                                    <div class="d-flex justify-content-between w-100">
+                                                                                        <h6>Nota registrada</h6>
+                                                                                        <div class="icon-container" style="display:flex; gap: 10px;">
+                                                                                            <i onclick="Editarnota('@item.Id', '@item.Nota')" class="fa fa-pencil-square-o" title="Editar nota"></i>
+                                                                                            <i onclick="EliminarNOTA('@item.Id')" class="fa fa-trash-o" aria-hidden="true"></i>
+                                                                                        </div>
+                                                                                        @*<small class="text-muted">@Convert.ToDateTime(item.FechaRegistro).ToString("dd-MM-yyyy")</small>*@
+                                                                                    </div>
+
+                                                                                    <p class="mb-1">
+                                                                                        Propietario: <strong>@item.Usuarios.Personas.Nombre @item.Usuarios.Personas.ApPaterno @item.Usuarios.Personas.ApMaterno</strong> <br /> Nota: <br />  @Html.Raw(item.Nota)
+                                                                                    </p>
+                                                                                    <small class="text-muted">@Convert.ToDateTime(item.FechaRegistro)</small>
+                                                                                </a>
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane" id="profile4" role="tabpanel" aria-expanded="false">
+                                                    <div class="row">
+                                                        <div class="col-md-9">
+                                                        </div>
+                                                        <button class="btn btn-primary waves-effect waves-light col-md-3" data-toggle="modal" data-target="#AgregarEntrevista"> Nueva Entrevista</button>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12" id="">
+                                                            <div class="demo-inline-spacing mt-3">
+                                                                <div class="list-group">
+
+                                                                    @{
+                                                                        if (ViewBag.Entrevistas != null)
+                                                                        {
+                                                                            foreach (var item in ViewBag.Entrevistas)
+                                                                            {
+                                                                                if (item.Cat_EstatusEntrevistas.Nombre == "EN PROCESÓ DE ACEPTACIÓN")
+                                                                                {
+                                                                                    <a href="javascript:void(0);" class="list-group-item list-group-item-action flex-column align-items-start" style="background-color: #fff6e8">
+                                                                                        <div class="d-flex justify-content-between w-100">
+                                                                                            <h6>Entrevista registrada</h6>
+                                                                                            <div class="icon-container" style="display:flex; gap: 10px;">
+                                                                                                @*<i onclick="EditarEntrevista('@item.Id', '@item.Observaciones.Replace("\n", "")','@item.Entrevisto')" class="fa fa-pencil-square-o" title="Editar nota"></i>*@
+                                                                                                <i onclick="EliminarEntrevista('@item.Id')" class="fa fa-trash-o" aria-hidden="true"></i>
+                                                                                                @*<small class="text-muted">@Convert.ToDateTime(item.FechaRegistro).ToString("dd-MM-yyyy")</small>*@
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                        <p class="mb-1">
+                                                                                            Estatus: <strong> @item.Cat_EstatusEntrevistas.Nombre &nbsp;&nbsp;<i onclick="EditarEstatusEntrevista(@item.Id)" class="fa fa-pencil-square-o" title="Cambiar estatus" style="color:#b02750; font-size:17px;"></i> </strong>
+                                                                                            <br />
+                                                                                            Propietario: <strong>@item.Usuarios.Personas.Nombre @item.Usuarios.Personas.ApPaterno @item.Usuarios.Personas.ApMaterno</strong>
+                                                                                            <br />
+                                                                                            Contacto: @item.Prospecto.Nombre  @item.Prospecto.ApellidoPaterno  @item.Prospecto.ApellidoMaterno
+                                                                                            <br />
+                                                                                            Entrevisto:
+                                                                                            @if (item.Responsable == 1)
+                                                                                            {
+                                                                                                <strong>Responsable -  @item.VacanteResponsable.Nombre </strong>
+                                                                                            }
+                                                                                            else
+                                                                                            {
+                                                                                                <strong> Propietario de la vacante </strong>
+                                                                                            }
+                                                                                            <br />
+                                                                                            Fecha Entrevista: @Convert.ToDateTime(item.FechaEntrevista).ToString("dd-MM-yyyy")
+                                                                                            <br /> Observaciones : <br />  @Html.Raw(item.Observaciones)
+                                                                                        </p>
+                                                                                        <small class="text-muted">@Convert.ToDateTime(item.FechaRegistro)</small>
+                                                                                    </a>
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    <a href="javascript:void(0);" class="list-group-item list-group-item-action flex-column align-items-start">
+                                                                                        <div class="d-flex justify-content-between w-100">
+                                                                                            <h6>Entrevista registrada</h6>
+                                                                                            <div class="icon-container" style="display:flex; gap: 10px;">
+                                                                                                @*<i onclick="EditarEntrevista('@item.Id', '@item.Observaciones.Replace("\n", "")','@item.Entrevisto')" class="fa fa-pencil-square-o" title="Editar nota"></i>*@
+                                                                                                <i onclick="EliminarEntrevista('@item.Id')" class="fa fa-trash-o" aria-hidden="true"></i>
+                                                                                                @*<small class="text-muted">@Convert.ToDateTime(item.FechaRegistro).ToString("dd-MM-yyyy")</small>*@
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                        <p class="mb-1">
+                                                                                            Estatus: <strong> @item.Cat_EstatusEntrevistas.Nombre &nbsp;&nbsp;<i onclick="EditarEstatusEntrevista(@item.Id)" class="fa fa-pencil-square-o" title="Cambiar estatus" style="color:#b02750; font-size:17px;"></i> </strong>
+                                                                                            <br />
+                                                                                            Propietario: <strong>@item.Usuarios.Personas.Nombre @item.Usuarios.Personas.ApPaterno @item.Usuarios.Personas.ApMaterno</strong>
+                                                                                            <br />
+                                                                                            Contacto: @item.Prospecto.Nombre  @item.Prospecto.ApellidoPaterno  @item.Prospecto.ApellidoMaterno
+                                                                                            <br />
+                                                                                            Entrevisto:
+                                                                                            @if (item.Responsable == 1)
+                                                                                            {
+                                                                                                <strong>Responsable -  @item.VacanteResponsable.Nombre </strong>
+                                                                                            }
+                                                                                            else
+                                                                                            {
+                                                                                                <strong> Propietario de la vacante </strong>
+                                                                                            }
+                                                                                            <br />
+                                                                                            Fecha Entrevista: @Convert.ToDateTime(item.FechaEntrevista).ToString("dd-MM-yyyy")
+                                                                                            <br /> Observaciones : <br />  @Html.Raw(item.Observaciones)
+                                                                                        </p>
+                                                                                        <small class="text-muted">@Convert.ToDateTime(item.FechaRegistro)</small>
+                                                                                    </a>
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="tab-pane" id="profile5" role="tabpanel" aria-expanded="false">
+                                                    <div class="row">
+                                                        <div class="col-md-9">
+                                                        </div>
+                                                        <button class="btn btn-primary waves-effect waves-light col-md-3" data-toggle="modal" data-target="#ModalNuevoMensaje"> Nuevo Mensaje </button>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12" id="">
+                                                            <div class="demo-inline-spacing mt-3">
+                                                                <div class="list-group">
+
+                                                                    @{
+                                                                        if (ViewBag.Mensajes != null)
+                                                                        {
+                                                                            foreach (var item in ViewBag.Mensajes)
+                                                                            {
+                                                                                <a href="javascript:void(0);" class="list-group-item list-group-item-action flex-column align-items-start">
+                                                                                    <div class="d-flex justify-content-between w-100">
+                                                                                        <h6>Mensaje registrado</h6>
+                                                                                        <div class="icon-container" style="display:flex; gap: 10px;">
+                                                                                            <i class="fa fa-pencil-square-o" title="Editar mensaje" onclick="EditarMensaje('@item.Id','@item.Mensaje.Replace("\n", "")')"></i>
+                                                                                            <i onclick="EliminarMensajes('@item.Id')" class="fa fa-trash-o" aria-hidden="true"></i>
+                                                                                        </div>
+
+                                                                                        @*<i onclick="Editarnota('@item.Id', '@item.Nota')" class="fa fa-pencil-square-o" title="Editar nota"></i>*@
+
+                                                                                        @*<small class="text-muted">@Convert.ToDateTime(item.FechaRegistro).ToString("dd-MM-yyyy")</small>*@
+                                                                                    </div>
+
+                                                                                    <p class="mb-1">
+                                                                                        Propietario: <strong>@item.Usuarios.Personas.Nombre @item.Usuarios.Personas.ApPaterno @item.Usuarios.Personas.ApMaterno</strong> <br /> Mensaje: <br />  @Html.Raw(item.Mensaje)
+                                                                                    </p>
+                                                                                    <small class="text-muted">@Convert.ToDateTime(item.FechaRegistro)</small>
+                                                                                </a>
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="tab-pane" id="profile6" role="tabpanel" aria-expanded="false">
+                                                    <div class="row">
+                                                        <div class="col-md-9">
+                                                        </div>
+                                                        <button class="btn btn-primary waves-effect waves-light col-md-3" data-toggle="modal" data-target="#ModalNuevoCorreo"> Nuevo Correo </button>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12" id="">
+                                                            <div class="demo-inline-spacing mt-3">
+                                                                <div class="list-group">
+
+                                                                    @{
+                                                                        if (ViewBag.Correos != null)
+                                                                        {
+                                                                            foreach (var item in ViewBag.Correos)
+                                                                            {
+                                                                                <a href="javascript:void(0);" class="list-group-item list-group-item-action flex-column align-items-start">
+                                                                                    <div class="d-flex justify-content-between w-100">
+                                                                                        <h6>Correo registrado</h6>
+                                                                                        <div class="icon-container" style="display:flex; gap: 10px;">
+                                                                                            <i onclick="EditarCorreo('@item.Id', '@item.Correo.Replace("\n", "")')" class="fa fa-pencil-square-o" title="Editar nota"></i>
+                                                                                            <i onclick="EliminarCorreo('@item.Id')" class="fa fa-trash-o" aria-hidden="true"></i>
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <p class="mb-1">
+                                                                                        Propietario: <strong>@item.Usuarios.Personas.Nombre @item.Usuarios.Personas.ApPaterno @item.Usuarios.Personas.ApMaterno</strong> <br /> Mensaje: <br />  @Html.Raw(item.Correo)
+                                                                                    </p>
+                                                                                    <small class="text-muted">@Convert.ToDateTime(item.FechaRegistro)</small>
+                                                                                </a>
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="tab-pane" id="profile7" role="tabpanel" aria-expanded="false">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                        </div>
+                                                        <button class="btn btn-primary waves-effect waves-light col-md-3" data-toggle="modal" data-target="#ModalRegistrarPrueba"> Registrar Prueba </button>
+                                                        <button class="btn btn-primary waves-effect waves-light col-md-3" data-toggle="modal" data-target="#ModalNuevaPrueba"> Enviar Prueba </button>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12" id="">
+                                                            <div class="demo-inline-spacing mt-3">
+                                                                <div class="list-group">
+
+                                                                    @{
+                                                                        if (ViewBag.Pruebas != null)
+                                                                        {
+                                                                            foreach (var item in ViewBag.Pruebas)
+                                                                            {
+                                                                                <a href="javascript:void(0);" class="list-group-item list-group-item-action flex-column align-items-start">
+                                                                                    <div class="d-flex justify-content-between w-100">
+                                                                                        <h6>Prueba registrada</h6>
+                                                                                        <div class="icon-container" style="display:flex; gap: 10px;">
+                                                                                            @*<i onclick="EditarPrueba('@item.Id', '@item.Observaciones.Replace("\n", "")')" class="fa fa-pencil-square-o" title="Editar nota"></i>*@
+                                                                                            <i onclick="EliminarPrueba('@item.Id')" class="fa fa-trash-o" aria-hidden="true"></i>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <p class="mb-1">
+                                                                                        Estatus: <strong> @item.Cat_EstatusPrueba.Nombre &nbsp;&nbsp;<i onclick="EditarEstatusPrueba('@item.Id')" class="fa fa-pencil-square-o" title="Cambiar estatus" style="color:#b02750; font-size:17px;"></i> </strong>
+                                                                                        <br />
+                                                                                        Tipo Prueba: <strong> @item.Cat_TipoPrueba.Nombre </strong>
+                                                                                        <br />
+                                                                                        Propietario: <strong>@item.Usuarios.Personas.Nombre @item.Usuarios.Personas.ApPaterno @item.Usuarios.Personas.ApMaterno</strong>
+                                                                                        <br />
+                                                                                        Prospecto: @item.Prospecto.Nombre  @item.Prospecto.ApellidoPaterno  @item.Prospecto.ApellidoMaterno
+
+                                                                                        <br /> Observaciones : <br />  @Html.Raw(item.Observaciones)
+                                                                                    </p>
+                                                                                    <small class="text-muted">@Convert.ToDateTime(item.FechaRegistro)</small>
+                                                                                </a>
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-12 col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Experiencia laboral </h5>
+                                    <span class="text-muted">Experiencia laboral registrada por el prospecto.</span>
+                                    <div class="card-header-right">
+                                        @*<ul class="list-unstyled card-option">
+                                                <li><i class="fa fa fa-wrench open-card-option"></i></li>
+                                                <li><i class="fa fa-window-maximize full-card"></i></li>
+                                                <li><i class="fa fa-minus minimize-card"></i></li>
+                                                <li><i class="fa fa-refresh reload-card"></i></li>
+                                                <li><i class="fa fa-trash close-card"></i></li>
+                                            </ul>*@
+                                        <ul>
+                                            <li>
+                                                <i onclick="Mexp()" class="experiencia fa fa-plus"></i>
+                                                <i onclick="Mexp()" class="experiencia fa fa-briefcase" style="margin-left: -7px;"></i>
+                                            </li>
+                                        </ul>
+
+
+                                    </div>
+                                </div>
+                                <div class="card-block">
+                                    <div class="col-md-12" id="">
+                                        <table class="table table-striped table-hover" id="TableListaProspecto">
+                                            <thead class="thead-dark">
+                                                <tr>
+                                                    <th class="text-center">Cargo </th>
+                                                    <th class="text-center">Empresa </th>
+                                                    <th class="text-center">Funciones</th>
+                                                    <th class="text-center"></th>
+                                                    <th class="text-center"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @{
+                                                    if (ViewBag.ProspectoExperiencia != null)
+                                                    {
+                                                        foreach (var item in ViewBag.ProspectoExperiencia)
+                                                        {
+                                                            <tr>
+                                                                <td class="text-center"> <p class="text-xs text-secondary mb-0 text-center"> @item.Cargo</p></td>
+                                                                <td class="text-center">
+                                                                    <p class="text-xs text-secondary mb-0 "> @item.NombreEmpresa </p>
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    <p class="text-xs text-secondary mb-0 "> @item.Funciones </p>
+                                                                </td>
+                                                                <td class="">
+                                                                    <p class="text-xs text-secondary mb-0 "> Sueldo inicial: <strong>@item.SueldoInicialText</strong>  <br /> Sueldo final: <strong>@item.SueldoFinalText</strong>  </p>
+                                                                    <p class="text-xs text-secondary mb-0 ">
+                                                                        Fecha Inicio: <strong> @Convert.ToDateTime(item.FechaInicio).ToString("dd-MM-yyyy")</strong> <br />
+                                                                        @if (item.TrabajoActivo > 0)
+                                                                        {
+                                                                            <span> <strong>Sigue laborando</strong> </span>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <span>Fecha Termino: <strong> @Convert.ToDateTime(item.FechaInicio).ToString("dd-MM-yyyy") </strong> </span>
+                                                                        }
+                                                                    </p>
+                                                                </td>
+                                                                <td>
+                                                                    <a onclick="EliminarExp(@item.Id);" class="btn btn-out waves-effect waves-light btn-danger btn-square text-white">Eliminar</a>
+                                                                </td>
+                                                            </tr>
+                                                        }
+                                                    }
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+                <div class="col-xl-4 col-md-12">
+                    <div class="row">
+                        <div class="col-xl-12 col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="row">
+                                        <div class="col-xl-6 col-md-6">
+                                            <h5>Estatus Vacante</h5>
+                                        </div>
+                                        <div class="col-xl-6 col-md-6 text-right">
+                                            <button class="btn waves-effect waves-light btn-primary" onclick="BtnAbrirActualizarEstatus()"> Cambiar </button>
+                                            <br /><br />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-6 col-md-6">
+                                            <h6 class="text-center">Fecha postulación  </h6>
+                                            <h6 class="text-center">@Convert.ToDateTime(ViewBag.Prospecto.FechaRegistro).ToString("dd-MM-yyyy") </h6>
+                                        </div>
+                                        <div class="col-xl-6 col-md-6">
+                                            <h6 class="text-center">Días transcurridos   </h6>
+                                            <h6 class="text-center">@ViewBag.Dias  </h6>
+                                        </div>
+                                        @{
+                                            if (@ViewBag.Prospecto.FechaTermino.ToString() != "01/01/0001 12:00:00 a. m.")
+                                            {
+                                                <div class="col-xl-12 col-md-12">
+                                                    <h6 class="text-center">Fecha cierre </h6>
+                                                    <h6 class="text-center">@Convert.ToDateTime(ViewBag.Prospecto.FechaTermino).ToString("dd-MM-yyyy")  </h6>
+                                                </div>
+                                            }
+                                        }
+
+                                    </div>
+                                </div>
+                                @{
+                                    if (@ViewBag.Prospecto.Cat_EstatusProspecto.Nombre == "RECHAZO CLIENTE" || @ViewBag.Prospecto.Cat_EstatusProspecto.Nombre == "CANCELO PROSPECTO" || @ViewBag.Prospecto.Cat_EstatusProspecto.Nombre == "NO ACREDITADO")
+                                    {
+                                        <div class="card-footer btn-danger">
+                                            <div class="row align-items-center">
+                                                <div class="col-12 text-center">
+                                                    <H5 class="text-white m-b-0">@ViewBag.Prospecto.Cat_EstatusProspecto.Nombre</H5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                    else if (@ViewBag.Prospecto.Cat_EstatusProspecto.Nombre == "SUSPENDIDO")
+                                    {
+                                        <div class="card-footer btn-warning">
+                                            <div class="row align-items-center">
+                                                <div class="col-12 text-center">
+                                                    <H5 class="text-white m-b-0">@ViewBag.Prospecto.Cat_EstatusProspecto.Nombre</H5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="card-footer btn-primary">
+                                            <div class="row align-items-center">
+                                                <div class="col-12 text-center">
+                                                    <H5 class="text-white m-b-0">@ViewBag.Prospecto.Cat_EstatusProspecto.Nombre</H5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+
+                                }
+
+                            </div>
+                        </div>
+                        <div class="col-xl-12 col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Prospecto</h5>
+                                    <span class="text-muted">Información del prospecto.</span>
+                                    <div class="card-header-right">
+                                        @*<ul class="list-unstyled card-option">
+                                                <li><i class="fa fa fa-wrench open-card-option"></i></li>
+                                                <li><i class="fa fa-window-maximize full-card"></i></li>
+                                                <li><i class="fa fa-minus minimize-card"></i></li>
+                                                <li><i class="fa fa-refresh reload-card"></i></li>
+                                                <li><i class="fa fa-trash close-card"></i></li>
+                                            </ul>*@
+                                        <ul>
+                                            <li>
+                                                <i onclick="EditP(@ViewBag.Prospecto.Id,@ViewBag.Vacante.Id)" class="EditarP fa fa-pencil"></i>
+                                                <i onclick="EditP(@ViewBag.Prospecto.Id,@ViewBag.Vacante.Id)" class="EditarP fa fa-user" style="margin-left: -7px;"></i>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="card-block">
+                                    <h6 class="m-b-20 m-t-10 text-center">Información </h6>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <p class="m-b-15">Nombre:</p>
+                                            <h6>@ViewBag.Prospecto.Nombre @ViewBag.Prospecto.ApellidoPaterno @ViewBag.Prospecto.ApellidoMaterno</h6>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <p class="m-b-15">Teléfono</p>
+                                            <h6><a>@ViewBag.Prospecto.TelefonoCelular</a></h6>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <p class="m-b-15">Teléfono fijo </p>
+                                            <h6><a>@ViewBag.Prospecto.TelefonoFijo</a></h6>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <p class="m-b-15">Correo electrónico </p>
+                                            <h6><a>@ViewBag.Prospecto.CorreElectronico</a></h6>
+                                        </div>
+                                    </div>
+                                    <h6 class="m-b-20 m-t-30 text-center">Información contratación </h6>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <p class="m-b-15"> Mensaje:  </p>
+                                            <h6><a> @Html.Raw(@ViewBag.Prospecto.Observaciones) </a></h6>
+                                        </div>
+                                    </div>
+                                    <h6 class="m-b-20 m-t-30 text-center">Curriculum vitae (CV) </h6>
+                                    <div class="row ">
+                                        <div class="col-md-12 text-center">
+                                            <button class="btn waves-effect waves-light btn-dark col-xl-4 col-md-4" data-toggle="modal" data-target="#SubirCV"> Subir CV </button>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="row">
+                                        @{
+                                            if (ViewBag.ProspectoArchivo != null)
+                                            {
+                                                foreach (var item in ViewBag.ProspectoArchivo)
+                                                {
+                                                    <div class="col-md-2">
+                                                        <div class='avatar me-3'>
+                                                            @if (item.Extencion == ".pdf")
+                                                            {
+                                                                <img src='~/Images/icons/ImgPdf.png' class='border-radius-lg shadow'>
+                                                            }
+                                                            else
+                                                            {
+                                                                <img src='~/Images/icons/ImgWork.jpg' class='border-radius-lg shadow'>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <div class='d-flex align-items-start flex-column justify-content-center'>
+                                                            <h6 class='mb-0 text-sm'>Curriculum vitae.</h6>
+                                                            <p class='mb-0 text-xs'>@item.NmOriginal</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3 text-center">
+                                                        @if (item.Extencion == ".pdf")
+                                                        {
+                                                            <a class='btn waves-effect waves-light btn-dark ' onclick='MostrarPDF(@item.Id)' style="color:white">Mostrar</a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <a class='btn waves-effect waves-light btn-dark ' onclick='DescargarArchivo(@item.Id)' style="color:white">Descargar</a>
+                                                        }
+                                                    </div>
+                                                }
+                                            }
+                                        }
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-12 col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Vacante</h5>
+                                    <span class="text-muted">Información vacante.</span>
+                                    <div class="card-header-right">
+                                        <ul class="list-unstyled card-option">
+                                            <li><i class="fa fa fa-wrench open-card-option"></i></li>
+                                            <li><i class="fa fa-window-maximize full-card"></i></li>
+                                            <li><i class="fa fa-minus minimize-card"></i></li>
+                                            <li><i class="fa fa-refresh reload-card"></i></li>
+                                            <li><i class="fa fa-trash close-card"></i></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="card-block">
+                                    <h6 class="m-b-20 m-t-10 text-center">Información del cliente </h6>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <p class="m-b-15">Empresa</p>
+                                            <h6>@ViewBag.Vacante.EmpresaPuestos.EmpresasDepartamento.Empresas.NombreComercial</h6>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <p class="m-b-15">Departamento</p>
+                                            <h6><a>@ViewBag.Vacante.EmpresaPuestos.EmpresasDepartamento.Nombre</a></h6>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <p class="m-b-15">Puesto</p>
+                                            <h6><a>@ViewBag.Vacante.EmpresaPuestos.Nombre</a></h6>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <p class="m-b-15">Cliente</p>
+                                            <h6><a>@ViewBag.Vacante.Cat_ProyectoServicios.Cat_Clientes.Nombre</a></h6>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <p class="m-b-15">Proyecto o servicio</p>
+                                            <h6><a>@ViewBag.Vacante.Cat_ProyectoServicios.Nombre</a></h6>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <p class="m-b-15">Dirección centro de rabajo</p>
+                                            <h6><a>@ViewBag.Vacante.ClienteDirecciones.Direccion</a></h6>
+                                        </div>
+                                    </div>
+                                    <h6 class="m-b-20 m-t-30 text-center">Información contratación </h6>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <p class="m-b-15"> Esquema de Contratación </p>
+                                            <h6><a>@ViewBag.Vacante.Cat_EsquemaContratacion.Nombre</a></h6>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <p class="m-b-15">Modalidad</p>
+                                            <h6><a>@ViewBag.Vacante.Cat_Modalidad.Nombre</a></h6>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <p class="m-b-15"> Jornada de trabajo </p>
+                                            <h6><a>@ViewBag.Vacante.Cat_JornadaTrabajo.Nombre</a></h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="ModalUpdateNote" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header btn-primary text-center">
+                <h5 class="modal-title" id="exampleModalLabel">Actualizar Nota</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <label for="exampleFormControlTextarea1" class="form-label">Notas </label>
+                        <textarea class="form-control" id="Nueva_Nota" placeholder="..." rows="3" onkeyup="Mayus(this);"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="BtnCancelarNota" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="BtnUpdateNota">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="UPDATEntrevista" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header btn-primary">
+                <h5 class="modal-title" id="exampleModalLabel"> Actualizar entrevista </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+
+                    <div class="col-lg-12">
+                        <div class="mb-3">
+                            <label class="form-label" for="basic-icon-default-fullname">* Entrevisto</label>
+                            <div class="input-group input-group-merge">
+                                <span id="basic-icon-default-fullname2" class="input-group-text">
+                                    <i class="bx bx-key"></i>
+                                </span>
+                                <input type="text" class="form-control" id="Actualizar_Entrevisto" placeholder="Persona quien realizo la entrevista  " aria-label="" aria-describedby="Entrevista_Entrevisto" onkeyup="Mayus(this);" onchange="ValidaInput('Entrevista_Entrevisto')">
+                            </div>
+                        </div>
+                    </div>
+                    @*<div class="col-lg-12">
+                            <div class="form-group">
+                                <label for="largeInput">* Prospecto  </label>
+                                <select class="form-control" id="Select_ProspectosActualizar" onchange="ValidaSelect('Select_Prospectos')">
+                                    <option value="0" selected="">SELECCIONAR</option>
+                                    @{
+                                        if (ViewBag.Prospectos != null)
+                                        {
+                                            foreach (var item in ViewBag.Prospectos)
+                                            {
+                                                <option value="@item.Id">@item.Nombre @item.ApellidoPaterno @item.ApellidoMaterno (@item.CorreElectronico ) </option>
+
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>*@
+                    <div class="col-lg-12">
+                        <label for="exampleFormControlTextarea1" class="form-label">Observación </label>
+                        <textarea class="form-control" id="Actualizar_Observacion" placeholder="..." rows="3" onkeyup="Mayus(this);"></textarea>
+                    </div>
+                    @*<div class="col-lg-12">
+                            <div class="mb-3">
+                                <label class="form-label" for="basic-icon-default-fullname">* Fecha entrevista  </label>
+                                <div class="input-group input-group-merge">
+                                    <span id="basic-icon-default-fullname2" class="input-group-text">
+                                        <i class="bx bx-calendar"></i>
+                                    </span>
+                                    <input type="datetime-local" class="form-control" id="Actualizar_FechaEntrevista" aria-label="" aria-describedby="basic-icon-default-fullname2" onchange="ValidaInput('Entrevista_FechaEntrevista')" />
+                                </div>
+                            </div>
+                        </div>*@
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="BtnActualizarEntrevista">Actualizar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal UPDATE MENSAJE-->
+<div class="modal fade" id="ModalActualizarMensaje" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header btn-primary text-center">
+                <h5 class="modal-title" id="exampleModalLabel">Actualizar Mensaje</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    @*<div class="col-lg-12">
+                            <div class="form-group">
+                                <label for="largeInput">* Prospecto  </label>
+                                <select class="form-control" id="Select_Prospecto_Mensaje" onchange="ValidaSelect('Select_Prospecto_Mensaje')">
+                                    <option value="0" selected="">SELECCIONAR</option>
+                                    @{
+                                        if (ViewBag.Prospectos != null)
+                                        {
+                                            foreach (var item in ViewBag.Prospectos)
+                                            {
+                                                <option value="@item.Id">@item.Nombre @item.ApellidoPaterno @item.ApellidoMaterno (@item.CorreElectronico ) </option>
+
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>*@
+                    <div class="col-lg-12">
+                        <label for="exampleFormControlTextarea1" class="form-label">Mensaje </label>
+                        <textarea class="form-control" id="Mensaje_Actualizar" placeholder="..." rows="3" onkeyup="Mayus(this);"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="BtnCancelarMensaje" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="BtnActualizarMensaje">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal UPDATE CORREO-->
+<div class="modal fade" id="ModalActualizarCorreo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header btn-primary text-center">
+                <h5 class="modal-title" id="exampleModalLabel">Actualizar Correo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    @*<div class="col-lg-12">
+                            <div class="form-group">
+                                <label for="largeInput">* Prospecto  </label>
+                                <select class="form-control" id="Select_Prospecto_Correo" onchange="ValidaSelect('Select_Prospecto_Mensaje')">
+                                    <option value="0" selected="">SELECCIONAR</option>
+                                    @{
+                                        if (ViewBag.Prospectos != null)
+                                        {
+                                            foreach (var item in ViewBag.Prospectos)
+                                            {
+                                                <option value="@item.Id">@item.Nombre @item.ApellidoPaterno @item.ApellidoMaterno (@item.CorreElectronico ) </option>
+
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>*@
+                    <div class="col-lg-12">
+                        <label for="exampleFormControlTextarea1" class="form-label">Mensaje Correo </label>
+                        <textarea class="form-control" id="Actualizar_Correo" placeholder="..." rows="3" onkeyup="Mayus(this);"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="BtnCancelarCorreo" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="BtnActualizarCorreo">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="AgregarExperienciaLaboral" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content" style="padding: 18px;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Experiencia laboral </h5>
+                <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6 col-lg-6">
+                        <div class="form-group">
+                            <label for="largeInput">* Cargo  </label>
+                            <input type="text" class="form-control" id="Modal_Cargo" onchange="ValidaInput('Modal_Cargo')" onkeyup="mayus(this);">
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6">
+                        <div class="form-group">
+                            <label for="largeInput">* Empresa  </label>
+                            <input type="text" class="form-control" id="Modal_Empresa" onchange="ValidaInput('Modal_Empresa')" onkeyup="mayus(this);">
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-lg-12">
+                        <div class="form-group">
+                            <label for="Modal_Funciones" class="col-form-label">Funciones:</label>
+                            <textarea class="form-control" id="Modal_Funciones"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <p><small> Sueldo mensual dentro de la empresa </small> </p>
+                    <div class="col-md-4 col-lg-4">
+                        <div class="form-group">
+                            <label for="largeInput">* Sueldo inicial </label>
+                            <input type="text" class="form-control numberPositivo" id="Modal_SueldoInicial" onchange="ValidaInput('Modal_SueldoInicial')">
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-lg-4">
+                        <div class="form-group">
+                            <label for="largeInput">* Sueldo final </label>
+                            <input type="text" class="form-control numberPositivo" id="Modal_SueldoFinal" onchange="ValidaInput('Modal_SueldoFinal')">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <p><small> Fechas de colaboración con la empresa </small> </p>
+                    <div class="col-md-4 col-lg-4">
+                        <div class="form-group">
+                            <label for="largeInput">* Fecha inicio </label>
+                            <input type="date" class="form-control" id="Modal_FechaInicio" onchange="ValidaInput('Modal_FechaInicio')">
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-lg-4" id="ModalFechaFin">
+                        <div class="form-group">
+                            <label for="largeInput">* Fecha termino </label>
+                            <input type="date" class="form-control" id="Modal_FechaTermino" onchange="ValidaInput('Modal_FechaTermino')">
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-lg-4">
+                        <br />
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="MostrarFecha" name="MostrarFecha" onchange="AgregarFechaFin()">
+                            <label class="form-check-label" for="MostrarFecha"> Actualmente trabajo aquí   </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="BtnCerrarExperiencia"> Cancelar</button>
+                <button type="button" class="btn bg-gradient-info" id="BTnNuevaExperiencia"> Agregar  </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://common.olemiss.edu/_js/sweet-alert/sweet-alert.min.js"></script>
+<script src="~/assets/js/bootstrap-notify/bootstrap-notify.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+
+
+<script>
+
+    function ActualizarEstatusPrueba(Id) {
+        if (ValidarActualizarEstatusPrueba()) {
+
+            var Cat_EstatusPrueba = new Object();
+            Cat_EstatusPrueba.Id = $("#Select_EstatusPrueba option:selected").val();
+
+            var ProspectoPrueba = new Object();
+            ProspectoPrueba.Id = Id;
+            ProspectoPrueba.Cat_EstatusPrueba = Cat_EstatusPrueba;
+            ProspectoPrueba.Observaciones = $('#EstatusPrueba_Descripcion').val();
+            ProspectoPrueba.Clave = $('#Prueba_Clave_Text_Clave').val();
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("ProspectoPrueba_Actualizar_IdEstatus", "ProspectoPrueba")",
+                async: false,
+                data: JSON.stringify(ProspectoPrueba),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    if (data.Id > 0) {
+                        swal({
+                            title: "Prueba actualizada.",
+                            text: "Se ha actualizado la prueba de la vacante.",
+                            imageUrl: "../Images/icons/5673974.png",
+                            showCancelButton: false,
+                            confirmButtonColor: "#3070A9",
+                            confirmButtonText: "Aceptar",
+                            closeOnConfirm: false,
+                        },
+                        function (isConfirm) {
+                            if (isConfirm) {
+                                location.reload();
+                            }
+                        });
+
+                    }
+                    else {
+                        swal({
+                            title: "Prueba no actualizada",
+                            text: "No es posible actualizar la prueba. !",
+                            imageUrl: "../Images/icons/4944051.png",
+                            buttons: true,
+                            dangerMode: true,
+                        }).then((willDelete) => {
+
+                        });
+                    }
+                },
+                error: function () {
+                    swal({
+                        title: "Problemas en la solicitud",
+                        text: "Prueba no actualizada!",
+                        imageUrl: "../Images/icons/4944051.png",
+                        buttons: true,
+                        dangerMode: true,
+                    }).then((willDelete) => {
+
+                    });
+                }
+            });
+
+
+        } else {
+            $.notify({
+                message: "Formulario incompleto!."
+            }, {
+                type: 'danger'
+            });
+        }
+    }
+
+    function ValidarActualizarEstatusPrueba() {
+
+        var result = false;
+
+        $('#Select_EstatusPrueba').css("border", "1px solid #f44336");
+        $('#Prueba_Clave_Text_Clave').css("border", "1px solid #f44336");
+
+        if ($("#Select_EstatusPrueba option:selected").val() > 0) {
+            $('#Select_EstatusPrueba').css("border", "1px solid #d9dee3");
+        }
+
+        if ($("#Prueba_Clave_Text_Clave").val().length > 0) {
+            $('#Prueba_Clave_Text_Clave').css("border", "1px solid #d9dee3");
+        }
+
+        if ($("#Select_EstatusPrueba option:selected").val() > 0) {
+            if ($("#Prueba_Clave_Text_Clave").val().length > 0) {
+                result = true;
+            }
+        }
+
+        return result;
+    }
+
+    function EditarEstatusPrueba(Id) {
+
+        var ClaveMovimiento = new Object();
+        ClaveMovimiento.Movimiento = "Actualizar";
+        ClaveMovimiento.Observaciones = "Actualizar estatus prueba";
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("ClaveMovimiento_Agregar", "ClaveMovimiento")",
+            async: false,
+            data: JSON.stringify(ClaveMovimiento),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                if (data.Id > 0) {
+                    $("#CambiarEstatusEstatusPrueba").modal("show");
+                    $('#Prueba_Clave_Text').text(data.Clave);
+                    $('#DivBtnActulizarEstatusPrueba').html('<button type="button" class="btn btn-primary" onclick="ActualizarEstatusPrueba(' + Id +')">Guardar</button>');
+
+                } else if (data.Id == 0) {
+                    swal({
+                        title: "Problemas en la solicitud",
+                        text: "Solicitud negada !",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    }).then((willDelete) => {
+
+                    });
+                }
+            },
+            error: function () {
+                swal({
+                    title: "Problemas en la solicitud",
+                    text: "Solicitud negada !",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                }).then((willDelete) => {
+
+                });
+            }
+        });
+    }
+
+    function RegistrarNuevaPrueba() {
+        if (ValidarRegistrarNuevaPrueba()) {
+
+            $("#BtnRegistrarNuevaPrueba").prop("disabled", true);
+            $("#ModalNuevaPrueba").modal("hide");
+            $("#modal-notification").modal('show');
+
+            setTimeout(function () {
+                EnviarInformacionNuevaPrueba();
+            }, 2000);
+
+        } else {
+            $.notify({
+                message: "Formulario incompleto!."
+            }, {
+                type: 'danger'
+            });
+        }
+    }
+
+    function EnviarInformacionNuevaPrueba() {
+        var Prospecto = new Object();
+        Prospecto.Id = @ViewBag.Prospecto.Id;
+
+        var Cat_TipoPrueba = new Object();
+        Cat_TipoPrueba.Id = $("#NuevaPrueba_Select_TipoPrueba option:selected").val();
+
+        var ProspectoPrueba = new Object();
+        ProspectoPrueba.Prospecto = Prospecto;
+        ProspectoPrueba.Cat_TipoPrueba = Cat_TipoPrueba;
+        ProspectoPrueba.Observaciones = $('#NuevaPrueba_Observaciones').val();
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("ProspectoPrueba_Agregar_Nueva", "ProspectoPrueba")",
+            async: false,
+            data: JSON.stringify(ProspectoPrueba),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+
+                $("#modal-notification").modal("hide");
+                $("#BtnRegistrarNuevaPrueba").prop("disabled", false);
+
+                if (data.Id > 0) {
+                    swal({
+                        title: "Prueba registrada .",
+                        text: "Se ha registrado un nueva prueba a la vacante.",
+                        imageUrl: "../Images/icons/5673974.png",
+                        showCancelButton: false,
+                        confirmButtonColor: "#3070A9",
+                        confirmButtonText: "Aceptar",
+                        closeOnConfirm: false,
+                    },
+                    function (isConfirm) {
+                        if (isConfirm) {
+                            location.reload();
+                        }
+                    });
+
+                }
+                else {
+                    swal({
+                        title: "Prueba no resgistrada",
+                        text: "No es posible registrar la prueba. !",
+                        imageUrl: "../Images/icons/4944051.png",
+                        buttons: true,
+                        dangerMode: true,
+                    }).then((willDelete) => {
+
+                    });
+                }
+            },
+            error: function () {
+
+                $("#modal-notification").modal("hide");
+                $("#BtnRegistrarNuevaPrueba").prop("disabled", false);
+
+                swal({
+                    title: "Problemas en la solicitud",
+                    text: "Prueba no registrada!",
+                    imageUrl: "../Images/icons/4944051.png",
+                    buttons: true,
+                    dangerMode: true,
+                }).then((willDelete) => {
+
+                });
+            }
+        });
+    }
+
+    function ValidarRegistrarNuevaPrueba() {
+
+        var result = false;
+
+        $('#NuevaPrueba_Select_TipoPrueba').css("border", "1px solid #f44336");
+
+        if ($("#NuevaPrueba_Select_TipoPrueba option:selected").val() > 0) {
+            $('#NuevaPrueba_Select_TipoPrueba').css("border", "1px solid #d9dee3");
+        }
+
+
+        if ($("#NuevaPrueba_Select_TipoPrueba option:selected").val() > 0) {
+            result = true;
+        }
+
+        return result;
+    }
+
+    function RegistrarPrueba() {
+        if (ValidarRegistrarPruebae()) {
+
+            var Prospecto = new Object();
+            Prospecto.Id = @ViewBag.Prospecto.Id;
+
+            var Cat_TipoPrueba = new Object();
+            Cat_TipoPrueba.Id = $("#RegistrarPrueba_Select_TipoPrueba option:selected").val();
+
+            var Cat_EstatusPrueba = new Object();
+            Cat_EstatusPrueba.Id = $("#RegistrarPrueba_Select_EstatusPrueba option:selected").val();
+
+            var ProspectoPrueba = new Object();
+            ProspectoPrueba.Prospecto = Prospecto;
+            ProspectoPrueba.Cat_TipoPrueba = Cat_TipoPrueba;
+            ProspectoPrueba.Cat_EstatusPrueba = Cat_EstatusPrueba;
+            ProspectoPrueba.Observaciones = $('#RegistrarPrueba_Observaciones').val();
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("ProspectoPrueba_Agregar", "ProspectoPrueba")",
+                async: false,
+                data: JSON.stringify(ProspectoPrueba),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    if (data.Id > 0) {
+                        swal({
+                            title: "Prueba registrada .",
+                            text: "Se ha registrado un nueva prueba a la vacante.",
+                            imageUrl: "../Images/icons/5673974.png",
+                            showCancelButton: false,
+                            confirmButtonColor: "#3070A9",
+                            confirmButtonText: "Aceptar",
+                            closeOnConfirm: false,
+                        },
+                        function (isConfirm) {
+                            if (isConfirm) {
+                                location.reload();
+                            }
+                        });
+
+                    }
+                    else {
+                        swal({
+                            title: "Prueba no resgistrada",
+                            text: "No es posible registrar la prueba. !",
+                            imageUrl: "../Images/icons/4944051.png",
+                            buttons: true,
+                            dangerMode: true,
+                        }).then((willDelete) => {
+
+                        });
+                    }
+                },
+                error: function () {
+                    swal({
+                        title: "Problemas en la solicitud",
+                        text: "Prueba no registrada!",
+                        imageUrl: "../Images/icons/4944051.png",
+                        buttons: true,
+                        dangerMode: true,
+                    }).then((willDelete) => {
+
+                    });
+                }
+            });
+
+        } else {
+            $.notify({
+                message: "Formulario incompleto!."
+            }, {
+                type: 'danger'
+            });
+        }
+    }
+
+    function ValidarRegistrarPruebae() {
+
+        var result = false;
+
+        $('#RegistrarPrueba_Select_TipoPrueba').css("border", "1px solid #f44336");
+        $('#RegistrarPrueba_Select_EstatusPrueba').css("border", "1px solid #f44336");
+
+        if ($("#RegistrarPrueba_Select_TipoPrueba option:selected").val() > 0) {
+            $('#RegistrarPrueba_Select_TipoPrueba').css("border", "1px solid #d9dee3");
+        }
+
+        if ($("#RegistrarPrueba_Select_EstatusPrueba option:selected").val() > 0) {
+            $('#RegistrarPrueba_Select_EstatusPrueba').css("border", "1px solid #d9dee3");
+        }
+
+        if ($("#RegistrarPrueba_Select_TipoPrueba option:selected").val() > 0) {
+            if ($("#RegistrarPrueba_Select_EstatusPrueba option:selected").val() > 0) {
+                result = true;
+            }
+        }
+
+        return result;
+    }
+
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        $('.experiencia').tooltip({
+            title: 'Agregar experiencia laboral'
+        });
+
+
+        $('.EditarP').tooltip({
+            title: 'Editar Prospecto'
+        });
+    });
+
+    function EditP(Id, Idv) {
+         var obj = {};
+
+        obj['UrlVaible'] = Id;
+
+        var jsonObject = {
+            "URL": obj
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("URL_Cifrar", "URLS")",
+            async: false,
+            data: JSON.stringify(jsonObject),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+
+                var obj = {};
+
+                obj['UrlVaible'] = Idv;
+
+                var jsonObject = {
+                    "URL": obj
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("URL_Cifrar", "URLS")",
+                    async: false,
+                    data: JSON.stringify(jsonObject),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (result2) {
+
+
+                        window.location.href = '@Url.Action("EditarProspecto", "Prospectos")?Id=' + result.Url + '&Idv=' + result2.Url;
+
+                    },
+                    error: function () {
+                        AlertDanger("Problemas al consultar ", "Intentolo mas tarde.");
+                    }
+                });
+            },
+            error: function () {
+                AlertDanger("Problemas al consultar ", "Intentolo mas tarde.");
+            }
+        });
+    }
+
+    function Mexp() {
+        $('#AgregarExperienciaLaboral').modal('show');
+    }
+    function AgregarFechaFin() {
+        if ($('#MostrarFecha').prop('checked')) {
+            $("#ModalFechaFin").css("display", "none");
+        } else {
+            $("#ModalFechaFin").show();
+        }
+    }
+
+    $('#BTnNuevaExperiencia').click(function () {
+        if (ValidarFormExperiencia())
+        {
+            var ProspectoExperiencia = new Object();
+            ProspectoExperiencia.Id = @ViewBag.Prospecto.Id;
+            ProspectoExperiencia.Cargo = $('#Modal_Cargo').val();
+            ProspectoExperiencia.NombreEmpresa = $('#Modal_Empresa').val();
+            ProspectoExperiencia.Funciones = $('#Modal_Funciones').val();
+            ProspectoExperiencia.SueldoInicial = $('#Modal_SueldoInicial').val();
+            ProspectoExperiencia.SueldoFinal = $('#Modal_SueldoFinal').val();
+            ProspectoExperiencia.FechaInicio = $('#Modal_FechaInicio').val();
+            ProspectoExperiencia.TrabajoActivo = 1;
+            if (!$("#MostrarFecha").is(':checked')) {
+                ProspectoExperiencia.TrabajoActivo = 0;
+                ProspectoExperiencia.FechaTermino = $('#Modal_FechaTermino').val();
+            }
+
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("ProspectoExperiencia_Agregar", "Prospectos")",
+                async: false,
+                data: JSON.stringify(ProspectoExperiencia),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+
+                    swal("Agregada!", "Experiencia agregada.", "success");
+                    location.reload();
+                },
+                error: function () {
+                    $("#BtnCerrarExperiencia").click();
+                }
+            });
+
+        } else {
+            $.notify({
+                message: "Formulario incompleto!."
+            }, {
+                type: 'danger'
+            });
+        }
+        });
+    function ValidarFormExperiencia() {
+        var result = false;
+        var From = false;
+        var FechaTermino = false;
+
+        $('#Modal_Cargo').css("border", "1px solid #e293d3");
+        $('#Modal_Empresa').css("border", "1px solid #e293d3");
+        $('#Modal_Funciones').css("border", "1px solid #e293d3");
+        $('#Modal_SueldoInicial').css("border", "1px solid #e293d3");
+        $('#Modal_SueldoFinal').css("border", "1px solid #e293d3");
+        $('#Modal_FechaInicio').css("border", "1px solid #e293d3");
+
+        if ($('#Modal_Cargo').val().length > 0) {
+            $('#Modal_Cargo').css("border", "1px solid #d2d6da");
+        }
+
+        if ($('#Modal_Empresa').val().length > 0) {
+            $('#Modal_Empresa').css("border", "1px solid #d2d6da");
+        }
+
+        if ($('#Modal_Funciones').val().length > 0) {
+            $('#Modal_Funciones').css("border", "1px solid #d2d6da");
+        }
+
+        if ($('#Modal_SueldoInicial').val().length > 0) {
+            $('#Modal_SueldoInicial').css("border", "1px solid #d2d6da");
+        }
+
+        if ($('#Modal_SueldoFinal').val().length > 0) {
+            $('#Modal_SueldoFinal').css("border", "1px solid #d2d6da");
+        }
+
+        if ($('#Modal_FechaInicio').val().length > 0) {
+            $('#Modal_FechaInicio').css("border", "1px solid #d2d6da");
+        }
+
+        if (!$("#MostrarFecha").is(':checked')) {
+            $('#Modal_FechaTermino').css("border", "1px solid #e293d3");
+
+            if ($('#Modal_FechaTermino').val().length > 0) {
+                $('#Modal_FechaTermino').css("border", "1px solid #d2d6da");
+                FechaTermino = true;
+            }
+        } else {
+            FechaTermino = true;
+        }
+
+        if ($('#Modal_Cargo').val().length > 0) {
+            if ($('#Modal_Empresa').val().length > 0) {
+                if ($('#Modal_Funciones').val().length > 0) {
+                    if ($('#Modal_SueldoInicial').val().length > 0) {
+                        if ($('#Modal_SueldoFinal').val().length > 0) {
+                            if ($('#Modal_FechaInicio').val().length > 0) {
+                                From = true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if (From) {
+            if (FechaTermino) {
+                result = true;
+            }
+        }
+
+        return result;
+    }
+
+    function EliminarExp(id) {
+        swal({
+            title: "Eliminar experiencia?",
+            text: "¿Estás seguro de eliminar este dato?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Si, Eliminar!",
+            closeOnConfirm: false
+        },
+            function () {
+                 var Prospecto = new Object();
+                Prospecto.Id = id;
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("ProspectoExperiencia_Eliminar", "Prospectos")",
+                    async: false,
+                    data: JSON.stringify(Prospecto),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        swal("Eliminada!", "Experiencia eliminada.", "success");
+                        location.reload();
+
+                    }
+                });
+
+
+            });
+    }
+
+    function Editarnota(id, nota) {
+        $('#ModalUpdateNote').modal('show');
+        $('#Nueva_Nota').val(nota);
+
+        $('#BtnUpdateNota').on('click', function () {
+          if (ValidarFormulairoNota()) {
+
+              var prospectoNota = new Object();
+              var Vacante = new Object();
+              var Prospecto = new Object();
+
+            Vacante.Id =@ViewBag.Vacante.Id;
+            Prospecto.Id = @ViewBag.Prospecto.Id;;
+
+              prospectoNota.Id = id;
+              prospectoNota.Vacante = Vacante;
+              prospectoNota.Nota = $('#Nueva_Nota').val();
+              prospectoNota.Prospecto = Prospecto;
+
+
+             $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("Prospecto_Actualizar_nota", "ProspectoNota")",
+                        async: false,
+                         data: JSON.stringify(prospectoNota),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                         success: function (result) {
+                             swal({
+                                 title: "Nota Actualizada",
+                                 text: "La nota ha sido actualizada correctamente.",
+                                 imageUrl: "../Images/icons/5673974.png",
+                                 showCancelButton: false,
+                                 confirmButtonColor: "#3070A9",
+                                 confirmButtonText: "Aceptar",
+                                 closeOnConfirm: false,
+                             },
+                                 function (isConfirm) {
+                                     if (isConfirm) {
+                                         location.reload();
+                                     }
+                                 });
+                         },
+                        error: function () {
+                            swal({
+                                title: "Problemas en la solicitud",
+                                text: "Vacante no actualizada !",
+                                icon: "warning",
+                                buttons: true,
+                                dangerMode: true,
+                            }).then((willDelete) => {
+
+                            });
+                        }
+                    });
+        } else {
+            $.notify({
+                message: "Formulario incompleto!."
+            }, {
+                type: 'danger'
+            });
+        }
+        });
+    }
+    function ValidarFormulairoNota() {
+        var result = false;
+
+        $('#Nueva_Nota').css("border", "1px solid #e293d3");
+
+        if ($('#Nueva_Nota').val().length > 0) {
+            $('#Nueva_Nota').css("border", "1px solid #d2d6da");
+        }
+
+        if ($('#Nueva_Nota').val().length > 0) {
+            result = true;
+        }
+
+        return result;
+    }
+
+    function EditarEntrevista(id, observaciones, Entrevisto) {
+        $('#UPDATEntrevista').modal('show');
+        $('#Actualizar_Observacion').val(observaciones);
+        $('#Actualizar_Entrevisto').val(Entrevisto);
+
+        $('#BtnActualizarEntrevista').on('click', function () {
+          if (ValidarFormulairoEntrevistaUpdate()) {
+
+
+              var prospectoEntrevista = new Object();
+              var Vacante = new Object();
+              var Prospecto = new Object();
+
+              Vacante.Id =@ViewBag.Vacante.Id;
+              Prospecto.Id = @ViewBag.Prospecto.Id;
+
+              prospectoEntrevista.Id = id;
+              prospectoEntrevista.Observaciones = $('#Actualizar_Observacion').val();
+              prospectoEntrevista.Entrevisto = $('#Actualizar_Entrevisto').val();
+              prospectoEntrevista.Vacante = Vacante;
+              prospectoEntrevista.Prospecto = Prospecto;
+
+                $.ajax({
+                type: "POST",
+                url: "@Url.Action("Vacante_Actualizar_entrevista", "ProspectoEntrevista")",
+                async: false,
+                    data: JSON.stringify(prospectoEntrevista),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                    success: function (result) {
+                        swal({
+                            title: "Entrevista Actualizada",
+                            text: "La entrevista ha sido actualizada correctamente.",
+                            imageUrl: "../Images/icons/5673974.png",
+                            showCancelButton: false,
+                            confirmButtonColor: "#3070A9",
+                            confirmButtonText: "Aceptar",
+                            closeOnConfirm: false,
+                        },
+                            function (isConfirm) {
+                                if (isConfirm) {
+                                    location.reload();
+                                }
+                            });
+                    },
+                error: function () {
+                    swal({
+                        title: "Problemas en la solicitud",
+                        text: "Vacante no actualizada !",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    }).then((willDelete) => {
+
+                    });
+                }
+            });
+
+
+        } else {
+            $.notify({
+                message: "Formulario incompleto!."
+            }, {
+                type: 'danger'
+            });
+        }
+        });
+    }
+    function ValidarFormulairoEntrevistaUpdate() {
+        var result = false;
+        //$('#Entrevista_Entrevisto').css("border", "1px solid #f44336");
+        //$('#Select_Prospectos').css("border", "1px solid #f44336");
+        //$('#Entrevista_FechaEntrevista').css("border", "1px solid #f44336");
+        $('#Actualizar_Observacion').css("border", "1px solid #f44336");
+
+        if ($('#Actualizar_Observacion').val().length > 0) {
+            $('#Actualizar_Observacion').css("border", "1px solid #d9dee3");
+        }
+        //if ($('#Entrevista_Entrevisto').val().length > 0) {
+        //    $('#Entrevista_Entrevisto').css("border", "1px solid #d9dee3");
+        //}
+        //if ($('#Entrevista_FechaEntrevista').val().length > 0) {
+        //    $('#Entrevista_FechaEntrevista').css("border", "1px solid #d9dee3");
+        //}
+        //if ($("#Select_Prospectos option:selected").val() > 0) {
+        //    $('#Select_Prospectos').css("border", "1px solid #d9dee3");
+        //}
+
+        //if ($("#Select_Prospectos option:selected").val() > 0) {
+        //    if ($('#Entrevista_Entrevisto').val().length > 0) {
+        //        if ($('#Entrevista_FechaEntrevista').val().length > 0) {
+        //            result = true;
+        //        }
+        //    }
+        //}
+        if ($('#Actualizar_Observacion').val().length > 0) {
+                    result = true;
+        }
+
+        return result;
+    }
+
+    function EditarMensaje(Id, Mensaje) {
+
+        $('#ModalActualizarMensaje').modal('show');
+        $('#Mensaje_Actualizar').val(Mensaje);
+
+
+        $('#BtnActualizarMensaje').on('click', function () {
+            if (ValidarFormulairoMensajeUPDATE()) {
+
+                var ProspectoMensaje = new Object();
+                var Prospecto = new Object();
+                var Vacante = new Object();
+
+                Vacante.Id =@ViewBag.Vacante.Id;
+                ProspectoMensaje.Id = Id;
+                Prospecto.Id = @ViewBag.Prospecto.Id;
+                ProspectoMensaje.Mensaje = $('#Mensaje_Actualizar').val();;
+                ProspectoMensaje.Prospecto = Prospecto;
+                ProspectoMensaje.Vacante = Vacante;
+
+
+                $.ajax({
+                type: "POST",
+                url: "@Url.Action("ProspectoMensaje_Actualizar", "ProspectoMensaje")",
+                async: false,
+                    data: JSON.stringify(ProspectoMensaje),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                    success: function (result) {
+                        swal({
+                            title: "Mensaje Actualizado",
+                            text: "El mensaje ha sido actualizado correctamente.",
+                            imageUrl: "../Images/icons/5673974.png",
+                            showCancelButton: false,
+                            confirmButtonColor: "#3070A9",
+                            confirmButtonText: "Aceptar",
+                            closeOnConfirm: false,
+                        },
+                            function (isConfirm) {
+                                if (isConfirm) {
+                                    location.reload();
+                                }
+                            });
+                    },
+                error: function () {
+                    swal({
+                        title: "Problemas en la solicitud",
+                        text: "mensaje no actualizado !",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    }).then((willDelete) => {
+
+                    });
+                }
+            });
+
+
+        } else {
+            $.notify({
+                message: "Formulario incompleto!."
+            }, {
+                type: 'danger'
+            });
+        }
+        });
+
+    }
+    function ValidarFormulairoMensajeUPDATE() {
+
+        var result = false;
+        //$('#Select_Prospecto_Mensaje').css("border", "1px solid #f44336");
+        $('#Mensaje_Actualizar').css("border", "1px solid #f44336");
+
+        if ($('#Mensaje_Actualizar').val().length > 0) {
+            $('#Mensaje_Actualizar').css("border", "1px solid #d9dee3");
+        }
+        //if ($("#Select_Prospecto_Mensaje option:selected").val() > 0) {
+        //    $('#Select_Prospecto_Mensaje').css("border", "1px solid #d9dee3");
+        //}
+
+        //if ($("#Select_Prospecto_Mensaje option:selected").val() > 0) {
+        if ($('#Mensaje_Actualizar').val().length > 0) {
+                result = true;
+            }
+        //}
+
+        return result;
+    }
+
+    function EditarCorreo(Id, Correo) {
+        $('#ModalActualizarCorreo').modal('show');
+        $('#Actualizar_Correo').val(Correo);
+
+        $('#BtnActualizarCorreo').on('click', function () {
+            if (ValidarFormulairoCorreoActualizar()) {
+
+                var ProspectoCorreo = new Object();
+                var Prospecto = new Object();
+                var Vacante = new Object();
+
+                Vacante.Id =@ViewBag.Vacante.Id;
+                ProspectoCorreo.Id = Id;
+                Prospecto.Id = @ViewBag.Prospecto.Id;;
+                ProspectoCorreo.Correo = $('#Actualizar_Correo').val();
+                ProspectoCorreo.Prospecto = Prospecto;
+                ProspectoCorreo.Vacante = Vacante;
+
+                $.ajax({
+                type: "POST",
+                url: "@Url.Action("ProspectoCorreo_Actualizar", "ProspectoCorreo")",
+                async: false,
+                    data: JSON.stringify(ProspectoCorreo),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                    success: function (result) {
+                        swal({
+                            title: "Correo Actualizado",
+                            text: "El correo ha sido actualizado correctamente.",
+                            imageUrl: "../Images/icons/5673974.png",
+                            showCancelButton: false,
+                            confirmButtonColor: "#3070A9",
+                            confirmButtonText: "Aceptar",
+                            closeOnConfirm: false,
+                        },
+                            function (isConfirm) {
+                                if (isConfirm) {
+                                    location.reload();
+                                }
+                            });
+                    },
+                error: function () {
+                    swal({
+                        title: "Problemas en la solicitud",
+                        text: "correo no actualizado !",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    }).then((willDelete) => {
+
+                    });
+                }
+            });
+
+
+        } else {
+            $.notify({
+                message: "Formulario incompleto!."
+            }, {
+                type: 'danger'
+            });
+        }
+        });
+    }
+    function ValidarFormulairoCorreoActualizar() {
+        var result = false;
+        //$('#Select_Prospecto_Correo').css("border", "1px solid #f44336");
+        $('#Actualizar_Correo').css("border", "1px solid #f44336");
+
+        if ($('#Actualizar_Correo').val().length > 0) {
+            $('#Actualizar_Correo').css("border", "1px solid #d9dee3");
+        }
+        //if ($("#Select_Prospecto_Correo option:selected").val() > 0) {
+        //    $('#Select_Prospecto_Correo').css("border", "1px solid #d9dee3");
+        //}
+
+        //if ($("#Select_Prospecto_Correo option:selected").val() > 0) {
+        if ($('#Actualizar_Correo').val().length > 0) {
+                result = true;
+        }
+        //}
+
+        return result;
+    }
+
+    function EliminarNOTA(Id) {
+        swal({
+            title: "Eliminar Nota?",
+            text: "¿Estás seguro de eliminar esta Nota?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Si, Eliminar!",
+            closeOnConfirm: false
+        },
+            function () {
+                var ProspectoNota = new Object();
+                var Prospecto = new Object();
+
+                ProspectoNota.Id = Id;
+                Prospecto.Id = @ViewBag.Prospecto.Id;
+                ProspectoNota.Prospecto = Prospecto;
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Prospecto_EliminarNota", "ProspectoNota")",
+                    async: false,
+                    data: JSON.stringify(ProspectoNota),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        swal("Eliminada!", "Nota eliminada.", "success");
+                        location.reload();
+
+                    }
+                });
+
+
+            });
+    }
+    function EliminarEntrevista(Id) {
+        swal({
+            title: "Eliminar Entrevista?",
+            text: "¿Estás seguro de eliminar esta Entrevista?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Si, Eliminar!",
+            closeOnConfirm: false
+        },
+            function () {
+                var prospectoEntrevista = new Object();
+                var Vacante = new Object();
+                var Prospecto = new Object();
+
+                Vacante.Id =@ViewBag.Vacante.Id;
+                prospectoEntrevista.Vacante = Vacante;
+                prospectoEntrevista.Id = Id;
+                prospectoEntrevista.Prospecto = Prospecto;
+                Prospecto.Id = @ViewBag.Prospecto.Id;
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Prospecto_EliminarEntrevista", "ProspectoEntrevista")",
+                    async: false,
+                    data: JSON.stringify(prospectoEntrevista),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        swal("Eliminada!", "Entrevista eliminada.", "success");
+                        location.reload();
+
+                    }
+                });
+
+
+            });
+    }
+    function EliminarMensajes(Id) {
+
+         swal({
+            title: "Eliminar Mensaje?",
+            text: "¿Estás seguro de eliminar este mensaje?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Si, Eliminar!",
+            closeOnConfirm: false
+        },
+            function () {
+                var ProspectoMensaje = new Object();
+                var Prospecto = new Object();
+                var Vacante = new Object();
+
+                Vacante.Id =@ViewBag.Vacante.Id;
+                ProspectoMensaje.Id = Id;
+                Prospecto.Id = @ViewBag.Prospecto.Id;;
+                ProspectoMensaje.Prospecto = Prospecto;
+                ProspectoMensaje.Vacante = Vacante;
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Prospecto_EliminarMensaje", "ProspectoMensaje")",
+                    async: false,
+                    data: JSON.stringify(ProspectoMensaje),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        swal("Eliminado!", "mensaje eliminado.", "success");
+                        location.reload();
+
+                    }
+                });
+
+
+            });
+    }
+    function EliminarCorreo(Id) {
+         swal({
+            title: "Eliminar Correo?",
+            text: "¿Estás seguro de eliminar este correo?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Si, Eliminar!",
+            closeOnConfirm: false
+        },
+            function () {
+                 var ProspectoCorreo = new Object();
+                var Prospecto = new Object();
+                var Vacante = new Object();
+
+                Vacante.Id =@ViewBag.Vacante.Id;
+                ProspectoCorreo.Id = Id;
+                Prospecto.Id = @ViewBag.Prospecto.Id;;
+                ProspectoCorreo.Prospecto = Prospecto;
+                ProspectoCorreo.Vacante = Vacante;
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Prospecto_EliminarCorreo", "ProspectoCorreo")",
+                    async: false,
+                    data: JSON.stringify(ProspectoCorreo),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        swal("Eliminado!", "Correo eliminado.", "success");
+                        location.reload();
+
+                    }
+                });
+
+
+            });
+    }
+
+    function EliminarPrueba(Id) {
+         swal({
+            title: "Eliminar Prueba?",
+             text: "¿Estás seguro de eliminar esta Prueba?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Si, Eliminar!",
+            closeOnConfirm: false
+        },
+            function () {
+                var ProspectoPrueba = new Object();
+                var Prospecto = new Object();
+                var Vacante = new Object();
+
+                Vacante.Id =@ViewBag.Vacante.Id;
+                ProspectoPrueba.Id = Id;
+                Prospecto.Id = @ViewBag.Prospecto.Id;;
+                ProspectoPrueba.Prospecto = Prospecto;
+                ProspectoPrueba.Vacante = Vacante;
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("ProspectoPrueba_EliminarPrueba", "ProspectoPrueba")",
+                    async: false,
+                    data: JSON.stringify(ProspectoPrueba),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        swal("Eliminado!", "Prueba eliminada.", "success");
+                        location.reload();
+
+                    }
+                });
+
+
+            });
+    }
+
+</script>
+
+
+<script>
+    function BtnCargaCV() {
+        $("#fileInput3").click();
+    }
+
+    $('#fileInput3').change(function () {
+        var fileInput = document.getElementById('fileInput3');
+
+        if (fileInput.files.length > 0) {
+            for (i = 0; i < fileInput.files.length; i++) {
+                var ext = fileInput.files[i].name.split('.').pop();
+                Extencion = fileInput.files[i].name.split('.').pop();
+
+                // Convertimos en minúscula porque
+                // la extensión del archivo puede estar en mayúscula
+                ext = ext.toLowerCase();
+
+                if (ext == 'pdf' || ext == 'docx') {
+
+                    Carga = true;
+                } else {
+                    Carga = false;
+                    Formato = ext;
+                    break;
+                }
+            }
+
+            for (i = 0; i < fileInput.files.length; i++) {
+                var filesize = ((fileInput.files[i].size / 1024) / 1024).toFixed(4);
+
+                if (filesize < 10) {
+                    CargaTam = true;
+                } else {
+                    CargaTam = false;
+                    Tam = filesize;
+                    break;
+                }
+            }
+
+            if (Carga) {
+                if (CargaTam) {
+
+                    $("#BtnSubirCV").prop('disabled', true);
+                    var formData = new FormData();
+
+                    for (i = 0; i < fileInput.files.length; i++) {
+                        formData.append(fileInput.files[i].name, fileInput.files[i]);
+                    }
+
+                    $("#CargandoProcesos").modal("show");
+
+                    $.ajax({
+                        url: '/api/FileAPI/UploadFilesCVProspecto',
+                        type: 'POST',
+                        data: formData,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        success: function (ListArchivos) {
+                            $("#BtnSubirCV").prop('disabled', false);
+
+                            CargaCVProspectos(ListArchivos);
+                        },
+                        xhr: function () {
+
+                            var fileXhr = $.ajaxSettings.xhr();
+                            if (fileXhr.upload) {
+                                $("progress").show();
+                                fileXhr.upload.addEventListener("progress", function (e) {
+                                    if (e.lengthComputable) {
+                                        $("#fileProgress4").attr({
+                                            value: e.loaded,
+                                            max: e.total
+                                        });
+                                    }
+                                }, false);
+                            }
+                            return fileXhr;
+                        },
+                        error: function () {
+
+                            $("#BtnSubirCV").prop('disabled', false);
+
+                            swal({
+                                title: "Problemas al cargar el archivo.",
+                                text: "Problemas para leer el archivo.",
+                                imageUrl: "../Images/icons/4944051.png",
+                                showCancelButton: false,
+                                confirmButtonColor: "#3070A9",
+                                confirmButtonText: "Aceptar",
+                                closeOnConfirm: false,
+                            },
+                                function (isConfirm) {
+                                    swal.close();
+                                });
+
+                            CerrarModal();
+                        }
+                    }).done(function (results) {
+                        setTimeout(CerrarModal, 1000);
+                    });;
+
+
+                } else {
+
+                    swal({
+                        title: "Problemas al cargar el archivo.",
+                        text: "Intentas cargar una imagen muy pesada: " + Tam + " MG" + " Límite permitido 10 MG",
+                        imageUrl: "../Images/icons/4944051.png",
+                        showCancelButton: false,
+                        confirmButtonColor: "#3070A9",
+                        confirmButtonText: "Aceptar",
+                        closeOnConfirm: false,
+                    },
+                        function (isConfirm) {
+                            swal.close();
+                        });
+
+                }
+            } else {
+
+                swal({
+                    title: "Problemas al cargar el archivo.",
+                    text: "Intentas cargar un formato no permitido: " + Formato + " , formato de archivo permitido: .docx y .pdf",
+                    imageUrl: "../Images/icons/4944051.png",
+                    showCancelButton: false,
+                    confirmButtonColor: "#3070A9",
+                    confirmButtonText: "Aceptar",
+                    closeOnConfirm: false,
+                },
+                    function (isConfirm) {
+                        swal.close();
+                    });
+            }
+
+        } else {
+            $("#BtnSubirCV").prop('disabled', false);
+
+            swal({
+                title: "Problemas al cargar el archivo.",
+                text: "Selecciona un archivo.",
+                imageUrl: "../Images/icons/4944051.png",
+                showCancelButton: false,
+                confirmButtonColor: "#3070A9",
+                confirmButtonText: "Aceptar",
+                closeOnConfirm: false,
+            },
+            function (isConfirm) {
+                swal.close();
+            });
+        }
+    });
+
+    function CargaCVProspectos(data) {
+        $("progress").css("display", "none");
+
+        var Prospecto = new Object();
+        Prospecto.Id = @ViewBag.Prospecto.Id;
+
+        var Cat_TipoArchivo = new Object();
+        Cat_TipoArchivo.Id = 1;
+
+        data.Prospecto = Prospecto;
+        data.Cat_TipoArchivo = Cat_TipoArchivo;
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("ProspectoArchivo_Agregar", "ProspectoArchivo")",
+            async: false,
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (respuesta) {
+                console.log(respuesta);
+                swal({
+                    title: "Nuevo archivo registrado.",
+                    text: "Nuevo CV registrado",
+                    imageUrl: "../Images/icons/5673974.png",
+                    showCancelButton: false,
+                    confirmButtonColor: "#3070A9",
+                    confirmButtonText: "Aceptar",
+                    closeOnConfirm: false,
+                },
+                function (isConfirm) {
+                    if (isConfirm) {
+                        location.reload();
+                    }
+                });
+            },
+            error: function () {
+                swal({
+                    title: "Problemas al registrar el archivo.",
+                    text: "Problemas en la lectura del archivo.",
+                    imageUrl: "../Images/icons/4944051.png",
+                    showCancelButton: false,
+                    confirmButtonColor: "#3070A9",
+                    confirmButtonText: "Aceptar",
+                    closeOnConfirm: false,
+                },
+                function (isConfirm) {
+                    swal.close();
+                });
+            }
+        });
+    }
+
+    function CerrarModal() {
+        $("#BtnCerrarCargaCV").trigger("click");
+    }
+</script>
+
+
+<script>
+
+    $('#BtnRegistrarCorreo').click(function () {
+        if (ValidarFormulairoCorreo()) {
+
+            $("#BtnRegistrarCorreo").prop("disabled", true);
+            $("#ModalNuevoCorreo").modal("hide");
+            $("#modal-notification").modal('show');
+
+            setTimeout(function () {
+                EnviarInformacionNuevoCorreo();
+            }, 2000);
+
+        } else {
+            $.notify({
+                message: "Formulario incompleto!."
+            }, {
+                type: 'danger'
+            });
+        }
+    });
+
+    function EnviarInformacionNuevoCorreo() {
+
+        var Prospecto = new Object();
+        Prospecto.Id = @ViewBag.Prospecto.Id;
+
+        var ProspectoCorreo = new Object();
+        ProspectoCorreo.Prospecto = Prospecto;
+        ProspectoCorreo.Correo = $('#Mensaje_Correo').val();
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("ProspectoCorreo_Agregar", "ProspectoCorreo")",
+            async: false,
+            data: JSON.stringify(ProspectoCorreo),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+
+                $("#modal-notification").modal("hide");
+                $("#BtnRegistrarCorreo").prop("disabled", false);
+
+                if (data.Id > 0) {
+                    swal({
+                        title: "Correo registrado .",
+                        text: "Se ha registrado un nuevo correo al prospecto.",
+                        imageUrl: "../Images/icons/5673974.png",
+                        showCancelButton: false,
+                        confirmButtonColor: "#3070A9",
+                        confirmButtonText: "Aceptar",
+                        closeOnConfirm: false,
+                    },
+                    function (isConfirm) {
+                        if (isConfirm) {
+                            location.reload();
+                        }
+                    });
+
+                } else {
+                    swal({
+                        title: "Correo no resgistrado",
+                        text: "No es posible registrar el correo. !",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    }).then((willDelete) => {
+
+                    });
+                }
+            },
+            error: function () {
+
+                $("#modal-notification").modal("hide");
+                $("#BtnRegistrarCorreo").prop("disabled", false);
+
+
+                swal({
+                    title: "Problemas en la solicitud",
+                    text: "Correo no registrado!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                }).then((willDelete) => {
+
+                });
+            }
+        });
+    }
+
+    function ValidarFormulairoCorreo() {
+        var result = false;
+        $('#Mensaje_Correo').css("border", "1px solid #f44336");
+
+        if ($('#Mensaje_Correo').val().length > 0) {
+            $('#Mensaje_Correo').css("border", "1px solid #d9dee3");
+        }
+
+        if ($('#Mensaje_Correo').val().length > 0) {
+            result = true;
+        }
+
+        return result;
+    }
+
+</script>
+
+
+<script>
+
+    $('#BtnRegistrarMensaje').click(function () {
+        if (ValidarFormulairoMensaje()) {
+            var Prospecto = new Object();
+            Prospecto.Id = @ViewBag.Prospecto.Id;
+
+            var ProspectoMensaje = new Object();
+            ProspectoMensaje.Prospecto = Prospecto;
+            ProspectoMensaje.Mensaje = $('#Mensaje_Mensaje').val();
+
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("ProspectoMensaje_Agregar", "ProspectoMensaje")",
+                async: false,
+                data: JSON.stringify(ProspectoMensaje),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    if (data.Id > 0) {
+                        swal({
+                            title: "Mensaje registrado.",
+                            text: "Se ha registrado un nuevo mensaje al prospecto.",
+                            imageUrl: "../Images/icons/5673974.png",
+                            showCancelButton: false,
+                            confirmButtonColor: "#3070A9",
+                            confirmButtonText: "Aceptar",
+                            closeOnConfirm: false,
+                        },
+                        function (isConfirm) {
+                            if (isConfirm) {
+                                if ($("#checkbox_AceptacionMensajeWhatApp").is(':checked')) {
+
+
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "@Url.Action("Prospecto_Seleccionar_Id", "Prospectos")",
+                                        async: false,
+                                        data: JSON.stringify(Prospecto),
+                                        contentType: "application/json; charset=utf-8",
+                                        dataType: "json",
+                                        success: function (data) {
+
+                                            if (data.Id > 0) {
+                                                // Obtener el número de teléfono del contacto
+                                                var numeroTelefono = data.TelefonoCelular;
+
+                                                // Obtener el nombre del contacto
+                                                var nombreContacto = data.Nombre + ' ' + data.ApellidoPaterno + ' ' + data.ApellidoMaterno;
+
+                                                // Obtener el mensaje
+                                                var mensaje = $('#Mensaje_Mensaje').val();
+
+                                                // Enviar el mensaje
+                                                window.open("https://wa.me/" + numeroTelefono + "/?text=" + mensaje + "&subject=" + nombreContacto, "_blank");
+
+                                                location.reload();
+                                            } else {
+                                                swal({
+                                                    title: "Problemas al abrir WhatsApp",
+                                                    text: "Mensaje en enviado por WhatsApp!",
+                                                    icon: "warning",
+                                                    buttons: true,
+                                                    dangerMode: true,
+                                                }).then((willDelete) => {
+                                                    location.reload();
+                                                });
+                                            }
+                                        },
+                                        error: function () {
+                                            swal({
+                                                title: "Problemas al abrir WhatsApp",
+                                                text: "Mensaje en enviado por WhatsApp!",
+                                                icon: "warning",
+                                                buttons: true,
+                                                dangerMode: true,
+                                            }).then((willDelete) => {
+                                                location.reload();
+                                            });
+                                        }
+                                    });
+
+                                } else {
+                                    location.reload();
+                                }
+                            }
+                        });
+
+                    } else {
+                        swal({
+                            title: "Mensaje no resgistrado",
+                            text: "No es posible registrar el mensaje. !",
+                            icon: "warning",
+                            buttons: true,
+                            dangerMode: true,
+                        }).then((willDelete) => {
+
+                        });
+                    }
+                },
+                error: function () {
+                    swal({
+                        title: "Problemas en la solicitud",
+                        text: "Mensaje no registrado!",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    }).then((willDelete) => {
+
+                    });
+                }
+            });
+
+        } else {
+            $.notify({
+                message: "Formulario incompleto!."
+            }, {
+                type: 'danger'
+            });
+        }
+    });
+
+    function ValidarFormulairoMensaje() {
+
+        var result = false;
+        $('#Mensaje_Mensaje').css("border", "1px solid #f44336");
+
+        if ($('#Mensaje_Mensaje').val().length > 0) {
+            $('#Mensaje_Mensaje').css("border", "1px solid #d9dee3");
+        }
+
+        if ($('#Mensaje_Mensaje').val().length > 0) {
+            result = true;
+        }
+
+        return result;
+    }
+
+</script>
+
+<script>
+    function ActualizarEstatusEntrevista(Id) {
+        if (ValidarFormulairoEstatusEntrevista()) {
+
+            $("#BtnEstatusEntrevistas").prop("disabled", true);
+            $("#CambiarEstatusEntrevista").modal("hide");
+            $("#modal-notification").modal('show');
+
+            setTimeout(function () {
+                EnviarInformacionEstatusEntrevista(Id);
+            }, 2000);
+
+        } else {
+            $.notify({
+                message: "Formulario incompleto!."
+            }, {
+                type: 'danger'
+            });
+        }
+    }
+
+    function EnviarInformacionEstatusEntrevista(Id) {
+        var Cat_EstatusEntrevistas = new Object();
+        Cat_EstatusEntrevistas.Id = $("#EditarEntrevista_Select_EstatusEntrevista option:selected").val();
+
+        var ProspectoEntrevista = new Object();
+        ProspectoEntrevista.Id = Id;
+        ProspectoEntrevista.Cat_EstatusEntrevistas = Cat_EstatusEntrevistas;
+        ProspectoEntrevista.Observaciones = $('#EditarEntrevista_Descripcion').val();
+        ProspectoEntrevista.Clave = $('#EditarEntrevista_Clave_Text_Clave').val();
+
+        if ($("#checkbox_CambioEstatusEntrevistaNotificiar").is(':checked')) {
+            ProspectoEntrevista.Notificar = 1;
+        } else {
+            ProspectoEntrevista.Notificar = 0;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("ProspectoEntrevista_Actualizar_IdEstatus", "ProspectoEntrevista")",
+            async: false,
+            data: JSON.stringify(ProspectoEntrevista),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                $("#modal-notification").modal("hide");
+                $("#BtnEstatusEntrevistas").prop("disabled", false);
+
+                if (data.Id > 0) {
+                    swal({
+                        title: "Entrevista actualizada.",
+                        text: "Se ha actualizado la Entrevista de la vacante.",
+                        imageUrl: "../Images/icons/5673974.png",
+                        showCancelButton: false,
+                        confirmButtonColor: "#3070A9",
+                        confirmButtonText: "Aceptar",
+                        closeOnConfirm: false,
+                    },
+                    function (isConfirm) {
+                        if (isConfirm) {
+                            location.reload();
+                        }
+                    });
+
+                }
+                else {
+                    swal({
+                        title: "Entrevista no actualizada",
+                        text: "No es posible actualizar la Entrevista. !",
+                        imageUrl: "../Images/icons/4944051.png",
+                        buttons: true,
+                        dangerMode: true,
+                    }).then((willDelete) => {
+
+                    });
+                }
+            },
+            error: function () {
+
+                $("#modal-notification").modal("hide");
+                $("#BtnEstatusEntrevistas").prop("disabled", false);
+
+                swal({
+                    title: "Problemas en la solicitud",
+                    text: "Entrevista no actualizada!",
+                    imageUrl: "../Images/icons/4944051.png",
+                    buttons: true,
+                    dangerMode: true,
+                }).then((willDelete) => {
+
+                });
+            }
+        });
+    }
+
+    function ValidarFormulairoEstatusEntrevista() {
+        var result = false;
+
+        $('#EditarEntrevista_Select_EstatusEntrevista').css("border", "1px solid #f44336");
+        $('#EditarEntrevista_Clave_Text_Clave').css("border", "1px solid #f44336");
+
+        if ($("#EditarEntrevista_Select_EstatusEntrevista option:selected").val() > 0) {
+            $('#EditarEntrevista_Select_EstatusEntrevista').css("border", "1px solid #d9dee3");
+        }
+
+        if ($("#EditarEntrevista_Clave_Text_Clave").val().length > 0) {
+            $('#EditarEntrevista_Clave_Text_Clave').css("border", "1px solid #d9dee3");
+        }
+
+        if ($("#EditarEntrevista_Select_EstatusEntrevista option:selected").val() > 0) {
+            if ($("#EditarEntrevista_Clave_Text_Clave").val().length > 0) {
+                result = true;
+            }
+        }
+
+        return result;
+    }
+
+    function EditarEstatusEntrevista(Id) {
+
+        var ClaveMovimiento = new Object();
+        ClaveMovimiento.Movimiento = "Actualizar";
+        ClaveMovimiento.Observaciones = "Actualizar estatus entrevista";
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("ClaveMovimiento_Agregar", "ClaveMovimiento")",
+            async: false,
+            data: JSON.stringify(ClaveMovimiento),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                if (data.Id > 0) {
+                    $("#CambiarEstatusEntrevista").modal("show");
+                    $('#EditarEntrevista_Clave_Text').text(data.Clave);
+                    $('#DivBtnActulizarEstatusEditarEntrevista').html('<button type="button" class="btn btn-primary" Id="BtnEstatusEntrevistas" onclick="ActualizarEstatusEntrevista(' + Id +')">Guardar</button>');
+
+                } else if (data.Id == 0) {
+                    swal({
+                        title: "Problemas en la solicitud",
+                        text: "Solicitud negada !",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    }).then((willDelete) => {
+
+                    });
+                }
+            },
+            error: function () {
+                swal({
+                    title: "Problemas en la solicitud",
+                    text: "Solicitud negada !",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                }).then((willDelete) => {
+
+                });
+            }
+        });
+    }
+
+    $('#BtnGuardarEntrevista').click(function () {
+        if (ValidarFormulairoEntrevista()) {
+
+            $("#BtnGuardarEntrevista").prop("disabled", true);
+            $("#AgregarEntrevista").modal("hide");
+            $("#modal-notification").modal('show');
+
+            setTimeout(function () {
+                EnviarInformacionNuevaEntrevista();
+            }, 2000);
+
+        } else {
+            $.notify({
+                message: "Formulario incompleto!."
+            }, {
+                type: 'danger'
+            });
+        }
+    });
+
+    function EnviarInformacionNuevaEntrevista() {
+
+        var Prospecto = new Object();
+        Prospecto.Id = @ViewBag.Prospecto.Id;
+
+        var ProspectoEntrevista = new Object();
+        ProspectoEntrevista.Prospecto = Prospecto;
+        ProspectoEntrevista.Entrevisto = $('#Entrevista_Entrevisto').val();
+        ProspectoEntrevista.FechaEntrevista = $('#Entrevista_FechaEntrevista').val();
+        ProspectoEntrevista.Observaciones = $('#Entrevista_Observacion').val();
+
+        if ($("#checkbox_AgregarResponsableEntrevista").is(':checked')) {
+            ProspectoEntrevista.Responsable = 1;
+            ProspectoEntrevista.IdResponsble = $("#Entrevista_Select_Responsable option:selected").val();
+        } else {
+            ProspectoEntrevista.Responsable = 0;
+        }
+
+        if ($("#checkbox_AceptacionEntrevista").is(':checked')) {
+            ProspectoEntrevista.EntrevistaAceptada = 0;
+        } else {
+            ProspectoEntrevista.EntrevistaAceptada = 1;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("ProspectoEntrevista_Agregar", "ProspectoEntrevista")",
+            async: false,
+            data: JSON.stringify(ProspectoEntrevista),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+
+                $("#modal-notification").modal("hide");
+                $("#BtnGuardarEntrevista").prop("disabled", false);
+
+                if (data.Id > 0) {
+                    swal({
+                        title: "Entrevista registrada .",
+                        text: "Se ha registrado una nueva entrevista al prospecto.",
+                        imageUrl: "../Images/icons/5673974.png",
+                        showCancelButton: false,
+                        confirmButtonColor: "#3070A9",
+                        confirmButtonText: "Aceptar",
+                        closeOnConfirm: false,
+                    },
+                    function (isConfirm) {
+                        if (isConfirm) {
+                            location.reload();
+                        }
+                    });
+
+                } else {
+                    swal({
+                        title: "Entrevista no resgistrada",
+                        text: "No es posible registrar la entrevista. !",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    }).then((willDelete) => {
+
+                    });
+                }
+            },
+            error: function () {
+
+                $("#modal-notification").modal("hide");
+                $("#BtnGuardarEntrevista").prop("disabled", false);
+
+                swal({
+                    title: "Problemas en la solicitud",
+                    text: "Entrevista no registrada!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                }).then((willDelete) => {
+
+                });
+            }
+        });
+    }
+
+    function AgregarResponsableEntrevista() {
+        if ($('#checkbox_AgregarResponsableEntrevista').prop('checked')) {
+
+            $("#DivAgregarResponsableEntrevista").show();
+
+        } else {
+            $("#DivAgregarResponsableEntrevista").css("display", "none");
+        }
+    }
+
+    function ValidarFormulairoEntrevista() {
+
+        var result = false;
+        var entrevista = false;
+        var responsable = false;
+
+        $('#Entrevista_FechaEntrevista').css("border", "1px solid #f44336");
+
+        if ($('#Entrevista_FechaEntrevista').val().length > 0) {
+            $('#Entrevista_FechaEntrevista').css("border", "1px solid #d9dee3");
+        }
+
+        if ($('#Entrevista_FechaEntrevista').val().length > 0) {
+            entrevista = true;
+        }
+
+        if ($('#checkbox_AgregarResponsableEntrevista').prop('checked')) {
+            $('#Entrevista_Select_Responsable').css("border", "1px solid #f44336");
+
+            if ($("#Entrevista_Select_Responsable option:selected").val() > 0) {
+                responsable = true;
+            }
+        } else {
+            responsable = true;
+        }
+
+        if (entrevista) {
+            if (responsable) {
+                result = true;
+            }
+        }
+
+        return result;
+    }
+
+</script>
+
+<script>
+    $('#BtnRegistrarNota').click(function () {
+        if (ValidarFormulairo()) {
+
+            var Prospecto = new Object();
+            Prospecto.Id = @ViewBag.Prospecto.Id;
+
+            var ProspectoNota = new Object();
+            ProspectoNota.Prospecto = Prospecto;
+            ProspectoNota.Nota = $('#Nota_Notas').val()
+
+             $.ajax({
+                type: "POST",
+                url: "@Url.Action("ProspectoNota_Agregar", "ProspectoNota")",
+                async: false,
+                 data: JSON.stringify(ProspectoNota),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+
+                    $("#BtnCancelarNota").click();
+
+                    if (result.Id > 0) {
+                        swal({
+                            title: "Nueva nota registrada.",
+                            text: "Se ha registrado la nota en la vacante.",
+                            imageUrl: "../Images/icons/5673974.png",
+                            showCancelButton: false,
+                            confirmButtonColor: "#3070A9",
+                            confirmButtonText: "Aceptar",
+                            closeOnConfirm: false,
+                        },
+                        function (isConfirm) {
+                            if (isConfirm) {
+                                location.reload();
+                            }
+                        });
+
+                    } else {
+                        swal({
+                            title: "Problemas en la solicitud",
+                            text: "Nota no registrada !",
+                            icon: "warning",
+                            buttons: true,
+                            dangerMode: true,
+                        }).then((willDelete) => {
+
+                        });
+                    }
+
+                },
+                error: function () {
+                    swal({
+                        title: "Problemas en la solicitud",
+                        text: "Nota no registrada !",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    }).then((willDelete) => {
+
+                    });
+
+                }
+            });
+
+
+
+        } else {
+            $.notify({
+                message: "Formulario incompleto!."
+            }, {
+                type: 'danger'
+            });
+        }
+    });
+
+    function ValidarFormulairo() {
+        var result = false;
+
+        $('#Nota_Notas').css("border", "1px solid #e293d3");
+
+        if ($('#Nota_Notas').val().length > 0) {
+            $('#Nota_Notas').css("border", "1px solid #d2d6da");
+        }
+
+        if ($('#Nota_Notas').val().length > 0) {
+            result = true;
+        }
+
+        return result;
+    }
+</script>
+<script>
+    function MostrarPDF(Id) {
+
+        var ProspectoArchivo = new Object();
+        ProspectoArchivo.Id = Id;
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("ProspectoArchivo_Seleccionar_Id", "ProspectoArchivo")",
+            async: false,
+            data: JSON.stringify(ProspectoArchivo),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+
+                var mail = "";
+                if (data.Referencia == 1) {
+                    var mail = "https://rechumanos.asae.com.mx/DocumentosTemporales/" + data.NmARchivo;
+                } else {
+                    var mail = "https://www.asae.com.mx/PDF/Prospectos/" + data.NmARchivo;
+                }
+
+                $('#iframepdf').attr('src', mail);
+            },
+            error: function () {
+
+            }
+        });
+        $("#ModalPDF").modal("show");
+    }
+
+    function DescargarArchivo(Id) {
+        var ProspectoArchivo = new Object();
+        ProspectoArchivo.Id = Id;
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("ProspectoArchivo_Seleccionar_Id", "ProspectoArchivo")",
+            async: false,
+            data: JSON.stringify(ProspectoArchivo),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+
+                var pdfUrl = "";
+                if (data.Referencia == 1) {
+                    var pdfUrl = "https://rechumanos.asae.com.mx/DocumentosTemporales/" + data.NmARchivo;
+                } else {
+                    var pdfUrl = "https://www.asae.com.mx/PDF/Prospectos/" + data.NmARchivo;
+                }
+
+                var link = document.createElement('a');
+                link.href = pdfUrl;
+                link.download = data.NmARchivo; // Nombre del archivo
+                link.style.display = 'none';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+
+            },
+            error: function () {
+
+            }
+        });
+    }
+</script>
+<script>
+
+    var densityCanvas = document.getElementById("densityChart2");
+
+    //Chart.defaults.global.defaultFontFamily = "Arial, sans-serifapple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif";
+    //Chart.defaults.global.defaultFontSize = 14;
+
+    var dataFirst = {
+        label: "Visualizaciones",
+        options: {
+            legend: {
+                labels: {
+                    // This more specific font property overrides the global property
+                    //fontColor: 'black',
+                    /*defaultFontFamily: 'Arial, sans-serifapple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif',*/
+                    fontColor: 'rgb(63, 94, 171)',
+                    usePointStyle: true,
+                }
+            },
+            backgroundColor: 'transparent',
+        },
+        borderColor: [
+            'rgba(0, 149, 205, 0.9)'
+        ],
+        backgroundColor: 'transparent',
+        borderWidth: 2,
+        hoverBorderWidth: 3,
+        data: [
+            @foreach (var Com in ViewBag.Actividad)
+            {
+                @Html.Raw(@Com.Total)
+                @Html.Raw(",")
+            }
+        ],
+        lineTension: 0.3,
+    };
+
+    var chartOptions = {
+        responsive: true,
+        backgroundColor: 'transparent',
+        title: {
+            display: true,
+            text: 'Actividad del mes '
+        },
+        //tooltips: {
+        //    mode: 'index',
+        //    intersect: false,
+        //},
+        //hover: {
+        //    mode: 'nearest',
+        //    intersect: true
+        //},
+        //scales: {
+        //    yAxes: [{
+        //        barPercentage: 0.5
+        //    }]
+        //},
+        //elements: {
+        //    rectangle: {
+        //        borderSkipped: 'left',
+        //    }
+        //}
+    };
+
+    var barChart = new Chart(densityCanvas, {
+        type: 'line',
+        data: {
+            labels: [
+            @foreach (var Com in ViewBag.Actividad)
+            {
+                @Html.Raw("'")
+                @Html.Raw(@Com.Dia)
+                @Html.Raw("'")
+                @Html.Raw(",")
+            }
+            ],
+            datasets: [dataFirst],
+        },
+        options: chartOptions
+    });
+</script>
+<script>
+
+    function ActualizarEstatusProspecto() {
+        if (ValidarEstatusProspecto()) {
+
+            var Cat_EstatusProspecto = new Object();
+            Cat_EstatusProspecto.Id = $("#Select_EstatusProspecto option:selected").val();
+
+            var Vacante = new Object();
+            Vacante.Id = @ViewBag.Vacante.Id;
+
+            var Prospecto = new Object();
+            Prospecto.Id = @ViewBag.Prospecto.Id;
+            Prospecto.Vacante = Vacante;
+            Prospecto.Cat_EstatusProspecto = Cat_EstatusProspecto;
+            Prospecto.Descripcion = $('#Prospecto_Descripcion').val();
+            Prospecto.Clave = $('#Prospecto_Clave').val();
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("Prospecto_Actulizar_Estatus", "Prospectos")",
+                async: false,
+                data: JSON.stringify(Prospecto),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    if (data.Id > 0) {
+                        swal({
+                            title: "Prospecto Actulizado.",
+                            text: "Se ha cambiado el estatus del prospecto.",
+                            imageUrl: "../Images/icons/5673974.png",
+                            showCancelButton: false,
+                            confirmButtonColor: "#3070A9",
+                            confirmButtonText: "Aceptar",
+                            closeOnConfirm: false,
+                        },
+                        function (isConfirm) {
+                            if (isConfirm) {
+                                location.reload();
+                            }
+                        });
+
+                    } else if (data.Id == 0) {
+                        swal({
+                            title: "Clave denegada",
+                            text: "Clave no valida, verificala.!",
+                            icon: "warning",
+                            buttons: true,
+                            dangerMode: true,
+                        }).then((willDelete) => {
+
+                        });
+
+                    } else if (data.Id == -1) {
+                        swal({
+                            title: "Prospecto no actualizado",
+                            text: "No es posible actulizar el estatus. !",
+                            icon: "warning",
+                            buttons: true,
+                            dangerMode: true,
+                        }).then((willDelete) => {
+
+                        });
+                    }
+                },
+                error: function () {
+                    swal({
+                        title: "Problemas en la solicitud",
+                        text: "Prospecto no actualizado!",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    }).then((willDelete) => {
+
+                    });
+                }
+            });
+
+        } else {
+
+            $.notify({
+                message: "Formulario incompleto!."
+            }, {
+                type: 'danger'
+            });
+        }
+    }
+
+    function ValidarEstatusProspecto() {
+        var result = false;
+
+        $('#Select_EstatusProspecto').css("border", "1px solid #f44336");
+
+        $('#Prospecto_Clave').css("border", "1px solid #f44336");
+
+        if ($("#Select_EstatusProspecto option:selected").val() > 0) {
+            $('#Select_EstatusProspecto').css("border", "1px solid #d9dee3");
+        }
+
+        if ($('#Prospecto_Clave').val().length > 0) {
+            $('#Prospecto_Clave').css("border", "1px solid #d9dee3");
+        }
+
+        if ($("#Select_EstatusProspecto option:selected").val() > 0) {
+            if ($('#Prospecto_Clave').val().length > 0) {
+                result = true;
+            }
+        }
+
+        return result;
+    }
+
+    function BtnAbrirActualizarEstatus() {
+
+        var ClaveMovimiento = new Object();
+        ClaveMovimiento.Movimiento = "Actualizar";
+        ClaveMovimiento.Observaciones = "Actualizar estatus prospecto";
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("ClaveMovimiento_Agregar", "ClaveMovimiento")",
+            async: false,
+            data: JSON.stringify(ClaveMovimiento),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+     /*           console.log(data);*/
+                if (data.Id > 0) {
+                    $("#CambiarEstatus").modal("show");
+                    $('#Prospecto_Clave_Text').text(data.Clave);
+                } else if (data.Id == 0) {
+                    swal({
+                        title: "Problemas en la solicitud",
+                        text: "Solicitud negada !",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    }).then((willDelete) => {
+
+                    });
+                }
+            },
+            error: function () {
+                swal({
+                    title: "Problemas en la solicitud",
+                    text: "Solicitud negada !",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                }).then((willDelete) => {
+
+                });
+            }
+        });
+    }
+
+    $('#TableListaProspecto').DataTable({
+        scrollY: '60vh',
+        scrollCollapse: true,
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+        }
+    });
+
+    function ValidaInput(name) {
+        if ($('#' + name).val().length > 0) {
+            $('#' + name).css("border", "1px solid #cccccc");
+        } else {
+            $('#' + name).css("border", "1px solid #f44336");
+        }
+    }
+
+    function ValidaSelect(name) {
+        if ($('#' + name + ' option:selected').val() > 0) {
+            $('#' + name).css("border", "1px solid #cccccc");
+        } else {
+            $('#' + name).css("border", "1px solid #f44336");
+        }
+    }
+
+    $(document).ready(function () {
+        $(".input-mayusculas").on("input", function () {
+            // Obtener el valor actual del input
+            var textoActual = $(this).val();
+
+            // Convertir el texto a mayúsculas
+            var textoMayusculas = textoActual.toUpperCase();
+
+            // Verificar si el valor ha cambiado antes de actualizar el input
+            // Esto evita que se cree un ciclo infinito en algunos navegadores
+            if (textoActual !== textoMayusculas) {
+                // Actualizar el valor del input con el texto en mayúsculas y sin números
+                $(this).val(textoMayusculas);
+            }
+        });
+
+        // Asociar evento 'keypress' a los inputs con la clase "input-mayusculas"
+        // para evitar la entrada de números
+        $(".input-mayusculas").on("keypress", function (event) {
+            var charCode = event.which ? event.which : event.keyCode;
+            if (charCode >= 48 && charCode <= 57) {
+                event.preventDefault();
+            }
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        var meses = [
+            "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+            "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+        ];
+        var fecha = new Date();
+        var mesActual = fecha.getMonth(); // Obtenemos el número del mes (0-11)
+        $("#mes").text("Grafica de actividades mes: " + meses[mesActual]);
+    });</script>
+
+<script>
+    $('#IdMenuVacantes').addClass("active pcoded-trigger");
+    $('#IdSubMenuProspectos').addClass("active");</script>

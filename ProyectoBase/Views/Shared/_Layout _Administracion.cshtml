@@ -1,0 +1,619 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>Asae Consultores S.A de C.V</title>
+    <!-- HTML5 Shim and Respond.js IE10 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 10]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="description" content="Mega Able Bootstrap admin template made using Bootstrap 4 and it has huge amount of ready made feature, UI components, pages which completely fulfills any dashboard needs." />
+    <meta name="keywords" content="bootstrap, bootstrap admin template, admin theme, admin dashboard, dashboard template, admin template, responsive" />
+    <meta name="author" content="codedthemes" />
+    <!-- Favicon icon -->
+    <link rel="icon" href="~/Images/icons/ico.ico" type="image/x-icon">
+    <!-- Google font-->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet">
+    <!-- waves.css -->
+    <link rel="stylesheet" href="~/assets/pages/waves/css/waves.min.css" type="text/css" media="all">
+    <!-- Required Fremwork -->
+    <link rel="stylesheet" type="text/css" href="~/assets/css/bootstrap/css/bootstrap.min.css">
+    <!-- waves.css -->
+    <link rel="stylesheet" href="~/assets/pages/waves/css/waves.min.css" type="text/css" media="all">
+    <!-- themify icon -->
+    <link rel="stylesheet" type="text/css" href="~/assets/icon/themify-icons/themify-icons.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" type="text/css" href="~/assets/icon/font-awesome/css/font-awesome.min.css">
+    <!-- scrollbar.css -->
+    <link rel="stylesheet" type="text/css" href="~/assets/css/jquery.mCustomScrollbar.css">
+    <!-- am chart export.css -->
+    <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
+    <!-- Style.css -->
+    <link rel="stylesheet" type="text/css" href="~/assets/css/style.css">
+    @*SWEET ALERT CSS*@
+    <link rel="stylesheet" type="text/css" href="https://common.olemiss.edu/_js/sweet-alert/sweet-alert.css">
+
+
+    <style>
+        .btn {
+            border-radius: 5px;
+            text-transform: capitalize;
+            font-size: 13px;
+            padding: 10px 19px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Pre-loader start -->
+    <div class="theme-loader">
+        <div class="loader-track">
+            <div class="preloader-wrapper">
+                <div class="spinner-layer spinner-blue">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+                <div class="spinner-layer spinner-red">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+
+                <div class="spinner-layer spinner-yellow">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+
+                <div class="spinner-layer spinner-green">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Pre-loader end -->
+    <div id="pcoded" class="pcoded">
+        <div class="pcoded-overlay-box"></div>
+        <div class="pcoded-container navbar-wrapper">
+            <nav class="navbar header-navbar pcoded-header">
+                <div class="navbar-wrapper">
+                    <div class="navbar-logo">
+                        <a class="mobile-menu waves-effect waves-light" id="mobile-collapse" href="#!">
+                            <i class="ti-menu"></i>
+                        </a>
+                        <div class="mobile-search waves-effect waves-light">
+                            <div class="header-search">
+                                <div class="main-search morphsearch-search">
+                                    <div class="input-group">
+                                        <span class="input-group-addon search-close"><i class="ti-close"></i></span>
+                                        <input type="text" class="form-control" placeholder="Enter Keyword">
+                                        <span class="input-group-addon search-btn"><i class="ti-search"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#">
+                            @*<h5>Asae Consultores</h5>*@
+                        </a>
+                        <a class="mobile-options waves-effect waves-light">
+                            <i class="ti-more"></i>
+                        </a>
+                    </div>
+
+                    <div class="navbar-container container-fluid">
+                        <ul class="nav-left">
+                            <li>
+                                <div class="sidebar_toggle"><a href="javascript:void(0)"><i class="ti-menu"></i></a></div>
+                            </li>
+
+                            <li>
+                                <a href="#!" onclick="javascript:toggleFullScreen()" class="waves-effect waves-light">
+                                    <i class="ti-fullscreen"></i>
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="nav-right">
+
+                            <li class="user-profile header-notification">
+                                <a href="#!" class="waves-effect waves-light">
+                                    <img src="~/Images/Headers/user4.png" class="img-radius" alt="User-Profile-Image">
+                                    <span>@Html.Raw(((ProyectoBase.Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"]).Nombre)</span>
+                                    <i class="ti-angle-down"></i>
+                                </a>
+                                <ul class="show-notification profile-notification">
+                                    <li class="waves-effect waves-light">
+                                        <a href="#" onclick="CerrarSesion();">
+                                            <i class="ti-layout-sidebar-left"></i> Cerrar Sesión
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="pcoded-main-container">
+                <div class="pcoded-wrapper">
+                    <nav class="pcoded-navbar">
+                        <div class="sidebar_toggle"><a href="#"><i class="icon-close icons"></i></a></div>
+                        <div class="pcoded-inner-navbar main-menu">
+                            <div class="">
+                                <div class="main-menu-header">
+                                    <img class="img-80 img-radius" src="~/Images/Headers/user4.png" alt="User-Profile-Image">
+                                    <div class="user-details">
+                                        <span id="more-details"> @Html.Raw(((ProyectoBase.Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"]).Nombre)<i class="fa fa-caret-down"></i></span>
+                                    </div>
+                                </div>
+
+                                <div class="main-menu-content">
+                                    <ul>
+                                        <li class="more-details">
+
+                                            <a href="#" onclick="CerrarSesion();"><i class="ti-layout-sidebar-left"></i>Cerrar Sesión</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            @if (((ProyectoBase.Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"]).IdRol == 1)
+                            {
+                                <div class="pcoded-navigation-label text-center" data-i18n="nav.category.navigation">Menú de navegación</div>
+                                <ul class="pcoded-item pcoded-left-item">
+                                    <li id="IdMenuDashboard">
+                                        <a href="@Url.Action("Index", "Administracion")" class="waves-effect waves-dark">
+                                            <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
+                                            <span class="pcoded-mtext" data-i18n="nav.dash.main">Dashboard</span>
+                                            <span class="pcoded-mcaret"></span>
+                                        </a>
+                                    </li>
+                                    <li id="IdMenuEmpleados" class="pcoded-hasmenu ">
+                                        <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                            <span class="pcoded-micon"><i class="ti-briefcase"></i></span>
+                                            <span class="pcoded-mtext" data-i18n="nav.basic-components.main">Empleados </span>
+                                            <span class="pcoded-mcaret"></span>
+                                        </a>
+                                        <ul class="pcoded-submenu">
+                                            <li id="IdSubMenulistaEmpleado" class="">
+                                                <a href="@Url.Action("Index", "Empleados")" class="waves-effect waves-dark">
+                                                    <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                    <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Listar</span>
+                                                    <span class="pcoded-mcaret"></span>
+                                                </a>
+                                            </li>
+                                            <li id="IdSubMenuNuevoEmpleado" class="">
+                                                <a href="@Url.Action("NuevoEmpleado", "Empleados")" class="waves-effect waves-dark">
+                                                    <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                    <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Dar de alta</span>
+                                                    <span class="pcoded-mcaret"></span>
+                                                </a>
+                                            </li>
+                                            <li id="IdSubMenuBajas" class="">
+                                                <a href="@Url.Action("Baja", "Empleados")" class="waves-effect waves-dark">
+                                                    <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                    <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Bajas</span>
+                                                    <span class="pcoded-mcaret"></span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                                <ul class="pcoded-item pcoded-left-item">
+                                    <li id="IdMenuVacantes" class="pcoded-hasmenu ">
+                                        <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                            <span class="pcoded-micon"><i class="ti-ruler-pencil"></i></span>
+                                            <span class="pcoded-mtext" data-i18n="nav.basic-components.main"> Vacantes </span>
+                                            <span class="pcoded-mcaret"></span>
+                                        </a>
+                                        <ul class="pcoded-submenu">
+                                            <li id="IdSubMenuVacantes" class="">
+                                                <a href="@Url.Action("Index", "Vacantes")" class="waves-effect waves-dark">
+                                                    <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                    <span class="pcoded-mtext" data-i18n="nav.basic-components.alert"> Vacantes </span>
+                                                    <span class="pcoded-mcaret"></span>
+                                                </a>
+                                            </li>
+                                            <li id="IdSubMenuVacanteConsulta" class="pcoded-hasmenu" dropdown-icon="style3" subitem-icon="style7">
+                                                <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                                    <span class="pcoded-micon"><i class="ti-direction-alt"></i></span>
+                                                    <span class="pcoded-mtext" data-i18n="nav.menu-levels.menu-level-22.main">Reporte </span>
+                                                    <span class="pcoded-mcaret"></span>
+                                                </a>
+                                                <ul class="pcoded-submenu">
+                                                    <li class="" id="IdSubMenuVacanteConsultaConsulta">
+                                                        <a href="@Url.Action("Consulta", "VacanteConsulta")" class="waves-effect waves-dark">
+                                                            <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                            <span class="pcoded-mtext" data-i18n="nav.menu-levels.menu-level-22.menu-level-31">General</span>
+                                                            <span class="pcoded-mcaret"></span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="" id="IdSubMenuVacanteConsultaIndividual">
+                                                        <a href="@Url.Action("Index", "VacanteConsulta")" class="waves-effect waves-dark">
+                                                            <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                            <span class="pcoded-mtext" data-i18n="nav.menu-levels.menu-level-22.menu-level-31">Individual </span>
+                                                            <span class="pcoded-mcaret"></span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            <li id="IdSubMenuNuevaVacante" class="">
+                                                <a href="@Url.Action("NuevaVacante", "Vacantes")" class="waves-effect waves-dark">
+                                                    <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                    <span class="pcoded-mtext" data-i18n="nav.basic-components.alert"> Nueva Vacante </span>
+                                                    <span class="pcoded-mcaret"></span>
+                                                </a>
+                                            </li>
+                                            <li id="IdSubMenuProspectos" class="">
+                                                <a href="@Url.Action("Index", "Prospectos")" class="waves-effect waves-dark">
+                                                    <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                    <span class="pcoded-mtext" data-i18n="nav.basic-components.alert"> Prospectos </span>
+                                                    <span class="pcoded-mcaret"></span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+
+                                <ul class="pcoded-item pcoded-left-item">
+                                    <li id="IdMenuIMSS" class="pcoded-hasmenu ">
+                                        <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                            <span class="pcoded-micon"><i class="ti-server"></i></span>
+                                            <span class="pcoded-mtext" data-i18n="nav.basic-components.main">IMSS </span>
+                                            <span class="pcoded-mcaret"></span>
+                                        </a>
+                                        <ul class="pcoded-submenu">
+                                            <li id="IdSubMenuCargaIMSS" class="">
+                                                <a href="@Url.Action("Index", "IMSS")" class="waves-effect waves-dark">
+                                                    <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                    <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Carga </span>
+                                                    <span class="pcoded-mcaret"></span>
+                                                </a>
+                                            </li>
+                                            <li id="IdSubMenuDescarga" class="">
+                                                <a href="@Url.Action("Descarga", "IMSS")" class="waves-effect waves-dark">
+                                                    <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                    <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Descarga </span>
+                                                    <span class="pcoded-mcaret"></span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                                <ul class="pcoded-item pcoded-left-item">
+                                    <li id="IdMenuReportes" class="pcoded-hasmenu ">
+                                        <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                            <span class="pcoded-micon"><i class="ti-blackboard"></i></span>
+                                            <span class="pcoded-mtext" data-i18n="nav.basic-components.main">Reportes </span>
+                                            <span class="pcoded-mcaret"></span>
+                                        </a>
+                                        <ul class="pcoded-submenu">
+                                            <li id="IdSubMenulistaDocumentosCliente" class="">
+                                                <a href="@Url.Action("DocumentosCliente", "Reportes")" class="waves-effect waves-dark">
+                                                    <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                    <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Cliente documentos </span>
+                                                    <span class="pcoded-mcaret"></span>
+                                                </a>
+                                            </li>
+                                            <li id="IdSubMenulistaEmpleado" class="">
+                                                <a href="@Url.Action("Index", "Reportes")" class="waves-effect waves-dark">
+                                                    <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                    <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Empleados documentos </span>
+                                                    <span class="pcoded-mcaret"></span>
+                                                </a>
+                                            </li>
+                                            <li id="IdSubMenulistaEmpleadoPorcentaje" class="">
+                                                <a href="@Url.Action("ReporteProcentaje", "Reportes")" class="waves-effect waves-dark">
+                                                    <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                    <span class="pcoded-mtext" data-i18n="nav.basic-components.alert"> Documentos % </span>
+                                                    <span class="pcoded-mcaret"></span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                                <ul class="pcoded-item pcoded-left-item">
+                                    <li id="IdMenuConfiguracion" class="pcoded-hasmenu ">
+                                        <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                            <span class="pcoded-micon"><i class="ti-ruler-pencil"></i><b>M</b></span>
+                                            <span class="pcoded-mtext" data-i18n="nav.menu-levels.main">Configuración</span>
+                                            <span class="pcoded-mcaret"></span>
+                                        </a>
+                                        <ul class="pcoded-submenu">
+                                            @*<li class="">
+                                                    <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                                        <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                        <span class="pcoded-mtext" data-i18n="nav.menu-levels.menu-level-21">Menu Level 2.1</span>
+                                                        <span class="pcoded-mcaret"></span>
+                                                    </a>
+                                                </li>*@
+                                            <li id="IdSubMenuCatalogos" class="pcoded-hasmenu ">
+                                                <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                                    <span class="pcoded-micon"><i class="ti-direction-alt"></i></span>
+                                                    <span class="pcoded-mtext" data-i18n="nav.menu-levels.menu-level-22.main">Catálogos </span>
+                                                    <span class="pcoded-mcaret"></span>
+                                                </a>
+                                                <ul class="pcoded-submenu">
+                                                    <li id="IdCatalogosMotivosRechazo" class="">
+                                                        <a href="@Url.Action("Index", "MotivosBajaEmpleado")" class="waves-effect waves-dark">
+                                                            <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                            <span class="pcoded-mtext" data-i18n="nav.menu-levels.menu-level-22.menu-level-31">Motivos de baja</span>
+                                                            <span class="pcoded-mcaret"></span>
+                                                        </a>
+                                                    </li>
+                                                    <li id="IdCatalogosAplicaciones" class="">
+                                                        <a href="@Url.Action("Index", "Aplicaciones")" class="waves-effect waves-dark">
+                                                            <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                            <span class="pcoded-mtext" data-i18n="nav.menu-levels.menu-level-22.menu-level-31">Aplicaciones </span>
+                                                            <span class="pcoded-mcaret"></span>
+                                                        </a>
+                                                    </li>
+                                                    <li id="IdCatalogosAccesoAplicaciones" class="">
+                                                        <a href="@Url.Action("Index", "AccesoAplicaciones")" class="waves-effect waves-dark">
+                                                            <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                            <span class="pcoded-mtext" data-i18n="nav.menu-levels.menu-level-22.menu-level-31">Acceso aplicaciones</span>
+                                                            <span class="pcoded-mcaret"></span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            <li id="IdSubMenuCorreos" class="pcoded-hasmenu ">
+                                                <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                                    <span class="pcoded-micon"><i class="ti-direction-alt"></i></span>
+                                                    <span class="pcoded-mtext" data-i18n="nav.menu-levels.menu-level-22.main">Correos </span>
+                                                    <span class="pcoded-mcaret"></span>
+                                                </a>
+                                                <ul class="pcoded-submenu">
+                                                    <li class="">
+                                                        <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                                            <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                            <span class="pcoded-mtext" data-i18n="nav.menu-levels.menu-level-22.menu-level-31">Aniversario </span>
+                                                            <span class="pcoded-mcaret"></span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="">
+                                                        <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                                            <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                            <span class="pcoded-mtext" data-i18n="nav.menu-levels.menu-level-22.menu-level-31">Cumpleaños  </span>
+                                                            <span class="pcoded-mcaret"></span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="" id="IdCorreosAccesoExpediente">
+                                                        <a href="@Url.Action("Index", "Expediente")" class="waves-effect waves-dark">
+                                                            <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                            <span class="pcoded-mtext" data-i18n="nav.menu-levels.menu-level-22.menu-level-31">Expediente  </span>
+                                                            <span class="pcoded-mcaret"></span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            @*<li class="">
+                                                    <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                                        <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                        <span class="pcoded-mtext" data-i18n="nav.menu-levels.menu-level-23">Correos </span>
+                                                        <span class="pcoded-mcaret"></span>
+                                                    </a>
+                                                </li>*@
+
+                                        </ul>
+                                    </li>
+                                </ul>
+                            }
+                        </div>
+                    </nav>
+                    <div class="pcoded-content">
+
+
+                        @RenderBody()
+
+                    </div>
+
+
+                    <!-- Main-  end -->
+                    <div id="styleSelector">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*JQUERY AGREGADO*@
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
+    <script src="https://common.olemiss.edu/_js/sweet-alert/sweet-alert.min.js"></script>
+
+
+    <script type="text/javascript" src="~/assets/js/jquery-ui/jquery-ui.min.js "></script>
+    <script type="text/javascript" src="~/assets/js/popper.js/popper.min.js"></script>
+    <script type="text/javascript" src="~/assets/js/bootstrap/js/bootstrap.min.js "></script>
+    <script type="text/javascript" src="~/assets/pages/widget/excanvas.js "></script>
+    <!-- waves js -->
+    <script src="~/assets/pages/waves/js/waves.min.js"></script>
+    <!-- jquery slimscroll js -->
+    <script type="text/javascript" src="~/assets/js/jquery-slimscroll/jquery.slimscroll.js "></script>
+    <!-- modernizr js -->
+    <script type="text/javascript" src="~/assets/js/modernizr/modernizr.js "></script>
+    <!-- slimscroll js -->
+    <script type="text/javascript" src="~/assets/js/SmoothScroll.js"></script>
+    <script src="~/assets/js/jquery.mCustomScrollbar.concat.min.js "></script>
+    <!-- Chart js -->
+    @*<script type="text/javascript" src="~/assets/js/chart.js/Chart.js"></script>*@
+    <!-- amchart js -->
+    <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+    <script src="~/assets/pages/widget/amchart/gauge.js"></script>
+    <script src="~/assets/pages/widget/amchart/serial.js"></script>
+    <script src="~/assets/pages/widget/amchart/light.js"></script>
+    <script src="~/assets/pages/widget/amchart/pie.min.js"></script>
+    <script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+    <!-- menu js -->
+    <script src="~/assets/js/pcoded.min.js"></script>
+    <script src="~/assets/js/vertical-layout.min.js "></script>
+    <script src="https://common.olemiss.edu/_js/sweet-alert/sweet-alert.min.js"></script>
+    @*<script src="~/assets/js/sweetalert/sweetalert.min.js"></script>*@
+    <!-- custom js -->
+    <script type="text/javascript" src="~/assets/pages/dashboard/custom-dashboard.js"></script>
+    <script type="text/javascript" src="~/assets/js/script.js "></script>
+
+    <!-- Warning Section Ends -->
+    <!-- Required Jquery -->
+    <!--<script type="text/javascript" src="~/assets/js/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="~/assets/js/jquery-ui/jquery-ui.min.js "></script>
+    <script type="text/javascript" src="~/assets/js/popper.js/popper.min.js"></script>
+    <script type="text/javascript" src="~/assets/js/bootstrap/js/bootstrap.min.js "></script>
+    <script type="text/javascript" src="~/assets/pages/widget/excanvas.js "></script>-->
+    <!-- waves js -->
+    <!--<script src="~/assets/pages/waves/js/waves.min.js"></script>-->
+    <!-- jquery slimscroll js -->
+    <!--<script type="text/javascript" src="~/assets/js/jquery-slimscroll/jquery.slimscroll.js "></script>-->
+    <!-- modernizr js -->
+    <!--<script type="text/javascript" src="~/assets/js/SmoothScroll.js"></script>
+    <script src="~/assets/js/jquery.mCustomScrollbar.concat.min.js "></script>
+    <script src="~/assets/js/pcoded.min.js"></script>
+    <script src="~/assets/js/vertical-layout.min.js "></script>
+    <script src="~/assets/js/jquery.mCustomScrollbar.concat.min.js"></script>-->
+    <!--===============================================================================================-->
+    <!--<script src="~/vendor/sweetalert/sweetalert.min.js"></script>
+    <script src="~/assets/js/bootstrap-notify/bootstrap-notify.min.js"></script>-->
+    <script src="~/assets/js/bootstrap-notify/bootstrap-notify.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+
+        $(document).ready(function () {
+            $('[data-toggle="popover"]').popover({
+                html: true,
+                content: function () {
+                    return $('#primary-popover-content').html();
+                }
+            });
+        });
+
+        function notifiS(id) {
+
+            var obj = {};
+            obj['Id'] = id;
+
+            var jsonObject = {
+                "Dnotificacion": obj
+            };
+
+            console.log(jsonObject);
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("desactivarNot", "Administracion")",
+                async: false,
+                data: JSON.stringify(jsonObject),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+
+                    swal({
+                        title: "redirigiendo a documento.",
+                        text: '',
+                        icon: "success",
+                        button: "Aceptar",
+                    });
+                }
+            });
+        }
+
+
+
+        function CerrarSesion(id) {
+        swal({
+            title: "Confirmación de cierre de sesión",
+            text: "¿Deseas cerrar tu sesión?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Si,Cerrar sesión!",
+            closeOnConfirm: false
+        },
+            function () {
+                $.ajax({
+                    url: "@Url.Action("CerrarSesion", "Login")",
+                    type: "POST",
+                    data: '',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    error: function (response) {
+                        swal({
+                            title: "Algo ocurrió !",
+                            text: "Ha ocurrido un problema, inténtalo mas tarde ",
+                            icon: "warning",
+                            button: "Aceptar",
+                        });
+                    },
+                    success: function (response) {
+                        if (response.IdRol != 0) {
+                            swal({
+                                title: "Sesión terminada !",
+                                text: response.Nombre + " " + response.Apellidos + " regresa pronto !",
+                                icon: "success",
+                                button: "Aceptar",
+                            })
+
+                                window.location.href = "@Url.Action("Index", "Login")";
+
+                        }
+                    }
+                });
+        });
+    }
+
+
+        /* bloqueo de pantalla*/
+
+        //const app = document.getElementById('app');
+
+        //window.onload = function () {
+        //    document.addEventListener("contextmenu", function (e) {
+        //        e.preventDefault();
+        //    }, false);
+        //}
+    </script>
+    <!-- Custom js -->
+    @*<script type="text/javascript" src="~/assets/js/script.js"></script>*@
+
+
+</body>
+
+
+</html>

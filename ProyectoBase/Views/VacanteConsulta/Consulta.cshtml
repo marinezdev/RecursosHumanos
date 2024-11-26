@@ -1,0 +1,827 @@
+﻿
+@{
+    ViewBag.Title = "Consulta";
+    Layout = "~/Views/Shared/_Layout _Administracion.cshtml";
+}
+
+<link rel="stylesheet" type="text/css" href="https://common.olemiss.edu/_js/sweet-alert/sweet-alert.css">
+<link rel="stylesheet" type="text/css" href="~/assets/icon/icofont/css/icofont.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css" />
+
+<style>
+    .fondo {
+        background: linear-gradient(to right, #00bcd4, #c755db);
+        color: #ffffff;
+    }
+
+    select.form-control, select.form-control:focus, select.form-control:hover {
+        border-top: 1px;
+        border-right: 1px;
+        border-left: 1px;
+        border: 1px solid #cccccc;
+        border-radius: 2px;
+    }
+
+        select.form-control:not([size]):not([multiple]) {
+            height: 36px;
+        }
+
+    .btn-save2 {
+        border-color: #519f55;
+        color: #4caf50;
+        cursor: pointer;
+        transition: all ease-in 0.3s;
+        background: linear-gradient(to right, #efffdc, #dfffba);
+        width: 60px;
+        border-radius: 5px;
+    }
+
+    .btn-view {
+        background: linear-gradient(to right, #fff7d5, #fff1c6);
+        /* background-color: #ff5252; */
+        border-color: #ffc107;
+        color: #ff9800;
+        cursor: pointer;
+        -webkit-transition: all ease-in 0.3s;
+        transition: all ease-in 0.3s;
+        width: 60px;
+        border-radius: 5px;
+    }
+
+    .fondo-danger {
+        background: linear-gradient(to right, #b02750, #e91e63);
+        color: #ffffff;
+    }
+</style>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Bitácora de vacante </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body " id="DivContenidoBitacora">
+                <p class="text-center">No hay registro dentro de la bitácora </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="main-body">
+    <div class="page-wrapper">
+        <!-- Page-body start -->
+        <div class="page-body">
+            <div class="row">
+
+                <div class="col-xl-4 col-md-12">
+                    <div class="card fondo">
+                        <div class="card-block">
+                            <div class="row">
+                                <div class="col text-center" style="padding: 30px 20px 30px 20px">
+                                    <h4 style="font-size:38px;">¡Hola de nuevo, @ViewBag.Usuario.Nombre! </h4>
+                                    <br />
+                                    <p style="font-size:22px;">Estas son las novedades de las vacantes hasta el día de hoy .</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-8 col-md-8">
+                    <div class="row">
+                        <div class="col-xl-6 col-md-6">
+                            <div class="card" onclick="Consulta(7);">
+                                <div class="card-block">
+                                    <div class="row align-items-center">
+                                        <div class="col-8">
+                                            <h4 class="" id="TextVacantesRegistradas">0</h4>
+                                            <h6 class="text-muted m-b-0">Vacantes registradas </h6>
+                                        </div>
+                                        <div class="col-4 text-right">
+                                            <i class="fa fa-users f-28"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer bg-c-blue fondo">
+                                    <div class="row align-items-center">
+                                        <div class="col-9">
+                                            <p class="text-white m-b-0">% Vacantes</p>
+                                        </div>
+                                        <div class="col-3 text-right">
+                                            <i class="fa fa-th-list text-white f-16"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-6 col-md-6">
+                            <div class="card" onclick="Consulta(7);">
+                                <div class="card-block">
+                                    <div class="row align-items-center">
+                                        <div class="col-8">
+                                            <h4 class="" id="TextVacantesProceso">0</h4>
+                                            <h6 class="text-muted m-b-0">Vacantes en proceso  </h6>
+                                        </div>
+                                        <div class="col-4 text-right">
+                                            <i class="fa fa-users f-28"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer bg-c-blue fondo">
+                                    <div class="row align-items-center">
+                                        <div class="col-9">
+                                            <p class="text-white m-b-0">% Vacantes</p>
+                                        </div>
+                                        <div class="col-3 text-right">
+                                            <i class="fa fa-th-list text-white f-16"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xl-6 col-md-6">
+                            <div class="card" onclick="Consulta(7);">
+                                <div class="card-block">
+                                    <div class="row align-items-center">
+                                        <div class="col-8">
+                                            <h4 class="" id="TextVacantesCanceladas">0</h4>
+                                            <h6 class="text-muted m-b-0">Vacantes canceladas  </h6>
+                                        </div>
+                                        <div class="col-4 text-right">
+                                            <i class="fa fa-users f-28"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer bg-c-blue fondo-danger">
+                                    <div class="row align-items-center">
+                                        <div class="col-9">
+                                            <p class="text-white m-b-0">% Vacantes</p>
+                                        </div>
+                                        <div class="col-3 text-right">
+                                            <i class="fa fa-th-list text-white f-16"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-6 col-md-6">
+                            <div class="card" onclick="Consulta(7);">
+                                <div class="card-block">
+                                    <div class="row align-items-center">
+                                        <div class="col-8">
+                                            <h4 class="" id="TextProspectosProceso">0</h4>
+                                            <h6 class="text-muted m-b-0">Prospectos en proceso </h6>
+                                        </div>
+                                        <div class="col-4 text-right">
+                                            <i class="fa fa-users f-28"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer bg-c-blue fondo">
+                                    <div class="row align-items-center">
+                                        <div class="col-9">
+                                            <p class="text-white m-b-0">% Prospectos</p>
+                                        </div>
+                                        <div class="col-3 text-right">
+                                            <i class="fa fa-th-list text-white f-16"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-xl-8 col-md-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Estatus vacantes </h5>
+                            <span class="text-muted">Grafica de porcentaje, vacantes registradas.</span>
+                            <div class="card-header-right">
+                                <ul class="list-unstyled card-option">
+                                    <li><i class="fa fa fa-wrench open-card-option"></i></li>
+                                    <li><i class="fa fa-window-maximize full-card"></i></li>
+                                    <li><i class="fa fa-minus minimize-card"></i></li>
+                                    <li><i class="fa fa-refresh reload-card"></i></li>
+                                    <li><i class="fa fa-trash close-card"></i></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-block">
+                            <div class="row">
+                                <div class="col-xl-12 col-md-12">
+                                    <canvas id="densityChartEstatusVacantes" width="100%" height="350"></canvas>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-md-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Estatus vacantes </h5>
+                            <span class="text-muted">Tabla de vacantes registradas por estatus.</span>
+                            <div class="card-header-right">
+                                <ul class="list-unstyled card-option">
+                                    <li><i class="fa fa fa-wrench open-card-option"></i></li>
+                                    <li><i class="fa fa-window-maximize full-card"></i></li>
+                                    <li><i class="fa fa-minus minimize-card"></i></li>
+                                    <li><i class="fa fa-refresh reload-card"></i></li>
+                                    <li><i class="fa fa-trash close-card"></i></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-block">
+                            <div class="row">
+                                <div class="col-xl-12 col-md-12">
+                                    <table class="table table-striped table-hover" id="TableListaVacanteEstatus">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th class="text-center">Estatus </th>
+                                                <th class="text-center">Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{
+                                                if (ViewBag.VacanteEstatus != null)
+                                                {
+                                                    foreach (var item in ViewBag.VacanteEstatus)
+                                                    {
+                                                        <tr>
+                                                            <td class="align-middle"> <p class="text-xs text-secondary mb-0 text-center"> @item.Nombre </p></td>
+                                                            <td class="text-center">@item.Total</td>
+                                                        </tr>
+                                                    }
+                                                }
+
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xl-8 col-md-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Vacantes por cliente  </h5>
+                            <span class="text-muted">Grafica de porcentaje, vacantes por cliente registradas.</span>
+                            <div class="card-header-right">
+                                <ul class="list-unstyled card-option">
+                                    <li><i class="fa fa fa-wrench open-card-option"></i></li>
+                                    <li><i class="fa fa-window-maximize full-card"></i></li>
+                                    <li><i class="fa fa-minus minimize-card"></i></li>
+                                    <li><i class="fa fa-refresh reload-card"></i></li>
+                                    <li><i class="fa fa-trash close-card"></i></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-block">
+                            <div class="row">
+                                <div class="col-xl-12 col-md-12">
+                                    <canvas id="densityChartClienteVacantes" width="100%" height="350"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-md-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Vacantes por cliente </h5>
+                            <span class="text-muted">Tabla de vacantes registradas por clientes.</span>
+                            <div class="card-header-right">
+                                <ul class="list-unstyled card-option">
+                                    <li><i class="fa fa fa-wrench open-card-option"></i></li>
+                                    <li><i class="fa fa-window-maximize full-card"></i></li>
+                                    <li><i class="fa fa-minus minimize-card"></i></li>
+                                    <li><i class="fa fa-refresh reload-card"></i></li>
+                                    <li><i class="fa fa-trash close-card"></i></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-block">
+                            <div class="row">
+                                <div class="col-xl-12 col-md-12">
+                                    <table class="table table-striped table-hover" id="TableListaVacanteClientes">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th class="text-center">Cliente </th>
+                                                <th class="text-center">Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{
+                                                if (ViewBag.VacanteClientes != null)
+                                                {
+                                                    foreach (var item in ViewBag.VacanteClientes)
+                                                    {
+                                                        <tr>
+                                                            <td class="align-middle"> <p class="text-xs text-secondary mb-0 text-center"> @item.Nombre </p></td>
+                                                            <td class="text-center">@item.Total</td>
+                                                        </tr>
+                                                    }
+                                                }
+
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xl-8 col-md-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Estatus prospectos </h5>
+                            <span class="text-muted">Grafica de porcentaje, prospectos registrados.</span>
+                            <div class="card-header-right">
+                                <ul class="list-unstyled card-option">
+                                    <li><i class="fa fa fa-wrench open-card-option"></i></li>
+                                    <li><i class="fa fa-window-maximize full-card"></i></li>
+                                    <li><i class="fa fa-minus minimize-card"></i></li>
+                                    <li><i class="fa fa-refresh reload-card"></i></li>
+                                    <li><i class="fa fa-trash close-card"></i></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-block">
+                            <div class="row">
+                                <div class="col-xl-12 col-md-12">
+                                    <canvas id="densityChartEstatusProspectos" width="100%" height="350"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-md-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Estatus prospectos </h5>
+                            <span class="text-muted">Tabla de prospectos registrados.</span>
+                            <div class="card-header-right">
+                                <ul class="list-unstyled card-option">
+                                    <li><i class="fa fa fa-wrench open-card-option"></i></li>
+                                    <li><i class="fa fa-window-maximize full-card"></i></li>
+                                    <li><i class="fa fa-minus minimize-card"></i></li>
+                                    <li><i class="fa fa-refresh reload-card"></i></li>
+                                    <li><i class="fa fa-trash close-card"></i></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-block">
+                            <div class="row">
+                                <div class="col-xl-12 col-md-12">
+                                    <table class="table table-striped table-hover" id="TableListaEstatusProspectos">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th class="text-center">Estatus </th>
+                                                <th class="text-center">Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{
+                                                if (ViewBag.EstatusProspectos != null)
+                                                {
+                                                    foreach (var item in ViewBag.EstatusProspectos)
+                                                    {
+                                                        <tr>
+                                                            <td class="align-middle"> <p class="text-xs text-secondary mb-0 text-center"> @item.Nombre </p></td>
+                                                            <td class="text-center">@item.Total</td>
+                                                        </tr>
+                                                    }
+                                                }
+
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xl-12 col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Estatus vacantes </h5>
+                            <span class="text-muted">Grafica de porcentaje, vacantes registradas.</span>
+                            <div class="card-header-right">
+                                <ul class="list-unstyled card-option">
+                                    <li><i class="fa fa fa-wrench open-card-option"></i></li>
+                                    <li><i class="fa fa-window-maximize full-card"></i></li>
+                                    <li><i class="fa fa-minus minimize-card"></i></li>
+                                    <li><i class="fa fa-refresh reload-card"></i></li>
+                                    <li><i class="fa fa-trash close-card"></i></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-block">
+                            <div class="row">
+                                <div class="col-xl-12 col-md-12">
+                                    <table class="table table-striped table-hover" id="TableListaVacantes">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th class="text-center">Titulo</th>
+                                                <th class="text-center">Fecha registro</th>
+                                                <th class="text-center">Prospectos </th>
+                                                <th class="text-center">Días trascurridos </th>
+                                                <th class="text-center">Fecha cierre </th>
+                                                <th class="text-center">Estatus </th>
+                                                <th class="text-center"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{
+                                                if (ViewBag.Vacantes != null)
+                                                {
+                                                    foreach (var item in ViewBag.Vacantes)
+                                                    {
+                                                        <tr>
+                                                            <td class="text-center">
+                                                                <p class="text-xs text-secondary mb-0 "> @item.Titulo </p>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <p class="text-xs text-secondary mb-0 "> @item.FechaRegistro </p>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <p class="text-xs text-secondary mb-0 "> @item.Prospecto </p>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <p class="text-xs text-secondary mb-0 "> @item.Tiempo </p>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <p class="text-xs text-secondary mb-0 ">
+                                                                    @{
+                                                                        if (Convert.ToDateTime(item.FechaCierre).ToString("yyyy-MM-dd") == "0001-01-01")
+                                                                        {
+
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            @item.FechaCierre
+                                                                        }
+                                                                    }
+                                                                </p>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <p class="text-xs text-secondary mb-0 "> @item.Cat_EstatusVacante.Nombre </p>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <button class='btn waves-effect btn-save2 waves-light' onclick='MostrarBitacora( @item.Id )' data-toggle='tooltip' data-placement='top' title='' data-original-title='Mostrar bitacora'><i class='fa fa-file-text'></i></button>
+                                                                <button class='btn waves-effect btn-view waves-light ' data-toggle='tooltip' data-placement='top' title='' onclick='MostrarVacante(@item.Id)' data-original-title='Mostrar vacante'><i class='fa fa-eye'></i></button>
+                                                            </td>
+                                                            @*<td class="text-center">
+                                                                    <p class="text-xs text-secondary mb-0 "> @item.EmpresaPuestos.EmpresasDepartamento.Empresas.NombreComercial </p>
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    <p class="text-xs text-secondary mb-0 "> @item.Cat_ProyectoServicios.Cat_Clientes.Nombre </p>
+                                                                </td>
+                                                                <td class="align-middle"> <p class="text-xs text-secondary mb-0 text-center"> @item.Titulo </p></td>
+                                                                <td class="text-center">@item.Prospecto</td>
+                                                                <td class="text-center"><a onclick="Mostrar(@item.Id);" class="btn btn-out waves-effect waves-light btn-primary btn-square" style="color:#ffffff">Mostrar</a></td>*@
+                                                        </tr>
+                                                    }
+                                                }
+
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://common.olemiss.edu/_js/sweet-alert/sweet-alert.min.js"></script>
+<script src="~/assets/js/bootstrap-notify/bootstrap-notify.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="~/Vendor/chart.js/chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/emn178/chartjs-plugin-labels/src/chartjs-plugin-labels.js"></script>
+
+
+
+<script>
+    $(document).ready(function () {
+        CargaVacanteEstatus();
+        CargaVacanteCliente();
+        CargaProspectos();
+    });
+
+    function CargaVacanteEstatus() {
+        var dbData = @Html.Raw(Json.Encode(ViewBag.VacanteEstatus));
+        var VacantesRegistradas = 0;
+        var VacantesProceso = 0;
+        var VacantesCanceladas = 0;
+        var ProspectosProceso = 0;
+
+
+        const Nombres = [];
+        const Totales = [];
+
+        for (var b = 0; b < dbData.length; b++) {
+            Nombres.push(dbData[b].Nombre);
+            Totales.push(dbData[b].Total);
+
+            VacantesRegistradas += dbData[b].Total;
+
+            if (dbData[b].Nombre == 'EN PROCESO') {
+                VacantesProceso = dbData[b].Total;
+            }
+
+            if (dbData[b].Nombre == 'CANCELADA' || dbData[b].Nombre == 'CANCELADA POR CLIENTE') {
+                VacantesCanceladas = dbData[b].Total;
+            }
+        }
+
+        $("#TextVacantesRegistradas").text(VacantesRegistradas);
+        $("#TextVacantesProceso").text(VacantesProceso);
+        $("#TextVacantesCanceladas").text(VacantesCanceladas);
+
+        //var avence = respuesta.Total;
+        //var faltante = respuesta.Total - 100.00;
+
+        var densityCanvas = document.getElementById("densityChartEstatusVacantes");
+
+        Chart.defaults.global.defaultFontFamily = "Arial, sans-serifapple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif";
+        Chart.defaults.global.defaultFontSize = 14;
+
+        var densityData = {
+            label: 'Estatus',
+
+            options: {
+                legend: {
+                    labels: {
+                        // This more specific font property overrides the global property
+                        //fontColor: 'black',
+                        defaultFontFamily: 'Arial, sans-serifapple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif',
+                        fontColor: 'rgb(154, 154, 154)',
+                        usePointStyle: true,
+                    }
+                }
+            },
+
+            data: Totales,
+            backgroundColor: ["#00bcd4", "#6389d8", "#8976d9", "#a865da", "#c556db"],
+            borderWidth: 1,
+            hoverBorderWidth: 0,
+            hoverBackgroundColor: ["#00a2b7", "#3d5c9b", "#5e5097", "#643c81", "#7b3689"],
+        };
+
+        var chartOptions = {
+            responsive: true,
+            maintainAspectRatio: false
+        };
+
+        var barChart = new Chart(densityCanvas, {
+            type: 'doughnut',
+            data: {
+                labels: Nombres,
+                datasets: [densityData],
+            },
+            options: chartOptions
+        });
+
+    }
+
+    function CargaVacanteCliente() {
+        var dbData = @Html.Raw(Json.Encode(ViewBag.VacanteClientes));
+
+        const Nombres = [];
+        const Totales = [];
+
+        for (var b = 0; b < dbData.length; b++) {
+            Nombres.push(dbData[b].Nombre);
+            Totales.push(dbData[b].Total);
+        }
+
+
+        var densityCanvas = document.getElementById("densityChartClienteVacantes");
+
+        Chart.defaults.global.defaultFontFamily = "Arial, sans-serifapple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif";
+        Chart.defaults.global.defaultFontSize = 14;
+
+        var densityData = {
+            label: 'Estatus',
+
+            options: {
+                legend: {
+                    labels: {
+                        // This more specific font property overrides the global property
+                        //fontColor: 'black',
+                        defaultFontFamily: 'Arial, sans-serifapple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif',
+                        fontColor: 'rgb(154, 154, 154)',
+                        usePointStyle: true,
+                    }
+                }
+            },
+
+            data: Totales,
+            backgroundColor: ["#00bcd4", "#6389d8", "#8976d9", "#a865da", "#c556db"],
+            borderWidth: 1,
+            hoverBorderWidth: 0,
+            hoverBackgroundColor: ["#00a2b7", "#3d5c9b", "#5e5097", "#643c81", "#7b3689"],
+        };
+
+        var chartOptions = {
+            responsive: true,
+            maintainAspectRatio: false
+        };
+
+        var barChart = new Chart(densityCanvas, {
+            type: 'doughnut',
+            data: {
+                labels: Nombres,
+                datasets: [densityData],
+            },
+            options: chartOptions
+        });
+    }
+
+    function CargaProspectos() {
+        var dbData = @Html.Raw(Json.Encode(ViewBag.EstatusProspectos));
+        var ProspectosProceso = 0;
+
+        const Nombres = [];
+        const Totales = [];
+
+        for (var b = 0; b < dbData.length; b++) {
+            Nombres.push(dbData[b].Nombre);
+            Totales.push(dbData[b].Total);
+
+            if (dbData[b].Nombre == 'EN PROCESO') {
+                ProspectosProceso = dbData[b].Total;
+            }
+
+        }
+
+        $("#TextProspectosProceso").text(ProspectosProceso);
+
+
+        var densityCanvas = document.getElementById("densityChartEstatusProspectos");
+
+        Chart.defaults.global.defaultFontFamily = "Arial, sans-serifapple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif";
+        Chart.defaults.global.defaultFontSize = 14;
+
+        var densityData = {
+            label: 'Estatus',
+
+            options: {
+                legend: {
+                    labels: {
+                        // This more specific font property overrides the global property
+                        //fontColor: 'black',
+                        defaultFontFamily: 'Arial, sans-serifapple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif',
+                        fontColor: 'rgb(154, 154, 154)',
+                        usePointStyle: true,
+                    }
+                }
+            },
+
+            data: Totales,
+            backgroundColor: ["#00bcd4", "#6389d8", "#8976d9", "#a865da", "#c556db"],
+            borderWidth: 1,
+            hoverBorderWidth: 0,
+            hoverBackgroundColor: ["#00a2b7", "#3d5c9b", "#5e5097", "#643c81", "#7b3689"],
+        };
+
+        var chartOptions = {
+            responsive: true,
+            maintainAspectRatio: false
+        };
+
+        var barChart = new Chart(densityCanvas, {
+            type: 'doughnut',
+            data: {
+                labels: Nombres,
+                datasets: [densityData],
+            },
+            options: chartOptions
+        });
+    }
+
+
+    $('#TableListaVacantes, #TableListaVacanteEstatus, #TableListaVacanteClientes, #TableListaEstatusProspectos').DataTable({
+        scrollY: '60vh',
+        scrollCollapse: true,
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+        }
+    });
+
+
+    function MostrarBitacora(Id) {
+        $("#exampleModalLong").modal("show");
+
+        var Vacante = new Object();
+        Vacante.Id = Id;
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("VacanteBitacora_Seleccionar_IdVacante", "VacanteBitacora")",
+            async: false,
+            data: JSON.stringify(Vacante),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+
+                var table = "<div class='row'>" +
+                                "<div class='col-md-12' id=''>" +
+                                    "<div class='demo-inline-spacing mt-3'>" +
+                                        "<div class='list-group'>";
+                for (var b = 0; b < data.length; b++) {
+
+                    table +=           "<a href='javascript:void(0);' class='list-group-item list-group-item-action flex-column align-items-start'>" +
+                                            "<div class='d-flex justify-content-between w-100'>" +
+                                                "<h6>" + data[b].Cat_Operacion.Nombre+ "</h6>" +
+                                                "<small class='text-muted'>" + moment(data[b].FechaRegistro).format('YYYY-MM-DD')  + "</small>" +
+                                            "</div>" +
+                                            "<p class='mb-1'>" +
+                                            "<strong>" + data[b].Usuarios.Personas.Nombre + "  " + data[b].Usuarios.Personas.ApMaterno + " " + data[b].Usuarios.Personas.ApMaterno + "</strong>" + data[b].Nota +
+                                            "</p>" +
+                                                "<small class='text-muted'>" + moment(data[b].FechaRegistro).format('YYYY-MM-DD') + "</small>" +
+                                        "</a>";
+                                    }
+                    table +=            "</div>" +
+                                    "</div>" +
+                                "</div>" +
+                    "</div>";
+                if (data.length > 0) {
+                    $("#DivContenidoBitacora").html(table);
+                } else {
+                    $("#DivContenidoBitacora").html("<p class='text-center'>No hay registro dentro de la bitácora </p>");
+                }
+
+            },
+            error: function () {
+
+                $("#DivContenidoBitacora").html("<p class='text-center'>No hay registro dentro de la bitácora </p>");
+            }
+        });
+
+    }
+
+    function MostrarVacante(num)
+    {
+        window.location.href = '@Url.Action("Vacante", "Vacantes")?Id=' + num;
+    }
+</script>
+
+<script>
+    $('#IdMenuVacantes').addClass("active pcoded-trigger");
+    $('#IdSubMenuVacanteConsulta').addClass("active pcoded-trigger");
+    $('#IdSubMenuVacanteConsultaConsulta').addClass("active");
+
+    function formatDate(dateString) {
+        // Parse the date string into a Date object
+        const date = new Date(dateString);
+
+        // Convert the Date object to a formatted string
+        const formattedDate = date.toLocaleDateString();
+
+        // Return the formatted date string
+        return formattedDate;
+    }
+</script>

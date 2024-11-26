@@ -1,0 +1,392 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout _Administracion.cshtml";
+}
+
+<link rel="stylesheet" type="text/css" href="~/assets/icon/icofont/css/icofont.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css" />
+<style>
+    .alert-warning {
+        background-color: #fff;
+        border-color: #e91e63;
+        color: #fff;
+        background: linear-gradient(to right, #e36c95, #e91e63);
+        -webkit-box-shadow: 10px 10px 19px -11px rgba(51,51,51,1);
+        -moz-box-shadow: 10px 10px 19px -11px rgba(51,51,51,1);
+        box-shadow: 10px 10px 19px -11px rgba(51,51,51,1);
+    }
+
+    .sweet-mostrar {
+        background: linear-gradient(to right, #b02750, #e91e63);
+        color: #ffffff;
+    }
+
+    .sweet-mostrar:not([disabled]):hover {
+        background-color: #e91e63;
+    }
+
+    .sweet-continuar {
+        background: linear-gradient(to right, #00bcd4, #036fc5);
+        color: #ffffff;
+    }
+
+    .sweet-continuar:not([disabled]):hover {
+        background-color: #c755db;
+    }
+    .fondo-danger {
+        background: linear-gradient(to right, #b02750, #e91e63);
+        color: #ffffff;
+        border-radius: 5px;
+    }
+
+    .fondo-warning {
+        background: linear-gradient(to right, #d9a500, #dda600);
+        color: #ffffff;
+        border-radius: 5px;
+    }
+
+    .fondo-succefull {
+        background: linear-gradient(to right, #008906, #38bb3d);
+        color: #ffffff;
+        border-radius: 5px;
+    }
+</style>
+<!-- Modal -->
+<div class="modal fade" id="AgregarAplicacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Nueva aplicación </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12 col-lg-12">
+                        <div class="form-group">
+                            <label for="largeInput">* Nombre aplicación </label>
+                            <input type="text" class="form-control" id="Aplicacion_Nombre" onchange="ValidaInput('Aplicacion_Nombre')" onkeyup="mayus(this);">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="BtnCerrarAplicacion"> Cancelar</button>
+                <button type="button" class="btn btn-primary" id="BtnNuevaAplicacion">Agregar  </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="main-body">
+    <div class="page-wrapper">
+        <!-- Page-body start -->
+        <div class="page-body">
+            <div class="row">
+                <div class="col-xl-12 col-md-12">
+                    <!-- Basic Form Inputs card start -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Aplicaciones  </h5>
+                            <span>Administración de catálogo, agrega o retira aplicaciones. Completa los campos marcados *  </span>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-3 col-lg-3">
+                                    <button class="btn waves-effect waves-light btn-primary col-md-12" id="BtnNuevoMotivo" onclick="AbrirNuevaAplicacion()" data-toggle="tooltip" data-placement="top" title="" data-original-title="Agreagr nueva aplicación "> Nueva Aplicación <i class="fa fa-plus"></i></button>
+                                    <br /><br />
+                                </div>
+                                <div class="col-md-12 col-lg-12">
+                                    <strong><span>Lista de aplicaciones registradas </span></strong>
+                                    <br /><br />
+                                </div>
+                                <div class="col-md-12 col-lg-12">
+                                    <table class="table table-striped table-hover text-center" id="TableListaAplicaciones">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th class="text-center">Nombre </th>
+                                                <th class="text-center">Estatus</th>
+                                                <th class="text-center"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{
+                                                if (ViewBag.Aplicaciones != null)
+                                                {
+                                                    foreach (var Dat in ViewBag.Aplicaciones)
+                                                    {
+                                                        <tr>
+                                                            <td>
+                                                                <p>
+                                                                    <strong>@Dat.Nombre</strong>
+                                                                </p>
+                                                            </td>
+
+                                                            <td>
+                                                                <p>
+                                                                    Activo
+                                                                </p>
+                                                            </td>
+                                                            <td>
+                                                                <button class="btn waves-effect waves-light btn-danger" onclick="Eliminar(@Dat.Id)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Eliminar"><i class="icofont icofont-trash"></i></button>
+                                                            </td>
+                                                        </tr>
+
+                                                    }
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="~/assets/js/bootstrap-notify/bootstrap-notify.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+
+
+<script>
+    $('#BtnNuevaAplicacion').click(function () {
+        var Aplicacion = $('#Aplicacion_Nombre').val();
+        $('#Aplicacion_Nombre').css("border", "1px solid #f44336");
+
+        if ($('#Aplicacion_Nombre').val().length > 0) {
+            $('#Aplicacion_Nombre').css("border", "1px solid #cccccc");
+        }
+
+        var resul = false;
+
+        if (Aplicacion.length > 0) {
+            resul = true;
+        }
+
+        if (resul) {
+
+            var obj = {};
+            obj['Nombre'] = Aplicacion;
+
+            var jsonObject = {
+                "Cat_Aplicaciones": obj
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("Aplicaciones_Agregar", "Aplicaciones")",
+                async: false,
+                data: JSON.stringify(jsonObject),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: resultadoAgregar,
+                error: function () {
+                    $.notify({
+                        message: "Inténtelo mas tarde."
+                    }, {
+                        type: 'danger',
+                        allow_dismiss: false,
+                        animate: {
+                            enter: 'animated rollIn',
+                            exit: 'animated rollOut'
+                        }
+                    });
+                }
+            });
+
+        } else {
+            $.notify({
+                message: "Formulario incompleto!."
+            }, {
+                type: 'danger'
+            });
+        }
+
+    });
+
+    function resultadoAgregar(data) {
+        $("#BtnCerrarAplicacion").trigger("click");
+
+        switch (data.Id) {
+            case -1:
+                swal({
+                    title: "Algo ocurrió !",
+                    text: 'La aplicación ya se encuentra registrada.',
+                    icon: "warning",
+                    button: "Aceptar",
+                });
+                break;
+            case 0:
+                swal({
+                    title: "Algo ocurrió !",
+                    text: '',
+                    icon: "warning",
+                    button: "Aceptar",
+                });
+                break;
+
+            default:
+            // code block
+        }
+
+        if (data.Id > 0) {
+            swal({
+                title: "Nueva aplicación agregada. !",
+                icon: "success",
+                buttons: {
+                    agregar: {
+                        text: "Aceptar", className: 'sweet-continuar'
+                    },
+                },
+            }).then((value) => {
+                switch (value) {
+                    case "agregar":
+                        location.reload();
+                    break;
+                }
+            });
+        }
+    }
+
+    function AbrirNuevaAplicacion() {
+        $("#AgregarAplicacion").modal("show");
+    }
+
+    function Eliminar(num)
+    {
+        swal({
+            title: "¿Eliminar aplicación?",
+            icon: "info",
+            buttons: {
+                cancelar: {
+                    text: "Cancelar", className: 'sweet-mostrar'
+                },
+                agregar: {
+                    text: "Continuar", className: 'sweet-continuar'
+                },
+            },
+        })
+        .then((value) => {
+            switch (value) {
+                case "cancelar":
+                    break;
+                case "agregar":
+                    var obj = {};
+                    obj['Id'] = num;
+
+                    var jsonObject = {
+                        "Cat_Aplicaciones": obj
+                    };
+
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("Aplicaciones_Eliminar", "Aplicaciones")",
+                        async: false,
+                        data: JSON.stringify(jsonObject),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: resultadoDelete,
+                        error: function () {
+                            $.notify({
+                                message: "Inténtelo mas tarde."
+                            }, {
+                                type: 'danger',
+                                allow_dismiss: false,
+                                animate: {
+                                    enter: 'animated rollIn',
+                                    exit: 'animated rollOut'
+                                }
+                            });
+                        }
+                    });
+                break;
+            }
+        });
+    }
+
+    function resultadoDelete(data) {
+        switch (data.Id) {
+            case -1:
+                swal({
+                    title: "Algo ocurrió !",
+                    text: 'Aplicación no eliminada.',
+                    icon: "warning",
+                    button: "Aceptar",
+                });
+                break;
+            case 0:
+                swal({
+                    title: "Algo ocurrió !",
+                    text: '',
+                    icon: "warning",
+                    button: "Aceptar",
+                });
+                break;
+
+            default:
+            // code block
+        }
+
+        if (data.Id > 0) {
+            swal({
+                title: "Aplicación eliminada. !",
+                icon: "success",
+                buttons: {
+                    agregar: {
+                        text: "Aceptar", className: 'sweet-continuar'
+                    },
+                },
+            })
+            .then((value) => {
+                switch (value) {
+                    case "agregar":
+                        location.reload();
+                    break;
+                }
+            });
+        }
+    }
+
+    $('#TableListaAplicaciones').DataTable({
+        scrollY: '60vh',
+        scrollCollapse: true,
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+        }
+    });
+
+    $('#IdMenuConfiguracion').addClass("active pcoded-trigger");
+    $('#IdSubMenuCatalogos').addClass("active pcoded-trigger");
+    $('#IdCatalogosAplicaciones').addClass("active");
+
+</script>
+
+
+<script>
+    function errores() {
+        $.notify({
+            message: "Inténtelo mas tarde."
+        }, {
+            type: 'danger',
+            allow_dismiss: false,
+            animate: {
+                enter: 'animated rollIn',
+                exit: 'animated rollOut'
+            }
+        });
+    }
+
+    function mayus(e) {
+        e.value = e.value.toUpperCase();
+    }
+</script>

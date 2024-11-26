@@ -1,0 +1,56 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout _Administracion.cshtml";
+}
+
+<div class="main-body">
+    <div class="page-wrapper">
+        <!-- Page-body start -->
+        <div class="page-body">
+            <div class="row">
+                <div class="col-xl-12 col-md-12">
+                    <!-- Basic Form Inputs card start -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Correo electrónico expediente </h5>
+                            <span>Envió de email al concluir expediente al 100%. Completa los campos marcados *  </span>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-10 col-lg-10">
+                                   
+                                </div>
+                                <div class="col-md-2 col-lg-2">
+                                    <button class="btn waves-effect waves-light btn-primary col-md-12" onclick="window.location='@Url.Action("FormatoEmail", "Expediente")'" data-toggle="tooltip" data-placement="top" title="" data-original-title="Modificar formato email"> <i class="fa fa-envelope"></i> Formato email </button>
+                                    <br /><br />
+                                </div>
+                                <div class="col-md-12 col-lg-12">
+                                    <strong><span>Lista de empleados autorizados </span></strong>
+                                    <br /><br />
+                                </div>
+                                <div class="col-md-12 col-lg-12">
+                                    
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="~/assets/js/bootstrap-notify/bootstrap-notify.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+<script>
+   
+    $('#IdMenuConfiguracion').addClass("active pcoded-trigger");
+    $('#IdSubMenuCorreos').addClass("active pcoded-trigger");
+    $('#IdCorreosAccesoExpediente').addClass("active");
+</script>

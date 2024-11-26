@@ -1,0 +1,1288 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout _Administracion.cshtml";
+}
+
+<link rel="stylesheet" type="text/css" href="~/assets/icon/icofont/css/icofont.css">
+
+<style>
+    .fondo {
+        background: linear-gradient(to right, #00bcd4, #c755db);
+        color: #ffffff;
+    }
+
+    .fondo-warning {
+        background: linear-gradient(to right, #d9a500, #dda600);
+        color: #ffffff;
+    }
+
+    .fondo-danger {
+        background: linear-gradient(to right, #b02750, #e91e63);
+        color: #ffffff;
+    }
+
+    .table > thead > tr > th {
+        border-bottom-color: #9e9e9e;
+        background-color: #e3e3e3;
+    }
+
+    .fondo2 {
+        background: linear-gradient(to right, #fcffff, #fef5ff);
+        color: #ffffff;
+    }
+
+    .md-tabs .nav-item.open .nav-link, .md-tabs .nav-item.open .nav-link:focus, .md-tabs .nav-item.open .nav-link:hover, .md-tabs .nav-link.active, .md-tabs .nav-link.active:focus, .md-tabs .nav-link.active:hover {
+        color: #9e7cc1;
+        border: none;
+        background-color: transparent;
+        border-radius: 0;
+    }
+
+    .nav-tabs .slide {
+        background: #997dc0;
+        width: 100%;
+        height: 4px;
+        position: absolute;
+        -webkit-transition: left 0.3s ease-out;
+        transition: left 0.3s ease-out;
+        bottom: 0;
+    }
+
+</style>
+
+
+<div class="main-body">
+    <div class="page-wrapper">
+        <!-- Page-body start -->
+        <div class="page-body">
+            <div class="row">
+
+                <div class="col-xl-4 col-md-12">
+                    <div class="card fondo">
+                        <div class="card-block">
+                            <div class="row">
+                                <div class="col text-center" style="padding: 30px 20px 30px 20px">
+                                    <h4 style="font-size:38px;">¡Hola de nuevo, @ViewBag.Nombre! </h4>
+
+                                    <p style="font-size:22px;">Estas son las novedades de hoy en tu cuenta.</p>
+                                </div>
+
+                                @*<canvas id="pie-chart" width="400" height="200"></canvas>*@
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-md-12">
+                    <div class="card fondo2">
+                        <div class="card-block" style=" padding: 1px;">
+                            <div class="row">
+                                <div class="col text-center" style="padding: 30px 20px 30px 20px">
+                                    <h4 style="font-size: 25px; color: #3f51b5; ">¡Porcentaje de avance! </h4>
+                                    <div id="GraficaPocentaje" style="height: 180px">
+                                        <img src="~/Images/icons/loading__.gif" width="100%" height="100%"/>
+                                    </div>
+                                    <br />
+                                    <p style="font-size: 25px; color: #3f51b5; line-height: 0.0;" id="PPorcentaje">0 %</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-4 col-md-12">
+                    <div class="row">
+                        <div class="col-xl-12 col-md-12">
+                            <div class="card" onclick="Consulta(7);">
+                                <div class="card-block">
+                                    <div class="row align-items-center">
+                                        <div class="col-8">
+                                            <h4 class="">@ViewBag.EmpleadosTotalEmpleados.Total</h4>
+                                            <h6 class="text-muted m-b-0">Empleados registrados </h6>
+                                        </div>
+                                        <div class="col-4 text-right">
+                                            <i class="fa fa-users f-28"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer bg-c-blue fondo">
+                                    <div class="row align-items-center">
+                                        <div class="col-9">
+                                            <p class="text-white m-b-0">% Empleados</p>
+                                        </div>
+                                        <div class="col-3 text-right">
+                                            <i class="fa fa-th-list text-white f-16"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-12 col-md-12" onclick="Consulta(6);">
+                            <div class="card">
+                                <div class="card-block">
+                                    <div class="row align-items-center">
+                                        <div class="col-8">
+                                            <h4>@ViewBag.EmpleadosTotalActivos.Total</h4>
+                                            <h6 class="text-muted m-b-0">Empleados activos </h6>
+                                        </div>
+                                        <div class="col-4 text-right">
+                                            <i class="fa fa-hand-o-up f-28"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer bg-c-blue fondo">
+                                    <div class="row align-items-center">
+                                        <div class="col-9">
+                                            <p class="text-white m-b-0">% Empleados</p>
+                                        </div>
+                                        <div class="col-3 text-right">
+                                            <i class="fa fa-th-list text-white f-16"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-xl-4 col-md-12">
+                    <div class="card fondo2">
+                        <div class="card-block" style=" padding: 1px;">
+                            <div class="row">
+                                <div class="col text-center" style="padding: 30px 20px 30px 20px">
+                                    <h4 style="font-size: 25px; color: #3f51b5; ">¡Porcentaje de avance Asae! </h4>
+                                    <div id="GraficaPocentajeAsae" style="height: 180px">
+                                        <img src="~/Images/icons/loading__.gif" width="100%" height="100%"/>
+                                    </div>
+                                    <br />
+                                    <p style="font-size: 25px; color: #3f51b5; line-height: 0.0;" id="PPorcentajeAsae">0 %</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-4 col-md-12">
+                    <div class="card fondo2">
+                        <div class="card-block" style=" padding: 1px;">
+                            <div class="row">
+                                <div class="col text-center" style="padding: 30px 20px 30px 20px">
+                                    <h4 style="font-size: 25px; color: #3f51b5; ">¡Porcentaje de avance ZAAR! </h4>
+                                    <div id="GraficaPocentajeZaar" style="height: 180px">
+                                        <img src="~/Images/icons/loading__.gif" width="100%" height="100%" />
+                                    </div>
+                                    <br />
+                                    <p style="font-size: 25px; color: #3f51b5; line-height: 0.0;" id="PPorcentajeZaar">0 %</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-xl-4 col-md-12">
+                    <div class="row">
+
+                        <div class="col-xl-12 col-md-12">
+                            <div class="card" onclick="Consulta(5);">
+                                <div class="card-block">
+                                    <div class="row align-items-center">
+                                        <div class="col-8">
+                                            <h4>@ViewBag.EmpleadosTotalInactivos.Total</h4>
+                                            <h6 class="text-muted m-b-0">Empleados dados de baja  </h6>
+                                        </div>
+                                        <div class="col-4 text-right">
+                                            <i class="fa fa-hand-o-down f-28"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer bg-c-blue fondo">
+                                    <div class="row align-items-center">
+                                        <div class="col-9">
+                                            <p class="text-white m-b-0">% Empleados</p>
+                                        </div>
+                                        <div class="col-3 text-right">
+                                            <i class="fa fa-th-list text-white f-16"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-12 col-md-12">
+                            <div class="card" onclick="Consulta(1);">
+                                <div class="card-block">
+                                    <div class="row align-items-center">
+                                        <div class="col-8">
+                                            <h4>@ViewBag.EmpleadosContratosVencidos.Total</h4>
+                                            <h6 class="text-muted m-b-0" style="font-size: 12px;">Empleados Contrato Vencido </h6>
+                                        </div>
+                                        <div class="col-4 text-right">
+                                            <i class="fa fa-exclamation-triangle f-28" style="color:#ea215f"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer bg-c-blue fondo-danger">
+                                    <div class="row align-items-center">
+                                        <div class="col-9">
+                                            <p class="text-white m-b-0">% Empleados</p>
+                                        </div>
+                                        <div class="col-3 text-right">
+                                            <i class="fa fa-th-list text-white f-16"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="col-xl-12 col-md-12" >
+                    <div class="row">
+                        <div class="col-xl-12 col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Porcentaje de documentos (Avance - Faltante) </h5>
+                                    <span>Empleados activos</span>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <ul class="nav nav-tabs md-tabs " role="tablist">
+                                                <li class="nav-item">
+                                                    <a class="nav-link active" data-toggle="tab" href="#home7" role="tab"><i class="icofont icofont-chart-bar-graph"></i> Global </a>
+                                                    <div class="slide"></div>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" data-toggle="tab" href="#profile7" role="tab"><i class="icofont icofont-chart-bar-graph"></i> Asae </a>
+                                                    <div class="slide"></div>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" data-toggle="tab" href="#messages7" role="tab"><i class="icofont icofont-chart-bar-graph"></i> Zaar</a>
+                                                    <div class="slide"></div>
+                                                </li>
+                                            </ul>
+                                            <!-- Tab panes -->
+                                            <div class="tab-content card-block">
+                                                <div class="tab-pane active" id="home7" role="tabpanel">
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <canvas id="densityChartPorcentajesDocumentosLista" width="600" height="250"></canvas>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane" id="profile7" role="tabpanel">
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <canvas id="densityChartPorcentajesDocumentosListaAsae" width="600" height="250"></canvas>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane" id="messages7" role="tabpanel">
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <canvas id="densityChartPorcentajesDocumentosListaZaar" width="600" height="250"></canvas>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-12 col-md-12" style="display:none">
+                    <div class="row">
+                        <div class="col-xl-12 col-md-12">|
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Porcentaje de documentos (Avance - Faltante) </h5>
+                                    <span>Empleados activos</span>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <canvas id="GlobalChar" width="600" height="250"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-12 col-md-12">
+                    <div class="row">
+                        <div class="col-xl-12 col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Información registrada por empresa  </h5>
+                                    <span>Selecciona la empresa que deseas consultar </span>
+                                </div>
+                                <div class="card-block">
+                                    <div class="row">
+                                        <div class="col-md-5 col-lg-5">
+                                            <div class="form-group">
+                                                <label for="largeInput">* Empresa   </label>
+                                                <select class="form-control" id="Select_Empresa_Empleado">
+                                                    <option value="0">SELECCIONAR </option>
+                                                    @foreach (var item1 in ViewBag.Empresas)
+                                                    {
+                                                        <option value="@item1.Id">@item1.RazonSocial.ToUpper()</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4 col-lg-4">
+                                            <button class="btn waves-effect waves-light btn-primary col-md-12 " id="BtnGeneraReporteGraficas" onclick="BtnGeneraReporteGraficas()">  Consultar <i class="fa fa-search-plus"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row" id="ReporteGraficas" style="display:none;">
+
+                        <div class="col-xl-7 col-md-7">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Universo y vista al cliente - grafico </h5>
+                                    <span>Empleados registrados por cliente – porcentaje </span>
+                                </div>
+                                <div class="card-block">
+                                    <div class="row">
+                                        <div class="col-sm-12" id="Grafica1">
+                                            <canvas id="densityChart" width="600" height="200"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-5 col-md-5">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Universo y vista al cliente - datos </h5>
+                                    <span><strong>Cliente:</strong> Filtro por empresa, <strong>Universo:</strong> total de empleados, <strong>%:</strong> Porcentaje  </span>
+                                </div>
+                                <div class="card-block">
+                                    <div class="row">
+                                        <div class="col-sm-12" id="Tabla1">
+                                            <table class='table text-center table-hover table-striped'>
+                                                <thead class='thead-dark text-center'>
+                                                    <tr>
+                                                        <th class='text-center'><p style='margin-bottom: 0.5rem; margin-top:0.5rem;'> CLIENTE</p></th>
+                                                        <th class='text-center'><p style='margin-bottom: 0.5rem; margin-top:0.5rem;'> UNIVERSO</p></th>
+                                                        <th class='text-center'><p style='margin-bottom: 0.5rem; margin-top:0.5rem;'> %</p> </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-12 col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Completo vs Faltante - grafico (Documentos registrados)</h5>
+                                    <span>Empleados registrados por cliente, porcentaje documentos registrados  </span>
+                                </div>
+                                <div class="card-block">
+                                    <div class="row">
+                                        <div class="col-sm-12" id="Grafica2">
+                                            <canvas id="densityChart2" width="600" height="350"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-12 col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Completo vs Faltante - datos (Documentos registrados)</h5>
+                                    <span>Tabla de datos porcentajes: completo vs faltante </span>
+                                </div>
+                                <div class="card-block">
+                                    <div class="row">
+                                        <div class="col-sm-12" id="Tabla2">
+                                            <table class='table text-center table-hover table-striped'>
+                                                <thead class='thead-dark text-center'>
+                                                    <tr>
+                                                        <th class='text-center'><p style='margin-bottom: 0.5rem; margin-top:0.5rem;'> CLIENTE</p></th>
+                                                        <th class='text-center'><p style='margin-bottom: 0.5rem; margin-top:0.5rem;'> TOTAL EMPLEADOS</p></th>
+                                                        <th class='text-center'><p style='margin-bottom: 0.5rem; margin-top:0.5rem;'> COMPLETO % </p> </th>
+                                                        <th class='text-center'><p style='margin-bottom: 0.5rem; margin-top:0.5rem;'> FALTANTE % </p> </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <!-- Page-body end -->
+        </div>
+        <div id="styleSelector"> </div>
+    </div>
+</div>
+<script src="~/assets/js/jquery/jquery.min.js"></script>
+<script src="~/Vendor/chart.js/chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/emn178/chartjs-plugin-labels/src/chartjs-plugin-labels.js"></script>
+<script>
+    function Consulta(num) {
+        window.location.href = '@Url.Action("Index", "Empleados")?count=' + num;
+    }
+
+
+</script>
+
+<script>
+    $('#IdMenuDashboard').addClass("active");
+</script>
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("PersonasDocumento_Procentaje", "Documentos")",
+        /*    async: false,*/
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (respuesta) {
+                $('#GraficaPocentaje').html('');
+                $('#GraficaPocentaje').html('<canvas id="densityChartAvance" width="100%" height="200"></canvas>');
+                PintagGraficaPorcentaje(respuesta);
+            },
+            error: errores
+        });
+    });
+
+    function PintagGraficaPorcentaje(respuesta) {
+
+        var avence = respuesta.Total;
+        var faltante = respuesta.Total - 100.00;
+        $('#PPorcentaje').text(avence +" %");
+
+        var densityCanvas = document.getElementById("densityChartAvance");
+
+        Chart.defaults.global.defaultFontFamily = "Arial, sans-serifapple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif";
+        Chart.defaults.global.defaultFontSize = 14;
+
+        var densityData = {
+            label: 'Estatus',
+
+            options: {
+                legend: {
+                    labels: {
+                        // This more specific font property overrides the global property
+                        //fontColor: 'black',
+                        defaultFontFamily: 'Arial, sans-serifapple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif',
+                        fontColor: 'rgb(154, 154, 154)',
+                        usePointStyle: true,
+                    }
+                }
+            },
+
+            data: [avence, faltante *-1
+            ],
+            backgroundColor: ["#00bcd4", ],
+            borderWidth: 1,
+            hoverBorderWidth: 0,
+            hoverBackgroundColor: ["#00a2b7",],
+        };
+
+        var chartOptions = {
+            responsive: true,
+            maintainAspectRatio: false
+        };
+
+        var barChart = new Chart(densityCanvas, {
+            type: 'doughnut',
+            data: {
+                labels: ['Avance','Faltante'
+                ],
+                datasets: [densityData],
+            },
+            options: chartOptions
+        });
+    }
+
+    function errores(data) {
+        swal({
+            title: "UPS",
+            text: 'Se ha presentado un problema #18595',
+
+            type: "warning",
+            button: "Aceptar",
+        });
+    }
+
+    function errores() {
+        //$.notify({
+        //    message: "Inténtelo mas tarde."
+        //}, {
+        //    type: 'danger',
+        //    allow_dismiss: false,
+        //    animate: {
+        //        enter: 'animated rollIn',
+        //        exit: 'animated rollOut'
+        //    }
+        //});
+    }
+</script>
+
+<script>
+    $(document).ready(function () {
+
+        var Empresas = new Object();
+        Empresas.Id = 2;
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("PersonasDocumento_Procentaje_IdEmpresa", "Documentos")",
+          /*  async: false,*/
+            data: JSON.stringify(Empresas),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (respuesta) {
+                $('#GraficaPocentajeZaar').html('');
+                $('#GraficaPocentajeZaar').html('<canvas id="densityChartAvanceZaar" width="100%" height="200"></canvas>');
+                PintagGraficaPorcentajeZaar(respuesta);
+            },
+            error: errores
+        });
+    });
+
+    function PintagGraficaPorcentajeZaar(respuesta) {
+
+        var avence = respuesta.Total;
+        var faltante = respuesta.Total - 100.00;
+        $('#PPorcentajeZaar').text(avence +" %");
+
+        var densityCanvas = document.getElementById("densityChartAvanceZaar");
+
+        Chart.defaults.global.defaultFontFamily = "Arial, sans-serifapple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif";
+        Chart.defaults.global.defaultFontSize = 14;
+
+        var densityData = {
+            label: 'Estatus',
+
+            options: {
+                legend: {
+                    labels: {
+                        // This more specific font property overrides the global property
+                        //fontColor: 'black',
+                        defaultFontFamily: 'Arial, sans-serifapple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif',
+                        fontColor: 'rgb(154, 154, 154)',
+                        usePointStyle: true,
+                    }
+                }
+            },
+
+            data: [avence, faltante *-1
+            ],
+            backgroundColor: ["#00bcd4", ],
+            borderWidth: 1,
+            hoverBorderWidth: 0,
+            hoverBackgroundColor: ["#00a2b7",],
+        };
+
+        var chartOptions = {
+            responsive: true,
+            maintainAspectRatio: false
+        };
+
+        var barChart = new Chart(densityCanvas, {
+            type: 'doughnut',
+            data: {
+                labels: ['Avance','Faltante'
+                ],
+                datasets: [densityData],
+            },
+            options: chartOptions
+        });
+    }
+
+</script>
+
+<script>
+    $(document).ready(function () {
+
+        var Empresas = new Object();
+        Empresas.Id = 1;
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("PersonasDocumento_Procentaje_IdEmpresa", "Documentos")",
+        /*    async: false,*/
+            data: JSON.stringify(Empresas),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (respuesta) {
+                $('#GraficaPocentajeAsae').html('');
+                $('#GraficaPocentajeAsae').html('<canvas id="densityChartAvanceAsae" width="100%" height="200"></canvas>');
+                PintagGraficaPorcentajeAsae(respuesta);
+            },
+            error: errores
+        });
+    });
+
+    function PintagGraficaPorcentajeAsae(respuesta) {
+
+        var avence = respuesta.Total;
+        var faltante = respuesta.Total - 100.00;
+        $('#PPorcentajeAsae').text(avence +" %");
+
+        var densityCanvas = document.getElementById("densityChartAvanceAsae");
+
+        Chart.defaults.global.defaultFontFamily = "Arial, sans-serifapple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif";
+        Chart.defaults.global.defaultFontSize = 14;
+
+        var densityData = {
+            label: 'Estatus',
+
+            options: {
+                legend: {
+                    labels: {
+                        // This more specific font property overrides the global property
+                        //fontColor: 'black',
+                        defaultFontFamily: 'Arial, sans-serifapple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif',
+                        fontColor: 'rgb(154, 154, 154)',
+                        usePointStyle: true,
+                    }
+                }
+            },
+
+            data: [avence, faltante *-1
+            ],
+            backgroundColor: ["#00bcd4", ],
+            borderWidth: 1,
+            hoverBorderWidth: 0,
+            hoverBackgroundColor: ["#00a2b7",],
+        };
+
+        var chartOptions = {
+            responsive: true,
+            maintainAspectRatio: false
+        };
+
+        var barChart = new Chart(densityCanvas, {
+            type: 'doughnut',
+            data: {
+                labels: ['Avance','Faltante'
+                ],
+                datasets: [densityData],
+            },
+            options: chartOptions
+        });
+    }
+
+</script>
+
+<script>
+    function BtnGeneraReporteGraficas() {
+        var result = false;
+        $('#Select_Empresa_Empleado').css("border", "1px solid #f44336");
+
+        if ($("#Select_Empresa_Empleado option:selected").val() > 0) {
+            $('#Select_Empresa_Empleado').css("border", "1px solid #cccccc");
+        }
+
+        if ($("#Select_Empresa_Empleado option:selected").val() > 0) {
+            result = true;
+        }
+        $("#ReporteGraficas").css("display", "none");
+        if (result) {
+
+            $('#Grafica1').html("");
+            $('#Tabla1').html("");
+            $('#Grafica2').html("");
+            $('#Tabla2').html("");
+            
+            
+            $("#ReporteGraficas").show();
+
+            var _Empresa = $("#Select_Empresa_Empleado option:selected").val()
+
+            var Empresas = new Object();
+            Empresas.Id = _Empresa;
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("Empleados_Cliente_IdEmprea", "Administracion")",
+                async: false,
+                data: JSON.stringify(Empresas),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (respuesta) {
+                    $('#Grafica1').html("<canvas id='densityChart' width='600' height='250'></canvas>");
+                    $('#Tabla1').html("");
+                    PintagGrafica1(respuesta);
+                },
+                error: errores
+            });
+
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("Empleados_PersonasDocumento_Cliente_Empresas", "Administracion")",
+                async: false,
+                data: JSON.stringify(Empresas),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (respuesta) {
+
+                    $('#Grafica2').html("<canvas id='densityChart2' width='700' height='250'></canvas>");
+                    $('#Tabla2').html("");
+                    PintagGrafica2(respuesta);
+                },
+                error: errores
+            });
+
+
+            var posicion = $("#ReporteGraficas").offset().top;
+            $("html, body").animate({
+                scrollTop: posicion - 100
+            }, 1000);
+
+        } else {
+            $.notify({
+                icon: 'fa fa-paw',
+                message: "Debes completar el formulario.",
+            }, {
+                type: 'warning',
+                allow_dismiss: false,
+                animate: {
+                    enter: 'animated rollIn',
+                    exit: 'animated rollOut'
+                }
+            });
+        }
+    }
+
+
+    function PintagGrafica1(data) {
+        /*console.log(data);*/
+        var Total = [];
+        var Label = [];
+        var SumTotal = 0;
+
+        for (var b = 0; b < data.length; b++) {
+            Total.push(data[b].Total);
+            Label.push(data[b].Nombre);
+            SumTotal += data[b].Total;
+         
+        }
+
+        var Table =
+            "<table class='table table-hover table-striped text-center' id='TableListDocumentos'>" +
+                "<thead class='thead-dark text-center'>" +
+                    "<tr>" +
+                        "<th class='text-center'> <p style='margin-bottom: 0.5rem; margin-top:0.5rem;'> CLIENTE </p> </th>" +
+                        "<th class='text-center'> <p style='margin-bottom: 0.5rem; margin-top:0.5rem;'> UNIVERSO </p> </th>" +
+                        "<th class='text-center'> <p style='margin-bottom: 0.5rem; margin-top:0.5rem;'> % </p> </th>" +
+                    "</tr>" +
+                "</thead>" +
+                "<tbody>";
+
+            for (var b = 0; b < data.length; b++) {
+            Table += "<tr>" +
+                        "<td>" + data[b].Nombre + "</td>" +
+                        "<td>" + data[b].Total + " </td>" +
+                        "<td>" + ((data[b].Total * 100) / SumTotal).toFixed(2)  + " % </td>" +
+                    "</tr>";
+            }
+
+        Table += "</tbody>" +
+                 "<tfoot>" +
+                    "<tr>" +
+                        "<td><strong> Total general </strong> </td>" +
+                        "<td><strong>" + SumTotal + "</strong></td>" +
+                        "<td><strong> 100% </strong></td>" +
+                    "</tr>" +
+                "</tfoot >" +
+            "</table>";
+        $('#Tabla1').html(Table);
+
+        var densityCanvas = document.getElementById("densityChart");
+
+        Chart.defaults.global.defaultFontFamily = "Arial, sans-serifapple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif";
+        Chart.defaults.global.defaultFontSize = 14;
+
+        var densityData = {
+            label: 'Estatus',
+
+            options: {
+                legend: {
+                    labels: {
+                        // This more specific font property overrides the global property
+                        //fontColor: 'black',
+                        defaultFontFamily: 'Arial, sans-serifapple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif',
+                        fontColor: 'rgb(154, 154, 154)',
+                        usePointStyle: true,
+                    }
+                }
+            },
+
+            data: Total ,
+            backgroundColor: ["#ff6384", "#ff9f40", "#ffcd56", "#4bc0c0", "#36a2eb", "#DAF7A6", "#FFC300", "#FF5733", "#C70039", "#900C3F", "#760C56"],
+                borderWidth: 1,
+                    hoverBorderWidth: 0,
+                        hoverBackgroundColor: ["#E33C60", "#CD7B29", "#CBA13C", "#278C8C", "#2579B2", "#9DBB67", "#D09F00", "#CC3F21", "#93022B", "#64031F", "#760C56",],
+            };
+
+            var chartOptions = {
+
+            };
+
+        var barChart = new Chart(densityCanvas, {
+            type: 'doughnut',
+            data: {
+                labels: Label ,
+            datasets: [densityData],
+                    },
+            options: chartOptions
+        });
+
+    }
+
+    function PintagGrafica2(data) {
+        const Nombres = [];
+        const Completos = [];
+        const Pendientes = [];
+        var PersonasTotal = 0;
+
+        for (var b = 0; b < data.length; b++) {
+            Nombres.push(data[b].Cat_Clientes.Nombre);
+            PersonasTotal += data[b].Personas;
+            if (data[b].Total == 0) {
+                Completos.push(0);
+                if (data[b].Personas == 0) {
+                    Pendientes.push(0);
+                } else {
+                    Pendientes.push(100);
+                }
+            }
+            else if (data[b].Total > 0) {
+                Completos.push(data[b].Total).toFixed(2);
+                Pendientes.push((data[b].Total - 100.00) * -1).toFixed(2);
+            } else {
+                Completos.push(100);
+                Pendientes.push(0);
+            }
+        }
+
+        var Table =
+            "<table class='table table-hover table-striped text-center' id='TableListDocumentos'>" +
+            "<thead class='thead-dark text-center'>" +
+            "<tr>" +
+                "<th class='text-center'> <p style='margin-bottom: 0.5rem; margin-top:0.5rem;'> CLIENTE </p> </th>" +
+                "<th class='text-center'> <p style='margin-bottom: 0.5rem; margin-top:0.5rem;'> TOTAL EMPLEADOS </p> </th>" +
+                "<th class='text-center'> <p style='margin-bottom: 0.5rem; margin-top:0.5rem;'> COMPLETO % </p> </th>" +
+                "<th class='text-center'> <p style='margin-bottom: 0.5rem; margin-top:0.5rem;'> FALTANTE % </p> </th>" +
+            "</tr>" +
+            "</thead>" +
+            "<tbody>";
+        for (var b = 0; b < data.length; b++) {
+            Table += "<tr>" +
+                    "<td>" + data[b].Cat_Clientes.Nombre + "</td>" +
+                    "<td>" + data[b].Personas + "</td>";
+                    if (data[b].Total == 0) {
+                        if (data[b].Personas == 0) {
+                            Table += "<td>" + "-" + " % </td>" +
+                                "<td>" + "-" + " % </td>";
+                        } else {
+                   Table += "<td>" + 0 + " % </td>" +
+                            "<td>" + 100 + " % </td>";
+                        }
+                    } else if (data[b].Total > 0) {
+                        Table += "<td>" + data[b].Total.toFixed(2) + " % </td>" + 
+                             "<td>" + ((data[b].Total - 100.00) * -1).toFixed(2) + " % </td>";
+                        } else {
+                    Table += "<td>" + 100 + " % </td>" +
+                             "<td>" + 0 + " % </td>";
+                        }
+            Table += "</tr>";
+        }
+
+        Table += "</tbody>";
+        Table += "<tfoot>" +
+                        "<tr>" +
+                            "<td><strong> Total general </strong> </td>" +
+                            "<td><strong>" + PersonasTotal + "</strong></td>" +
+                        "</tr>" +
+                    "</tfoot >" +
+            "</table>";
+        $('#Tabla2').html(Table);
+
+
+
+    
+        var densityCanvas = document.getElementById("densityChart2");
+
+        const legendMargin = {
+            id: 'legendMargin',
+            beforeInit(chart, legend, options) {
+                console.log(chart.legend.fit);
+                const fitValue = chart.legend.fit;
+
+                chart.legend.fit = function fit() {
+                    fitValue.bind(chart.legend)();
+                    return this.height += 30;
+                }
+            }
+        }
+
+        var chart = new Chart(densityCanvas, {
+            type: 'bar',
+            data: {
+                //labels: ['Banorte', 'fin Comun', 'maba'], // responsible for how many bars are gonna show on the chart
+                // create 12 datasets, since we have 12 items
+                // data[0] = labels[0] (data for first bar - 'Standing costs') | data[1] = labels[1] (data for second bar - 'Running costs')
+                // put 0, if there is no data for the particular bar
+                labels: Nombres,
+                datasets: [{
+                    label: 'Completo',
+                    data: Completos,
+                    backgroundColor: '#00bcd4'
+                }, {
+                    label: 'Faltante',
+                    data: Pendientes,
+                   /* backgroundColor: '#994499'*/
+                },]
+            },
+            options: {
+                responsive: true,
+                
+                //legend: {
+                //    position: 'right' // place legend on the right side of chart
+                //},
+                scales: {
+                    xAxes: [{
+                        stacked: true // this should be set to make the bars stacked
+                    }],
+                    yAxes: [{
+                        stacked: true // this also..
+                    }]
+                }
+            },
+            plugins: [legendMargin]
+        });
+
+    }
+
+</script>
+
+<script>
+
+    $(document).ready(function () {
+        /*ViewBag.DocumentosPorcentaje*/
+        const consulta = [
+            @foreach (var Com in ViewBag.DocumentosPorcentaje)
+            {
+                @Html.Raw("{ TicketsCount:")
+                @Html.Raw(@Com.Total)
+                @Html.Raw(",")
+
+                @Html.Raw(" TicketsAsignedTo:'")
+                @Html.Raw(@Com.Nombre)
+                @Html.Raw("'")
+                @Html.Raw(",")
+
+
+                @Html.Raw(" TicketsClasificationType:'")
+                @Html.Raw(@Com.Estatus)
+                @Html.Raw("'")
+                @Html.Raw("},")
+            }
+        ];
+
+        const labels = Object.keys(
+            consulta.reduce((obj, label) => (obj[label.TicketsAsignedTo] = true, obj), {})
+        );
+
+        const colors = {
+            "Avance": "#00bcd4",
+            "Faltante": "#c755db",
+        };
+
+        const datasetsObject = consulta.reduce((obj, item) => {
+            obj[item.TicketsClasificationType] = obj[item.TicketsClasificationType] || {};
+            obj[item.TicketsClasificationType][item.TicketsAsignedTo] = item.TicketsCount;
+            return obj;
+        }, {});
+
+        const datasets = Object.keys(datasetsObject).map(name => ({
+            label: name,
+            backgroundColor: colors[name],
+            data: labels.map(l => datasetsObject[name][l] || 0)
+        }));
+
+        const context = document.getElementById("densityChartPorcentajesDocumentosLista").getContext("2d");
+        Chart.defaults.global.defaultFontFamily = "Arial, sans-serifapple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif";
+        Chart.defaults.global.defaultFontSize = 5;
+
+        const myBarChart = new Chart(context, {
+            type: "horizontalBar",
+            data: { labels, datasets },
+            options: {
+                legend: {
+                    display: false
+                },
+                scales: {
+                    xAxes: [{ stacked: true, scaleFontSize: 8}],
+                    yAxes: [{ stacked: true, scaleFontSize: 8 }]
+                }
+            }
+        });
+
+
+    });
+
+    $(document).ready(function () {
+        /*ViewBag.DocumentosPorcentaje*/
+        const consulta = [
+            @foreach (var Com in ViewBag.DocumentosPorcentajeAsae)
+            {
+                @Html.Raw("{ TicketsCount:")
+                @Html.Raw(@Com.Total)
+                @Html.Raw(",")
+
+                @Html.Raw(" TicketsAsignedTo:'")
+                @Html.Raw(@Com.Nombre)
+                @Html.Raw("'")
+                @Html.Raw(",")
+
+
+                @Html.Raw(" TicketsClasificationType:'")
+                @Html.Raw(@Com.Estatus)
+                @Html.Raw("'")
+                @Html.Raw("},")
+            }
+        ];
+
+        const labels = Object.keys(
+            consulta.reduce((obj, label) => (obj[label.TicketsAsignedTo] = true, obj), {})
+        );
+
+        const colors = {
+            "Avance": "#00bcd4",
+            "Faltante": "#c755db",
+        };
+
+        const datasetsObject = consulta.reduce((obj, item) => {
+            obj[item.TicketsClasificationType] = obj[item.TicketsClasificationType] || {};
+            obj[item.TicketsClasificationType][item.TicketsAsignedTo] = item.TicketsCount;
+            return obj;
+        }, {});
+
+        const datasets = Object.keys(datasetsObject).map(name => ({
+            label: name,
+            backgroundColor: colors[name],
+            data: labels.map(l => datasetsObject[name][l] || 0)
+        }));
+
+        const context = document.getElementById("densityChartPorcentajesDocumentosListaAsae").getContext("2d");
+        Chart.defaults.global.defaultFontFamily = "Arial, sans-serifapple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif";
+        Chart.defaults.global.defaultFontSize = 5;
+
+        const myBarChart = new Chart(context, {
+            type: "horizontalBar",
+            data: { labels, datasets },
+            options: {
+                legend: {
+                    display: false
+                },
+                scales: {
+                    xAxes: [{ stacked: true, scaleFontSize: 8}],
+                    yAxes: [{ stacked: true, scaleFontSize: 8 }]
+                }
+            }
+        });
+
+
+    });
+
+    $(document).ready(function () {
+        /*ViewBag.DocumentosPorcentaje*/
+        const consulta = [
+            @foreach (var Com in ViewBag.DocumentosPorcentajeZaar)
+            {
+                @Html.Raw("{ TicketsCount:")
+                @Html.Raw(@Com.Total)
+                @Html.Raw(",")
+
+                @Html.Raw(" TicketsAsignedTo:'")
+                @Html.Raw(@Com.Nombre)
+                @Html.Raw("'")
+                @Html.Raw(",")
+
+
+                @Html.Raw(" TicketsClasificationType:'")
+                @Html.Raw(@Com.Estatus)
+                @Html.Raw("'")
+                @Html.Raw("},")
+            }
+        ];
+
+        const labels = Object.keys(
+            consulta.reduce((obj, label) => (obj[label.TicketsAsignedTo] = true, obj), {})
+        );
+
+        const colors = {
+            "Avance": "#00bcd4",
+            "Faltante": "#c755db",
+        };
+
+        const datasetsObject = consulta.reduce((obj, item) => {
+            obj[item.TicketsClasificationType] = obj[item.TicketsClasificationType] || {};
+            obj[item.TicketsClasificationType][item.TicketsAsignedTo] = item.TicketsCount;
+            return obj;
+        }, {});
+
+        const datasets = Object.keys(datasetsObject).map(name => ({
+            label: name,
+            backgroundColor: colors[name],
+            data: labels.map(l => datasetsObject[name][l] || 0)
+        }));
+
+        const context = document.getElementById("densityChartPorcentajesDocumentosListaZaar").getContext("2d");
+        Chart.defaults.global.defaultFontFamily = "Arial, sans-serifapple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif";
+        Chart.defaults.global.defaultFontSize = 5;
+
+        const myBarChart = new Chart(context, {
+            type: "horizontalBar",
+            data: { labels, datasets },
+            options: {
+                legend: {
+                    display: false
+                },
+                scales: {
+                    xAxes: [{ stacked: true, scaleFontSize: 8}],
+                    yAxes: [{ stacked: true, scaleFontSize: 8 }]
+                }
+            }
+        });
+
+
+    });
+
+    $(document).ready(function () {
+        var densityCanvas = document.getElementById("GlobalChar");
+
+        Chart.defaults.global.defaultFontFamily = "Arial, sans-serifapple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif";
+        Chart.defaults.global.defaultFontSize = 14;
+
+        var densityData = {
+            label: 'Estatus',
+
+            options: {
+                legend: {
+                    labels: {
+                        // This more specific font property overrides the global property
+                        //fontColor: 'black',
+                        defaultFontFamily: 'Arial, sans-serifapple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif',
+                        fontColor: 'rgb(154, 154, 154)',
+                        usePointStyle: true,
+                    }
+                }
+            },
+
+
+            data: [
+                @{
+                    if(ViewBag.EmpleadosProyecto != null)
+                    {
+                        foreach (var Com in ViewBag.EmpleadosProyecto)
+                        {
+                            @Html.Raw(@Com.Total)
+                            @Html.Raw(",")
+                        }
+                    }
+                }
+            ],
+            backgroundColor: ["#ff6384", "#ff9f40", "#ffcd56", "#4bc0c0", "#36a2eb", "#DAF7A6", "#FFC300", "#FF5733", "#C70039", "#900C3F", "#760C56"],
+
+            borderWidth: 1,
+            hoverBorderWidth: 0,
+            hoverBackgroundColor: ["#E33C60", "#CD7B29", "#CBA13C", "#278C8C", "#2579B2", "#9DBB67", "#D09F00", "#CC3F21", "#93022B", "#64031F", "#760C56",],
+        };
+
+        var chartOptions = {
+        };
+
+        var barChart = new Chart(densityCanvas, {
+            type: 'bar',
+            data: {
+                labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+                datasets: [{
+                    data: [86, 114, 106, 106, 107, 111, 133],
+                    label: "Total",
+                    borderColor: "#3e95cd",
+                    backgroundColor: "rgb(62,149,205)",
+                    borderWidth: 2,
+                    fill: false,
+                    steppedLine: false,
+                    tension: 0.5,
+                    type: 'line',
+                }, {
+                    data: [70, 90, 44, 60, 83, 90, 100],
+                    label: "Accepted",
+                    borderColor: "#3cba9f",
+                    backgroundColor: "#3cba9f",
+                    borderWidth: 2
+                }, {
+                    data: [10, 21, 60, 44, 17, 21, 17],
+                    label: "Pending",
+                    borderColor: "#ffa500",
+                    backgroundColor: "#ffa500",
+                    borderWidth: 2,
+                }, {
+                    data: [6, 3, 2, 2, 7, 0, 16],
+                    label: "Rejected",
+                    borderColor: "#c45850",
+                    backgroundColor: "#c45850",
+                    borderWidth: 2
+                }
+                ],
+            },
+            options: chartOptions
+        });
+
+
+    });
+</script>

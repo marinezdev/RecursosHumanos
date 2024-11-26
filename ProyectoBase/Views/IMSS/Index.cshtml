@@ -1,0 +1,639 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout _Administracion.cshtml";
+}
+
+<link rel="stylesheet" type="text/css" href="~/assets/icon/icofont/css/icofont.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css" />
+<style>
+    .table td, .table th {
+        padding: 0px 0px;
+    }
+
+    .alert-warning {
+        background-color: #fff;
+        border-color: #e91e63;
+        color: #fff;
+        background: linear-gradient(to right, #e36c95, #e91e63);
+        -webkit-box-shadow: 10px 10px 19px -11px rgba(51,51,51,1);
+        -moz-box-shadow: 10px 10px 19px -11px rgba(51,51,51,1);
+        box-shadow: 10px 10px 19px -11px rgba(51,51,51,1);
+    }
+
+    .sweet-mostrar {
+        background: linear-gradient(to right, #b02750, #e91e63);
+        color: #ffffff;
+    }
+
+        .sweet-mostrar:not([disabled]):hover {
+            background-color: #e91e63;
+            /*#hover here*/
+        }
+
+    .sweet-continuar {
+        background: linear-gradient(to right, #00bcd4, #036fc5);
+        color: #ffffff;
+    }
+
+        .sweet-continuar:not([disabled]):hover {
+            background-color: #c755db;
+            /*#hover here*/
+        }
+
+    .modal {
+        z-index: 9999;
+    }
+
+    .process-step .btn:focus {
+        outline: none
+    }
+
+    .process {
+        display: table;
+        width: 100%;
+        position: relative
+    }
+
+    .process-row {
+        display: table-row
+    }
+
+    .process-step button[disabled] {
+        opacity: 1 !important;
+        filter: alpha(opacity=100) !important
+    }
+
+    .process-row:before {
+        top: 40px;
+        bottom: 0;
+        position: absolute;
+        content: " ";
+        width: 100%;
+        height: 10px;
+        background-color: #ccc;
+        z-order: 0;
+        border-radius: 5px;
+    }
+
+    .process-step {
+        display: table-cell;
+        text-align: center;
+        position: relative
+    }
+
+        .process-step p {
+            margin-top: 4px
+        }
+
+    .btn-uppload {
+        background-color: #448aff;
+        border-color: #008cb9;
+        color: #0083b4;
+        cursor: pointer;
+        -webkit-transition: all ease-in 0.3s;
+        transition: all ease-in 0.3s;
+        background: linear-gradient(to right, #ffffff, #ffffff);
+        width: 60px;
+        border-radius: 5px;
+    }
+
+        .btn-uppload:hover {
+            background-color: #448aff;
+            border-color: #b7b7b7;
+            color: #ffffff;
+            cursor: pointer;
+            -webkit-transition: all ease-in 0.3s;
+            transition: all ease-in 0.3s;
+            background: linear-gradient(to right, #b9b9b9, #cdcbcb);
+        }
+
+    .btn-uppload2 {
+        background-color: #448aff;
+        border-color: #008cb9;
+        color: #0083b4;
+        cursor: pointer;
+        -webkit-transition: all ease-in 0.3s;
+        transition: all ease-in 0.3s;
+        background: linear-gradient(to right, #ffffff, #ffffff);
+        border-radius: 5px;
+    }
+
+        .btn-uppload2:hover {
+            background-color: #448aff;
+            border-color: #b7b7b7;
+            color: #ffffff;
+            cursor: pointer;
+            -webkit-transition: all ease-in 0.3s;
+            transition: all ease-in 0.3s;
+            background: linear-gradient(to right, #b9b9b9, #cdcbcb);
+        }
+
+
+    .btn-save {
+        border-color: #519f55;
+        color: #4caf50;
+        cursor: pointer;
+        transition: all ease-in 0.3s;
+        background: linear-gradient(to right, #efffdc, #dfffba);
+    }
+
+        .btn-save:hover {
+            border-color: #8bc34a;
+            color: #ffffff;
+            cursor: pointer;
+            transition: all ease-in 0.3s;
+            background: linear-gradient(to right, #8bc34a, #8bc34a);
+        }
+
+    .btn-danger {
+        background: linear-gradient(to right, #9f1c1c, #e91e63);
+        /* background-color: #ff5252; */
+        border-color: #e91e63;
+        color: #fff;
+        cursor: pointer;
+        -webkit-transition: all ease-in 0.3s;
+        transition: all ease-in 0.3s;
+        width: 60px;
+        border-radius: 5px;
+    }
+
+        .btn-danger:hover {
+            border-color: #c1c1c1;
+            color: #cfbaba;
+            cursor: pointer;
+            -webkit-transition: all ease-in 0.3s;
+            transition: all ease-in 0.3s;
+            background: linear-gradient(to right, #a11041, #a50038);
+        }
+
+    .btn-view {
+        background: linear-gradient(to right, #fff7d5, #fff1c6);
+        /* background-color: #ff5252; */
+        border-color: #ffc107;
+        color: #ff9800;
+        cursor: pointer;
+        -webkit-transition: all ease-in 0.3s;
+        transition: all ease-in 0.3s;
+        width: 60px;
+        border-radius: 5px;
+    }
+
+        .btn-view:hover {
+            border-color: #ffeb3b;
+            color: #ffffff;
+            cursor: pointer;
+            -webkit-transition: all ease-in 0.3s;
+            transition: all ease-in 0.3s;
+            background: linear-gradient(to right, #ff9800, #ff9800);
+        }
+
+    .btn-success {
+        border-color: #ffffff;
+        color: #fff;
+        cursor: pointer;
+        -webkit-transition: all ease-in 0.3s;
+        transition: all ease-in 0.3s;
+        background: linear-gradient(to right, #11c15b, #4caf50);
+        width: 60px;
+        border-radius: 5px;
+    }
+</style>
+
+<!-- Modal -->
+<div class="modal fade" id="CargandoProcesos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Cargando ... </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12 col-lg-12">
+                        <progress id="fileProgress4" style="width:100%"></progress>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="BtnCerrarCargandoProcesos"> Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="main-body">
+    <div class="page-wrapper">
+        <!-- Page-body start -->
+        <div class="page-body">
+            <div class="row">
+                <div class="col-xl-12 col-md-12">
+                    <!-- Basic Form Inputs card start -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Carga de archivos quincenales IMSS </h5>
+                            <span>El nombre de los archivos txt debe de contener el siguiente formato: Ejemplo - <strong> Lista de raya 1ra Enero 2023 </strong> </span>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12 col-lg-12">
+
+                                    <label for="largeInput">Archivos formato .txt </label>
+                                    <br />
+                                    <button class="btn waves-effect waves-light btn-primary col-md-3" id="BtnSubirQuincena" onclick="BtnCargarQuincena()">  Subir Archivos <i class="fa fa-cloud-upload"></i></button>
+
+                                </div>
+                                <div class="col-md-12">
+                                    <input id="fileInput3" type="file" multiple style="visibility:hidden">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 table-responsive" id="TablaQuincenas">
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 text-right">
+                                    <br />
+                                    <button class="btn waves-effect waves-light btn-save" id="BtnRegistrar" onclick="BtnRegistrarQuincena()">  Registrar Quincenas <i class="fa fa-floppy-o"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="~/assets/js/bootstrap-notify/bootstrap-notify.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
+<script>
+    function BtnRegistrarQuincena() {
+        swal({
+            title: "¿Registrar Quincenas?",
+            icon: "info",
+            buttons: {
+                cancelar: {
+                    text: "Cancelar", className: 'sweet-mostrar'
+                },
+                agregar: {
+                    text: "Continuar", className: 'sweet-continuar'
+                },
+            },
+        })
+        .then((value) => {
+            switch (value) {
+                case "cancelar":
+                    break;
+                case "agregar":
+
+                    $("#CargandoProcesos").modal("show");
+
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("IMSS_Archivo_Registrar", "IMSS")",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (respuesta) {
+                            CerrarModal();
+
+                            if (respuesta) {
+                                swal({
+                                    title: "Operación exitosa.!",
+                                    text: "Quincenas registradas ",
+                                    icon: "success",
+                                    buttons: {
+                                        agregar: {
+                                            text: "Continuar", className: 'sweet-continuar'
+                                        },
+                                    },
+                                }).then((value) => {
+                                    switch (value) {
+                                        case "agregar":
+                                        location.reload();
+                                    break;
+                                    }
+                                });
+                            } else {
+                                $.notify({
+                                    message: "Agrega archivos a la lista",
+                                }, {
+                                    type: 'warning',
+                                    allow_dismiss: false,
+                                    animate: {
+                                        enter: 'animated rollIn',
+                                        exit: 'animated rollOut'
+                                    }
+                                });
+                            }
+                        },
+                        error: errores
+                    }).done(function (results) {
+                        setTimeout(CerrarModal, 1000);
+                    });
+                break;
+            }
+        });
+    }
+
+    function BtnCargarQuincena() {
+        $("#fileInput3").click();
+    }
+
+    $('#fileInput3').change(function () {
+        var fileInput = document.getElementById('fileInput3');
+
+
+        if (fileInput.files.length > 0) {
+            for (i = 0; i < fileInput.files.length; i++) {
+                var ext = fileInput.files[i].name.split('.').pop();
+                Extencion = fileInput.files[i].name.split('.').pop();
+
+                // Convertimos en minúscula porque
+                // la extensión del archivo puede estar en mayúscula
+                ext = ext.toLowerCase();
+
+                if (ext == 'txt') {
+
+                    Carga = true;
+                } else {
+                    Carga = false;
+                    Formato = ext;
+                    break;
+                }
+            }
+
+            for (i = 0; i < fileInput.files.length; i++) {
+                var filesize = ((fileInput.files[i].size / 1024) / 1024).toFixed(4);
+
+                if (filesize < 10) {
+                    CargaTam = true;
+                } else {
+                    CargaTam = false;
+                    Tam = filesize;
+                    break;
+                }
+            }
+
+            if (Carga) {
+                if (CargaTam) {
+
+
+                    $("#BtnSubirQuincena").prop('disabled', true);
+                    var formData = new FormData();
+
+                    for (i = 0; i < fileInput.files.length; i++) {
+                        formData.append(fileInput.files[i].name, fileInput.files[i]);
+                    }
+
+                    $("#CargandoProcesos").modal("show");
+
+                    $.ajax({
+                        url: '/api/FileAPI/UploadFilesIMSS',
+                        type: 'POST',
+                        data: formData,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        success: function (ListArchivos) {
+                            $("#BtnSubirQuincena").prop('disabled', false);
+
+                            CargaArchivos(ListArchivos);
+                        },
+                        xhr: function () {
+
+                            var fileXhr = $.ajaxSettings.xhr();
+                            if (fileXhr.upload) {
+                                $("progress").show();
+                                fileXhr.upload.addEventListener("progress", function (e) {
+                                    if (e.lengthComputable) {
+                                        $("#fileProgress3").attr({
+                                            value: e.loaded,
+                                            max: e.total
+                                        });
+                                    }
+                                }, false);
+                            }
+                            return fileXhr;
+                        },
+                        error: function () {
+
+                            $("#BtnSubirQuincena").prop('disabled', false);
+                            $.notify({
+                                message: "Problemas para leer el archivo",
+                            }, {
+                                type: 'warning',
+                                allow_dismiss: false,
+                                animate: {
+                                    enter: 'animated rollIn',
+                                    exit: 'animated rollOut'
+                                }
+                            });
+
+                            CerrarModal();
+                        }
+                    }).done(function (results) {
+                        setTimeout(CerrarModal, 1000);
+                    });;
+
+
+                } else {
+                    $.notify({
+                        message: "Intentas cargar una imagen muy pesada: " + Tam + " MG" + " Límite permitido 10 MG",
+                    }, {
+                        type: 'warning',
+                        allow_dismiss: false,
+                        animate: {
+                            enter: 'animated rollIn',
+                            exit: 'animated rollOut'
+                        }
+                    });
+                }
+            } else {
+                $.notify({
+                    message: "Intentas cargar un formato no permitido: " + Formato + " , formato de archivo permitido: .txt ",
+                }, {
+                    type: 'warning',
+                    allow_dismiss: false,
+                    animate: {
+                        enter: 'animated rollIn',
+                        exit: 'animated rollOut'
+                    }
+                });
+            }
+
+        } else {
+            $("#BtnSubirQuincena").prop('disabled', false);
+            $.notify({
+                message: "Selecciona un archivo."
+            }, {
+                type: 'danger',
+                allow_dismiss: false,
+                animate: {
+                    enter: 'animated rollIn',
+                    exit: 'animated rollOut'
+                }
+            });
+        }
+    });
+
+    function CargaArchivos(data) {
+        console.log(data);
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("IMSS_Archivo_Agregar", "IMSS")",
+            async: false,
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (respuesta) {
+                PintaArchvos(respuesta)
+	        },
+            error: Error
+        });
+
+    }
+
+    function PintaArchvos(data) {
+        console.log(data);
+        $('#TablaNivelEstudios').html('');
+        var Table =
+                 "<table class='table table-striped table-hover text-center' id='TablaLsitaDocumentos'>" +
+                     "<thead class='thead-dark'>" +
+                         "<tr>" +
+                            "<th class='text-center'><p style='margin-bottom: 0.5rem; margin-top:0.5rem;'>Fecha</p></th>" +
+                            "<th class='text-center'><p style='margin-bottom: 0.5rem; margin-top:0.5rem;'>Archivo</p></th>" +
+                            "<th> </th>" +
+                         "</tr>" +
+                     "</thead>" +
+                 "<tbody>";
+
+        if (data.length > 0) {
+            for (var b = 0; b < data.length; b++) {
+                if (data[b].Resgistro) {
+                    Table +=   "<tr style='background-color: #fff1e5;'>" +
+                         "<td >" +
+                             "<p style='font-size:13px;'>" +
+                                "<strong>" + data[b].Cat_Quincena.Nombre + " - " + data[b].Cat_Quincena.Mes + "</strong>" +
+                             "</p>" +
+                         "</td >" +
+                         "<td >" +
+                             "<p style='font-size:13px;'>" +
+                                "" + data[b].NmOriginal + "" +
+                             "</p>" +
+                         "</td >" +
+                         "<td >" +
+                             "<p style='font-size:13px;'>" +
+                                "<strong>  Quincena ya registrada </strong>" +
+                             "</p>" +
+                         "</td >" +
+                    "</tr >";
+                } else {
+        Table +=   "<tr>" +
+                         "<td >" +
+                             "<p style='font-size:13px;'>" +
+                                "<strong>" + data[b].Cat_Quincena.Nombre + " - " + data[b].Cat_Quincena.Mes + "</strong>" +
+                             "</p>" +
+                         "</td >" +
+                         "<td >" +
+                             "<p style='font-size:13px;'>" +
+                                "" + data[b].NmOriginal + "" +
+                             "</p>" +
+                         "</td >" +
+                         "<td >" +
+                            "<button class='btn waves-effect waves-light btn-danger ' data-toggle='tooltip' data-placement='top' title='Eliminar Archivo' onclick='EliminarArchivo(" + b + ")'><i class='fa fa-trash'></i></button>" +
+                         "</td >" +
+                    "</tr >";
+                }
+            }
+        }
+        Table += "</tbody>" +
+            "</table>";
+
+        $('#TablaQuincenas').html(Table);
+        $('[data-toggle="tooltip"]').tooltip();
+
+        $('#TablaLsitaDocumentos').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+            },
+            "scrollY": "500px",
+            "scrollCollapse": true,
+        });
+
+    }
+
+    function EliminarArchivo(num) {
+        swal({
+            title: "¿Eliminar Registro?",
+            icon: "info",
+            buttons: {
+                cancelar: {
+                    text: "Cancelar", className: 'sweet-mostrar'
+                },
+                agregar: {
+                    text: "Continuar", className: 'sweet-continuar'
+                },
+            },
+        })
+        .then((value) => {
+            switch (value) {
+                case "cancelar":
+                    break;
+                case "agregar":
+
+                    var ArchivoQuincena = new Object();
+                    ArchivoQuincena.Id = num;
+
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("IMSS_Archivo_Eliminar", "IMSS")",
+                        data: JSON.stringify(ArchivoQuincena),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (respuesta) {
+                            PintaArchvos(respuesta);
+                        },
+                        error: errores
+                    });
+                break;
+            }
+        });
+    }
+
+    function CerrarModal() {
+        $("#BtnCerrarCargandoProcesos").trigger("click");
+    }
+
+    function errores(data) {
+        swal({
+            title: "UPS",
+            text: 'Se ha presentado un problema #18595',
+
+            type: "warning",
+            button: "Aceptar",
+        });
+    }
+
+</script>
+
+<script>
+    $('#IdMenuIMSS').addClass("active pcoded-trigger");
+    $('#IdSubMenuCargaIMSS').addClass("active");
+</script>

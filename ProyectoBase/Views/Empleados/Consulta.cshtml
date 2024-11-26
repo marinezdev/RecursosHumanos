@@ -1,0 +1,1212 @@
+﻿
+@{
+    ViewBag.Title = "Consulta";
+    Layout = "~/Views/Shared/_Layout _Administracion.cshtml";
+}
+<link rel="stylesheet" type="text/css" href="~/assets/icon/icofont/css/icofont.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css" />
+
+<style>
+    .alert-warning {
+        background-color: #fff;
+        border-color: #e91e63;
+        color: #fff;
+        background: linear-gradient(to right, #e36c95, #e91e63);
+        -webkit-box-shadow: 10px 10px 19px -11px rgba(51,51,51,1);
+        -moz-box-shadow: 10px 10px 19px -11px rgba(51,51,51,1);
+        box-shadow: 10px 10px 19px -11px rgba(51,51,51,1);
+    }
+
+    .sweet-mostrar {
+        background: linear-gradient(to right, #b02750, #e91e63);
+        color: #ffffff;
+        /* background-color: black;*/
+        /*#or anything you wanna do with the button*/
+    }
+
+        .sweet-mostrar:not([disabled]):hover {
+            background-color: #e91e63;
+            /*#hover here*/
+        }
+
+    .sweet-continuar {
+        background: linear-gradient(to right, #00bcd4, #036fc5);
+        color: #ffffff;
+    }
+        /*#or anything you wanna do with the button*/
+
+
+        .sweet-continuar:not([disabled]):hover {
+            background-color: #c755db;
+            /*#hover here*/
+        }
+    .md-tabs .nav-item.open .nav-link, .md-tabs .nav-item.open .nav-link:focus, .md-tabs .nav-item.open .nav-link:hover, .md-tabs .nav-link.active, .md-tabs .nav-link.active:focus, .md-tabs .nav-link.active:hover {
+        color: #1da5b9;
+        border: none;
+        background-color: transparent;
+        border-radius: 0;
+    }
+
+    .nav-tabs .slide {
+        background: #1da5b9;
+        width: 100%;
+        height: 4px;
+        position: absolute;
+        -webkit-transition: left 0.3s ease-out;
+        transition: left 0.3s ease-out;
+        bottom: 0;
+    }
+
+    .img-fluid {
+        max-width: 100%;
+        height: 150px;
+    }
+
+    .fondo-danger {
+        background: linear-gradient(to right, #b02750, #e91e63);
+        color: #ffffff;
+        border-radius: 5px;
+    }
+
+    .fondo-warning {
+        background: linear-gradient(to right, #d9a500, #dda600);
+        color: #ffffff;
+        border-radius: 5px;
+    }
+
+    .fondo-succefull {
+        background: linear-gradient(to right, #008906, #38bb3d);
+        color: #ffffff;
+        border-radius: 5px;
+    }
+
+    .table td, .table th {
+        padding: 1.25rem -0.25rem;
+    }
+    .thead-dark {
+        background: linear-gradient(to right, #06b9d3, #0070a3);
+        color: #fff;
+    }
+</style>
+
+<div class="modal fade bd-example-modal-lg" id="Archivo" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Archivo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12 text-left">
+                        <div style="width: 100%; height: 400px">
+                            <!--documento aquí-->
+                            <iframe id="iframepdf" title="webviewer" frameborder="0" width="100%" height="100%" &toolbar="0"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade bd-example-modal-lg" id="Examen" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Examen</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12 text-left">
+                        <div style="width: 100%; height: 400px">
+                            <!--documento aquí-->
+                            <iframe id="iframepdfExamen" title="webviewer" frameborder="0" width="100%" height="100%" &toolbar="0"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade bd-example-modal-lg" id="Prueba" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Prueba</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12 text-left">
+                        <div style="width: 100%; height: 400px">
+                            <!--documento aquí-->
+                            <iframe id="iframepdfPrueba" title="webviewer" frameborder="0" width="100%" height="100%" &toolbar="0"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="MotivosRechazo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                    Motivos de baja empleado <br />
+                    <span style="font-size:14px">Seleccione uno o más motivos de baja</span>
+                </h5>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12 col-lg-12">
+                        @{
+                            if (ViewBag.MotivosBajaEmpleados != null)
+                            {
+                                foreach (var Dat in ViewBag.MotivosBajaEmpleados)
+                                {
+                                    <label><input type="checkbox" id="cbox_@Dat.Id" name="checksMotivosBaja[]" value="@Dat.Id"> @Dat.Nombre</label>
+                                    <br />
+                                }
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary col-lg-6" data-dismiss="modal" id="BtnCerrarMotivosBaja"> Cancelar</button>
+                <button type="button" class="btn btn-primary col-lg-6" id="BtnDarBaja" onclick="DarDeBaja()">Dar de baja  </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Page-header start -->
+<div class="page-header">
+    <div class="page-block">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <div class="page-header-title">
+                    <h5 class="m-b-10">Consulta de empelado  </h5>
+                    <p class="m-b-0">Información de empleado  </p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <ul class="breadcrumb-title">
+                    <li class="breadcrumb-item">
+                        <a href="#!"> <i class="fa fa-home"></i> </a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="#!">RH </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="main-body">
+    <div class="page-wrapper">
+        <!-- Page-body start -->
+        <div class="page-body">
+            <div class="row">
+                <div class="col-xl-7 col-md-12">
+                    <div class="card">
+                        <div class="card-header ">
+                            <h5>
+                                Empleado Folio: @ViewBag.Personas.PersonasFolio.FolioCompuesto
+
+                                @if (ViewBag.Personas.Empleados.systemStatus == 1)
+                                {
+
+                                    @Html.Raw("- Activo")
+                                }
+                                else
+                                {
+
+                                    @Html.Raw("- Baja")
+                                }
+                            </h5>
+                            <span>Información de empleado </span>
+                        </div>
+                        <div class="card-block">
+                            <div class="row">
+                                <div class="col-sm-12 text-center">
+                                    <img src="https:\\rechumanos.asae.com.mx\\DocumentosTemporales\\@ViewBag.Foto" class="img-fluid img-circle text-center" width="30%" />
+                                    @*<h5>Información Basica  </h5>
+                                        <hr />
+                                        <p><strong>Nombre: </strong> @ViewBag.Personas.Nombre</p>*@
+                                </div>
+                                <div class="col-sm-12">
+                                    <h5>Información Basica  </h5>
+                                    <hr />
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <p><strong>Nombre: </strong> @ViewBag.Personas.Nombre</p>
+                                            <p><strong>Fecha Nacimiento: </strong> @ViewBag.Personas.PersonasDetalle.FechaNacimiento</p>
+                                            <p><strong>Sexo: </strong> @*@ViewBag.Personas.SexoTxt*@</p>
+                                            <p><strong>Estado Civil: </strong> @ViewBag.Personas.PersonasDetalle.Cat_EstadoCivil.Nombre</p>
+                                            <p><strong>RFC: </strong> @ViewBag.Personas.PersonasDetalle.RFC</p>
+                                            <p><strong>CURP: </strong> @ViewBag.Personas.PersonasDetalle.CURP</p>
+                                        </div>
+                                        <div class="col-sm-6">
+
+                                            <p><strong>NSS: </strong> @ViewBag.Personas.PersonasDetalle.NSS</p>
+                                            <p><strong>Cuenta con algún crédito: </strong> @ViewBag.Personas.PersonasDetalle.Cat_TipoCredito.Nombre</p>
+                                            <p><strong>Banco: </strong> @ViewBag.Personas.PersonasDetalle.Cat_Banco.Nombre</p>
+                                            <p><strong>Clave Interbancaria: </strong> @ViewBag.Personas.PersonasDetalle.ClaveInterbancaria</p>
+                                            <p><strong>No. de empleado en nomina: </strong> @ViewBag.Personas.PersonasDetalle.NoNomina</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <button class="btn waves-effect waves-light fondo-danger col-md-12" onclick="MostrarPDF(@ViewBag.Personas.Id)"> CheckList  <i class="fa fa-file-pdf-o fa-2"></i></button>
+                                        </div>
+                                        <div class="col-md-4">
+                                            @if (ViewBag.Personas.Empleados.systemStatus == 1)
+                                            {
+                                                <button class="btn waves-effect waves-light fondo-warning col-md-12" onclick="ValidarDarDeBaja()">  Dar de baja   <i class="fa fa-hand-o-down fa-2"></i></button>
+                                            }
+                                            else
+                                            {
+                                                <button class="btn waves-effect waves-light fondo-succefull col-md-12" onclick="DarDeAlta()">  Dar de alta   <i class="fa fa-hand-o-up fa-2"></i></button>
+                                            }
+                                        </div>
+                                        <div class="col-md-4">
+                                            <button class="btn waves-effect waves-light fondo-succefull col-md-12" onclick="Editar(@ViewBag.Personas.Id)">  Editar  <i class="fa fa-pencil fa-2"></i></button>
+                                        </div>
+
+                                    </div>
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <button class="btn waves-effect waves-light fondo-danger col-md-12" onclick="MostrarExpediente(@ViewBag.Personas.Id)"> Expediente  <i class="fa fa-file-pdf-o fa-2"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-5 col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Documentación  </h5>
+                            <span>Porcentaje de documentación </span>
+                        </div>
+                        <div class="card-block">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <canvas id="densityChart" width="600" height="450"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-12 col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Contacto  </h5>
+                            <span> </span>
+                        </div>
+                        <div class="card-block">
+                            <div class="row">
+                                <div class="col-xl-12 col-md-12">
+                                    <ul class="nav nav-tabs md-tabs " role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" data-toggle="tab" href="#home7" role="tab"><i class="icofont icofont-home"></i> Información</a>
+                                            <div class="slide"></div>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-toggle="tab" href="#profile7" role="tab"><i class="icofont icofont-ui-user "></i> Puesto - Entrevista</a>
+                                            <div class="slide"></div>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-toggle="tab" href="#messages7" role="tab"><i class="icofont icofont-ui-message"></i> Examen</a>
+                                            <div class="slide"></div>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-toggle="tab" href="#settings7" role="tab"><i class="icofont icofont-ui-settings"></i> Psicométrico</a>
+                                            <div class="slide"></div>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-toggle="tab" href="#Aplicaciones7" role="tab"><i class="icofont icofont-share"></i> Acceso aplicaciones </a>
+                                            <div class="slide"></div>
+                                        </li>
+                                    </ul>
+                                    <!-- Tab panes -->
+                                    <div class="tab-content card-block">
+                                        <div class="tab-pane active" id="home7" role="tabpanel">
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <h5>Contacto </h5>
+                                                    <br />
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <p><strong> Teléfono Celular: </strong> @ViewBag.Personas.PersonasDetalle.TelefonoCelular</p>
+                                                            <p><strong> Teléfono Fijo: </strong> @ViewBag.Personas.PersonasDetalle.TelefonoFijo</p>
+                                                            @{
+                                                                foreach (var Dat in ViewBag.PersonasEMails)
+                                                                {
+                                                                    <p><strong> @Dat.Tipo : </strong> @Dat.EMail</p>
+                                                                }
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                    <br />
+                                                    <h5>Información Académica</h5>
+                                                    <br />
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            @*<p><strong> Ultimo grado de estudios: </strong> @ViewBag.Personas.Estudios</p>
+                                                                <p><strong> Estatus: </strong> @ViewBag.Personas.EstatusEstudios</p>
+                                                                <p><strong> Nivel de Ingles: </strong> @ViewBag.Personas.NivelIngles</p>*@
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <h5>Dirección </h5>
+                                                    <br />
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            @{
+                                                                foreach (var Dat in ViewBag.PersonasDirecciones)
+                                                                {
+                                                                    <p><strong> Dirección : </strong> @Dat.Estado , @Dat.Poblacion, @Dat.Colonia , @Dat.CP</p>
+                                                                    <p><strong> Calle: </strong> @Dat.Calle</p>
+                                                                    <p><strong> NumExterior: </strong> @Dat.NumExterior</p>
+                                                                    <p><strong> NumInteriror: </strong> @Dat.NumInteriror</p>
+                                                                    <p><strong> Entre Calles: </strong> @Dat.EntreCalles</p>
+                                                                    <p><strong> Referencias: </strong> @Dat.Referencias</p>
+                                                                }
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12 col-lg-12">
+                                                    <br />
+                                                    <h5> Cursos, diplomados o certificaciones </h5>
+                                                    <br />
+                                                    <button class="btn waves-effect waves-light btn-primary col-md-2" id="BtnMostrarCDC" onclick="MostrarCDC()">  Mostrar  <i class="fa fa-th-list"></i></button>
+                                                    <br /><br />
+                                                </div>
+                                            </div>
+                                            <div class="row" id="DivFormCDC" style="display:none;">
+                                                <div class="col-md-12 col-lg-12">
+                                                    @if (@ViewBag.PersonasCursos != null)
+                                                    {
+                                                        <table class="table table-striped text-center table-hover">
+                                                            <thead class="thead-dark text-center">
+                                                                <tr>
+                                                                    <th class="text-center">Nombre Curso </th>
+                                                                    <th class="text-center">Fecha </th>
+                                                                    <th class="text-center">Acreditido</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @{
+                                                                    foreach (var Dat in ViewBag.PersonasCursos)
+                                                                    {
+                                                                        <tr>
+                                                                            <td><strong>@Dat.Cat_Cursos.Nombre</strong> </td>
+                                                                            <td>@Convert.ToDateTime(@Dat.FechaTermino).ToString("yyyy-MM-dd")</td>
+                                                                            <td>
+                                                                                @Dat.Acreditado
+                                                                            </td>
+                                                                        </tr>
+                                                                    }
+                                                                }
+                                                            </tbody>
+                                                        </table>
+                                                    }
+                                                </div>
+                                                <div class="col-md-12 col-lg-12">
+                                                    @if (@ViewBag.PersonasDiplomados != null)
+                                                    {
+                                                        <table class="table table-striped text-center table-hover">
+                                                            <thead class="thead-dark text-center">
+                                                                <tr>
+                                                                    <th class="text-center">Nombre Diplomado </th>
+                                                                    <th class="text-center">Fecha </th>
+                                                                    <th class="text-center">Aprobado</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @{
+                                                                    foreach (var Dat in ViewBag.PersonasDiplomados)
+                                                                    {
+                                                                        <tr>
+                                                                            <td><strong>@Dat.Cat_Diplomados.Nombre</strong> </td>
+                                                                            <td>@Convert.ToDateTime(@Dat.FechaTermino).ToString("yyyy-MM-dd") </td>
+                                                                            <td>
+                                                                                @Dat.Aprobado
+                                                                            </td>
+                                                                        </tr>
+                                                                    }
+                                                                }
+                                                            </tbody>
+                                                        </table>
+                                                    }
+                                                </div>
+                                                <div class="col-md-12 col-lg-12">
+                                                    @if (@ViewBag.PersonasCertificaciones != null)
+                                                    {
+                                                        <table class="table table-striped text-center table-hover">
+                                                            <thead class="thead-dark text-center">
+                                                                <tr>
+                                                                    <th class="text-center">Nombre Certificado </th>
+                                                                    <th class="text-center">Fecha </th>
+                                                                    <th class="text-center">Certificado</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @{
+                                                                    foreach (var Dat in ViewBag.PersonasCertificaciones)
+                                                                    {
+                                                                        <tr>
+                                                                            <td><strong>@Dat.Cat_Certificaciones.Nombre</strong> </td>
+                                                                            <td>
+                                                                                @Convert.ToDateTime(@Dat.FechaTermino).ToString("yyyy-MM-dd")
+                                                                            </td>
+                                                                            <td>
+                                                                                @Dat.Aprobado
+                                                                            </td>
+                                                                        </tr>
+                                                                    }
+                                                                }
+                                                            </tbody>
+                                                        </table>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane" id="profile7" role="tabpanel">
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <h5>Información del Puesto </h5>
+                                                    <br />
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <p><strong> Empresa: </strong> @ViewBag.Personas.Empleados.EmpresaPuestos.EmpresasDepartamento.Empresas.NombreComercial</p>
+                                                            <p><strong> Departamento: </strong> @ViewBag.Personas.Empleados.EmpresaPuestos.EmpresasDepartamento.Nombre</p>
+                                                            <p><strong> Puestos: </strong> @ViewBag.Personas.Empleados.EmpresaPuestos.Nombre</p>
+                                                            <p><strong> Cliente: </strong> @ViewBag.Personas.PersonasDetalle.Cat_Clientes.Nombre</p>
+                                                            <p><strong> Proyecto - Servicios: </strong> @ViewBag.Personas.PersonasDetalle.Cat_ProyectoServicios.Nombre</p>
+                                                            <p><strong> Esquema de Contratacion: </strong> @ViewBag.Personas.PersonasDetalle.Cat_EsquemaContratacion.Nombre</p>
+                                                            <p><strong> Sueldo: </strong> @ViewBag.Personas.PersonasDetalle.Sueldo</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @if (@ViewBag.PersonasExperiencia.Count > 0)
+                                                {
+                                                    <div class="col-sm-6">
+                                                        <h5>Experiencia </h5>
+                                                        <br />
+                                                        <div class="row">
+                                                            <div class="col-sm-12">
+                                                                @{
+                                                                    foreach (var Dat in ViewBag.PersonasExperiencia)
+                                                                    {
+                                                                        <p><strong> Empresa: </strong> @Dat.Empresa </p>
+                                                                        <p><strong> Puesto: </strong> @Dat.Puesto </p>
+                                                                        <p><strong> MotivoSalida: </strong> @Dat.MotivoSalida </p>
+                                                                        <p><strong> Actividades: </strong> @Dat.Actividades </p>
+                                                                    }
+                                                                }
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                }
+
+                                                @if (@ViewBag.Entrevistas != null)
+                                                {
+                                                    <div class="col-sm-12">
+                                                        <h5>Entrevitas  </h5>
+                                                        <br />
+                                                        <div class="row">
+                                                            <div class="col-sm-12">
+                                                                <table class="table table-striped text-center table-hover col-sm-12">
+                                                                    <thead class="thead-dark text-center">
+                                                                        <tr>
+                                                                            <th class="text-center">Entrevisto </th>
+                                                                            <th class="text-center">Fecha Entrevista </th>
+                                                                            <th class="text-center">Observaciones </th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        @{
+                                                                            foreach (var Dat in ViewBag.Entrevistas)
+                                                                            {
+                                                                                <tr>
+                                                                                    <td><strong>@Dat.Entrevisto</strong> </td>
+                                                                                    <td>
+
+                                                                                        @Convert.ToDateTime(@Dat.FechaEntrevista).ToString("yyyy-MM-dd")
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        @Dat.Observaciones
+                                                                                    </td>
+                                                                                </tr>
+                                                                            }
+                                                                        }
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="col-sm-12 text-center">
+                                                        <h5>No se registraron entrevistas </h5>
+                                                        <br />
+                                                    </div>
+                                                }
+
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane" id="messages7" role="tabpanel">
+                                            @if (ViewBag.Examen.Califico != null)
+                                            {
+                                                <div class="col-sm-12">
+                                                    <h5>Examen   </h5>
+                                                    <br />
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <table class="table table-striped text-center table-hover" width="100%">
+                                                                <thead class="thead-dark text-center">
+                                                                    <tr>
+                                                                        <th class="text-center">TipoExamen </th>
+                                                                        <th class="text-center">Calificacion </th>
+                                                                        <th class="text-center">Califico </th>
+                                                                        <th class="text-center">Fecha Aplicacion </th>
+                                                                        <th class="text-center">Observaciones </th>
+                                                                        <th class="text-center"> </th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td><strong>@ViewBag.Examen.Cat_TipoExamen.Nombre</strong></td>
+                                                                        <td>@ViewBag.Examen.Calificacion</td>
+                                                                        <td>
+                                                                            @ViewBag.Examen.Califico
+                                                                        </td>
+                                                                        <td>
+                                                                            @Convert.ToDateTime(ViewBag.Examen.FechaAplicacion).ToString("yyyy-MM-dd")
+                                                                        </td>
+                                                                        <td>
+                                                                            @ViewBag.Examen.Observaciones
+                                                                        </td>
+                                                                        <td>
+                                                                            @if (ViewBag.Examen.NmArchivo != null)
+                                                                            {
+                                                                                <button class="btn waves-effect waves-light fondo-danger" id="BtnMostrarExamen" onclick="MostrarExamen(@ViewBag.Examen.Id)">   <i class="fa fa-file-pdf-o fa-2"></i></button>
+                                                                            }
+
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="col-sm-12 text-center">
+                                                    <h5>No se registro examen  </h5>
+                                                    <br />
+                                                </div>
+                                            }
+                                        </div>
+                                        <div class="tab-pane" id="settings7" role="tabpanel">
+                                            @if (@ViewBag.Prueba.Califico != null)
+                                            {
+                                                <div class="col-sm-12">
+                                                    <h5>Prueba Psicométrico   </h5>
+                                                    <br />
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <table class="table table-striped text-center table-hover" width="100%">
+                                                                <thead class="thead-dark text-center">
+                                                                    <tr>
+                                                                        <th class="text-center">Califico </th>
+                                                                        <th class="text-center">Fecha Aplicacion </th>
+                                                                        <th class="text-center">Observaciones </th>
+                                                                        <th></th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>
+                                                                            @ViewBag.Prueba.Califico
+                                                                        </td>
+                                                                        <td>
+                                                                            @Convert.ToDateTime(ViewBag.Prueba.FechaAplicacion).ToString("yyyy-MM-dd")
+                                                                        </td>
+                                                                        <td>
+                                                                            @ViewBag.Prueba.Observaciones
+                                                                        </td>
+                                                                        <td>
+                                                                            @if (ViewBag.Prueba.NmArchivo != null)
+                                                                            {
+                                                                                <button class="btn waves-effect waves-light fondo-danger" id="BtnMostrarPrueba" onclick="MostrarPrueba(@ViewBag.Prueba.Id)">   <i class="fa fa-file-pdf-o fa-2"></i></button>
+                                                                            }
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="col-sm-12 text-center">
+                                                    <h5>No se registro prueba psicométrico  </h5>
+                                                    <br />
+                                                </div>
+                                            }
+                                        </div>
+                                        <div class="tab-pane" id="Aplicaciones7" role="tabpanel">
+                                            @if (@ViewBag.PersonasAplicaciones != null)
+                                            {
+                                                <div class="col-sm-12">
+                                                    <h5>Acceso aplicaciones </h5>
+                                                    <br />
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <table class="table table-striped text-center table-hover" width="100%">
+                                                                <thead class="thead-dark text-center">
+                                                                    <tr>
+                                                                        <th class="text-center">Aplicación  </th>
+                                                                        <th class="text-center">Fecha Registro </th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    @{
+                                                                        foreach (var Dat in ViewBag.PersonasAplicaciones)
+                                                                        {
+                                                                            <tr>
+                                                                                <td>
+                                                                                    @Dat.Cat_Aplicaciones.Nombre
+                                                                                </td>
+                                                                                <td>
+                                                                                    @Convert.ToDateTime(Dat.FechaRegistro).ToString("yyyy-MM-dd")
+                                                                                </td>
+                                                                            </tr>
+                                                                        }
+                                                                    }
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="col-sm-12 text-center">
+                                                    <h5>No se registraron aplicaciones </h5>
+                                                    <br />
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-xl-12 col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Lista documentos   </h5>
+                            <span>Documentos solicitados – estatus  </span>
+                        </div>
+                        <div class="card-block">
+                            @if (@ViewBag.Documento != null)
+                            {
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <table class="table table-striped table-hover" id="TableListaDocumentos">
+                                            <thead class="thead-dark">
+                                                <tr>
+                                                    <th>Documento </th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @{
+                                                    foreach (var Dat in ViewBag.Documento)
+                                                    {
+                                                        <tr>
+                                                            <td>
+                                                                <p>
+                                                                    @Dat.Cat_TipoDocumento.Nombre
+                                                                    <br />
+                                                                    Estatus <strong>@Dat.Cat_EstatusDocumento.Nombre</strong>
+                                                                    <br />
+                                                                    Fecha Entrega <strong> @Convert.ToDateTime(Dat.FechaEntrega).ToString("yyyy-MM-dd")</strong>
+                                                                </p>
+                                                            </td>
+                                                            <td>
+                                                                @if (!String.IsNullOrEmpty(Dat.DocumentoVersiones.NmArchivo))
+                                                                {
+                                                                    <button class="btn waves-effect waves-light fondo-danger" id="BtnMostrarCDC" onclick="MostrarArchivo(@Dat.Id)">   <i class="fa fa-file-pdf-o fa-2"></i></button>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <p>Sin Archivo</p>
+                                                                }
+
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="col-sm-6">
+                                    <h5>No se registraron documentos </h5>
+                                    <br />
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/assets/js/jquery/jquery.min.js"></script>
+<script src="~/Vendor/chart.js/chart.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+
+
+<script>
+    function DarDeAlta() {
+        swal({
+            title: "Confirmación de alta de empleado",
+            text: "Deseas darlo de alta !" ,
+            imageUrl: "../Images/icons/5673974.png",
+            showCancelButton: true,
+            cancelButtonText: "Cancelar",
+            confirmButtonColor: "#3070A9",
+            confirmButtonText: "Continuar",
+            closeOnConfirm: false,
+        },
+        function (isConfirm) {
+            if (isConfirm) {
+               
+
+                var obj = {};
+                obj['Id'] = @ViewBag.Personas.Id;
+
+                var jsonObject = {
+                    "Personas": obj
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Empleados_DarDeAlta", "Empleados")",
+                    async: false,
+                    data: JSON.stringify(jsonObject),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: resultadoDarDeAlta,
+                    error: errores
+                });
+            }
+        });
+    }
+
+    function resultadoDarDeAlta() {
+
+        swal({
+            title: "Empleado dado de alta . !",
+            imageUrl: "../Images/icons/6301508.png",
+            showCancelButton: false,
+            cancelButtonText: "Cancelar",
+            confirmButtonColor: "#3070A9",
+            confirmButtonText: "OK",
+            closeOnConfirm: false,
+        },
+        function (isConfirm) {
+            if (isConfirm) {
+                location.reload();
+            }
+        });
+    }
+
+</script>
+<script>
+    function ValidarDarDeBaja() {
+        swal({
+            title: "¿Dar de baja empleado?",
+            imageUrl: "../Images/icons/6301508.png",
+            showCancelButton: true,
+            cancelButtonText: "Cancelar",
+            confirmButtonColor: "#3070A9",
+            confirmButtonText: "Continuar",
+            closeOnConfirm: false,
+        },
+        function (isConfirm) {
+            if (isConfirm) {
+                swal.close();
+                $("#MotivosRechazo").modal("show");
+            } else {
+                swal.close();
+            }
+        });
+    }
+
+    function DarDeBaja() {
+        var cat_MotivosBajaEmpleados = new Array();
+        $("[name='checksMotivosBaja[]']:checked").each(function () {
+
+            var Cat_MotivosBajaEmpleado = new Object();
+            Cat_MotivosBajaEmpleado.Id = $(this).val();
+            cat_MotivosBajaEmpleados.push(Cat_MotivosBajaEmpleado);
+        });
+
+        var Personas = new Object();
+        Personas.Id = @ViewBag.Personas.Id;
+
+        var EmpleadoBaja = new Object();
+        EmpleadoBaja.Personas = Personas;
+        EmpleadoBaja.cat_MotivosBajaEmpleados = cat_MotivosBajaEmpleados;
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("Empleados_DarDeBaja", "Empleados")",
+            async: false,
+            data: JSON.stringify(EmpleadoBaja),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: resultadoDarDeBaja,
+            error: errores
+        });
+    }
+
+    function resultadoDarDeBaja(data) {
+        $("#BtnCerrarMotivosBaja").trigger("click");
+        if (data.Id >= 0) {
+
+            swal({
+                title: "Empleado dado de baja . !",
+                text: "",
+                imageUrl: "../Images/icons/5673974.png",
+                buttons: true,
+                dangerMode: true,
+            }, function (isConfirm) {
+                if (isConfirm) {
+                    location.reload();
+                }
+            });
+
+        } else {
+            $.notify({
+                icon: 'fa fa-paw',
+                message: "Empleado no dado de baja.",
+            }, {
+                type: 'warning',
+                allow_dismiss: false,
+                animate: {
+                    enter: 'animated rollIn',
+                    exit: 'animated rollOut'
+                }
+            });
+        }
+    }
+</script>
+
+<script>
+    function MostrarExamen(num) {
+
+        $("#Examen").modal("show");
+        $('#iframepdfExamen').attr('src', '@Url.Action("Examen", "PDF")?num=' + num);
+    }
+
+    function MostrarPrueba(num) {
+        $("#Prueba").modal("show");
+        $('#iframepdfPrueba').attr('src', '@Url.Action("Prueba", "PDF")?num=' + num);
+    }
+
+    function Editar(num) {
+        window.location.href = '@Url.Action("Editar", "Empleados")?Id=' + num;
+    }
+
+    function errores() {
+        swal({
+            title: "Algo ocurrió !",
+            text: "Ha ocurrido un problema, inténtalo mas tarde ",
+            imageUrl: "../Images/icons/4944051.png",
+            buttons: true,
+            dangerMode: true,
+        }, function (isConfirm) {
+            if (isConfirm) {
+                swal.close();
+            }
+        });
+    }
+
+
+    $('#TableListaExamen').DataTable({
+        scrollY: '60vh',
+        scrollCollapse: true,
+        paging: false,
+        searching: false,
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+        }
+    });
+
+    $('#TableListaPrueba').DataTable({
+        scrollY: '60vh',
+        scrollCollapse: true,
+        paging: false,
+        searching: false,
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+        }
+    });
+
+    $('#TableListaEntrevistas').DataTable({
+        scrollY: '60vh',
+        scrollCollapse: true,
+        paging: false,
+        searching: false,
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+        }
+    });
+
+
+    $('#TableListaDocumentos').DataTable({
+        scrollY: '60vh',
+        scrollCollapse: true,
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+        }
+    });
+
+    $('#TableListCursos').DataTable({
+        scrollY: '60vh',
+        scrollCollapse: true,
+        paging: false,
+        searching: false,
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+        }
+    });
+
+    $('#TableListDiplomados').DataTable({
+        scrollY: '60vh',
+        scrollCollapse: true,
+        paging: false,
+        searching: false,
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+        }
+    });
+
+    $('#TableListCertificaciones').DataTable({
+        scrollY: '60vh',
+        scrollCollapse: true,
+        paging: false,
+        searching: false,
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+        }
+    });
+
+
+    function MostrarPDF(num) {
+        var win = window.open('@Url.Action("Index", "PDF")?num=' + num, '_blank');
+        // Cambiar el foco al nuevo tab (punto opcional)
+        win.focus();
+
+        @*window.location.href = '@Url.Action("Index", "PDF")?num=' + num;*@
+    }
+
+    function MostrarExpediente(num) {
+        var win = window.open('@Url.Action("Expediente", "PDF")?num=' + num, '_blank');
+        // Cambiar el foco al nuevo tab (punto opcional)
+        win.focus();
+    }
+
+    function MostrarCDC() {
+        $("#DivFormCDC").show();
+        $("#BtnMostrarCDC").css("display", "none");
+    }
+
+    function MostrarArchivo(num) {
+        $("#Archivo").modal("show");
+        $('#iframepdf').attr('src', '@Url.Action("PDF", "PDF")?num=' + num);
+    }
+
+    $(document).ready(function () {
+
+        var densityCanvas = document.getElementById("densityChart");
+
+        Chart.defaults.global.defaultFontFamily = "Arial, sans-serifapple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif";
+        Chart.defaults.global.defaultFontSize = 14;
+
+        var densityData = {
+            label: 'Estatus',
+
+            options: {
+                legend: {
+                    labels: {
+                        // This more specific font property overrides the global property
+                        //fontColor: 'black',
+                        defaultFontFamily: 'Arial, sans-serifapple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif',
+                        fontColor: 'rgb(154, 154, 154)',
+                        usePointStyle: true,
+                    }
+                }
+            },
+
+
+            data: [
+                @foreach (var Com in ViewBag.DocumentoPorcentaje)
+                {
+                    @Html.Raw(@Com.Porcentaje)
+                    @Html.Raw(",")
+                }
+            ],
+            backgroundColor: ["#ff6384", "#ff9f40", "#ffcd56", "#4bc0c0", "#36a2eb"],
+            //backgroundColor: [
+            //    'rgba(88, 2, 47, 0.9)',
+            //    'rgba(63, 194, 162, 0.9)',
+            //    'rgba(63, 195, 162, 0.9)',
+            //    'rgba(54, 169, 161, 0.9)',
+            //    'rgba(50, 160, 160, 0.9)',
+            //    'rgba(49, 158, 160, 0.9)',
+            //    'rgba(44, 145, 159, 0.9)',
+            //    'rgba(37, 126, 159, 0.9)',
+            //    'rgba(34, 116, 158, 0.9)',
+            //    'rgba(28, 101, 158, 0.9)',
+            //    'rgba(26, 95, 157, 0.9)',
+            //    'rgba(25, 91, 157, 0.9)',
+
+            //    'rgba(26, 95, 157, 0.9)',
+            //    'rgba(28, 101, 158, 0.9)',
+            //    'rgba(34, 116, 158, 0.9)',
+            //    'rgba(37, 126, 159, 0.9)',
+            //    'rgba(44, 145, 159, 0.9)',
+            //    'rgba(49, 158, 160, 0.9)',
+            //    'rgba(50, 160, 160, 0.9)',
+            //    'rgba(54, 169, 161, 0.9)',
+            //    'rgba(63, 195, 162, 0.9)',
+            //    'rgba(63, 194, 162, 0.9)',
+            //    'rgba(67, 206, 162, 0.9)',
+
+            //],
+            //borderColor: [
+            //    'rgba(139, 4, 75, 0.9)',
+            //    'rgba(63, 195, 162, 0.9)',
+            //    'rgba(54, 169, 161, 0.9)',
+            //    'rgba(50, 160, 160, 0.9)',
+            //    'rgba(49, 158, 160, 0.9)',
+            //    'rgba(44, 145, 159, 0.9)',
+            //    'rgba(37, 126, 159, 0.9)',
+            //    'rgba(34, 116, 158, 0.9)',
+            //    'rgba(28, 101, 158, 0.9)',
+            //    'rgba(26, 95, 157, 0.9)',
+            //    'rgba(25, 91, 157, 0.9)',
+
+
+            //    'rgba(26, 95, 157, 0.9)',
+            //    'rgba(28, 101, 158, 0.9)',
+            //    'rgba(34, 116, 158, 0.9)',
+            //    'rgba(37, 126, 159, 0.9)',
+            //    'rgba(44, 145, 159, 0.9)',
+            //    'rgba(49, 158, 160, 0.9)',
+            //    'rgba(50, 160, 160, 0.9)',
+            //    'rgba(54, 169, 161, 0.9)',
+            //    'rgba(63, 195, 162, 0.9)',
+            //    'rgba(63, 194, 162, 0.9)',
+
+            //],
+            borderWidth: 1,
+            hoverBorderWidth: 0,
+            hoverBackgroundColor: ["#E33C60", "#CD7B29", "#CBA13C", "#278C8C", "#2579B2"],
+        };
+
+        var chartOptions = {
+            //scales: {
+            //    yAxes: [{
+            //        barPercentage: 0.5
+            //    }]
+            //},
+            //elements: {
+            //    rectangle: {
+            //        borderSkipped: 'left',
+            //    }
+            //}
+        };
+
+        var barChart = new Chart(densityCanvas, {
+            type: 'doughnut',
+            data: {
+                labels: [
+                @foreach (var Com in ViewBag.DocumentoPorcentaje)
+                {
+                    @Html.Raw("'")
+                    @Html.Raw(@Com.EstatusDocumento)
+                    @Html.Raw("'")
+                    @Html.Raw(",")
+                }
+                ],
+                datasets: [densityData],
+            },
+            options: chartOptions
+        });
+    });
+</script>
+
+<script>
+    $('#IdMenuEmpleados').addClass("active pcoded-trigger");
+    $('#IdSubMenulistaEmpleado').addClass("active");
+</script>
